@@ -53,6 +53,14 @@
    "sha256": "d8399324780d926ed81789ff36dfba98e44f96e07da20799b845bf05f769d060",
    "bytes": 7504
   },
+  "inv/inv_critique_probe.py": {
+   "sha256": "2f8d7077ef7da299063df00953ce02e52f49153f5dc08684685747716dd41b64",
+   "bytes": 10405
+  },
+  "inv/inv_critique_probe_output.json": {
+   "sha256": "c4b6c41f5eb7948c0e4b6950d5abb616e3706fd0d6902e139c7e54629581cf3e",
+   "bytes": 111701
+  },
   "inv/inv_fixtures.py": {
    "sha256": "2d5eb40a3ddf79740400de8603bc362797ce04c51842b04565fd32a70ed1e30d",
    "bytes": 26631
@@ -140,6 +148,14 @@
   "dist/dist_counterexample_two_phase_commit.json": {
    "sha256": "a640204ab377d046983dea55addd2245e66828697f032e898c8d5dab7dbb46d7",
    "bytes": 6411
+  },
+  "dist/dist_skeptic_probe.py": {
+   "sha256": "b255861f7ba84ccc0a28531350ada4bdeb584d986fb40f3d0e4f3d5e319c7d11",
+   "bytes": 4704
+  },
+  "dist/dist_skeptic_probe_output.txt": {
+   "sha256": "b5b248262699bb948ce1aa57b6b34710f5de1a6b08af857d96b3641a02071743",
+   "bytes": 1678
   },
   "dist/make_records.py": {
    "sha256": "18f5b78a25b65c50e95cd8226c6684c9e6f495c13031b88a43120a37f07de45a",

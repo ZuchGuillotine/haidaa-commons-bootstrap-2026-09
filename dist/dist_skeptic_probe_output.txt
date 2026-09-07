@@ -1,0 +1,36 @@
+=== 1. lease boundary sweep: is 'safe iff guard >= max_lag' right? ===
+L=2 guard=2 max_lag=3 pred_unsafe=True obs=False exh=True  <<< MISMATCH
+L=2 guard=2 max_lag=4 pred_unsafe=True obs=False exh=True  <<< MISMATCH
+L=3 guard=3 max_lag=4 pred_unsafe=True obs=False exh=True  <<< MISMATCH
+mismatches: 3
+
+=== 2. Paxos with CUMULATIVE chosen (value chosen if a quorum EVER accepted (b,v)) ===
+durable=False states=15380   depth=11  violation=True at depth 11 exhausted=False
+    0 <initial>
+    1 b1_prepare_acceptorA (promise recorded)
+    2 b1_prepare_acceptorB (promise recorded)
+    3 b1_picks_value_X_from_promise_quorum
+    4 b1_accept_X_at_acceptorA
+    5 b2_prepare_acceptorB (promise recorded)
+    6 b2_prepare_acceptorC (promise recorded)
+    7 b2_picks_value_Y_from_promise_quorum
+    8 b2_accept_Y_at_acceptorA
+    9 b2_accept_Y_at_acceptorB
+   10 acceptorB_CRASHES_and_RECOVERS (promise b2 lost, accepted state kept)
+   11 b1_accept_X_at_acceptorB
+durable=True  states=1600    depth=15  violation=False at depth None exhausted=True
+
+=== 3. Paxos, non-durable promise but recovery repairs promised := accepted_ballot ===
+states=6571 depth=11 violation=True at depth 11 exhausted=False
+    0 <initial>
+    1 b1_prepare_acceptorA (promise recorded)
+    2 b1_prepare_acceptorB (promise recorded)
+    3 b1_picks_value_X_from_promise_quorum
+    4 b1_accept_X_at_acceptorA
+    5 b2_prepare_acceptorB (promise recorded)
+    6 b2_prepare_acceptorC (promise recorded)
+    7 b2_picks_value_Y_from_promise_quorum
+    8 b2_accept_Y_at_acceptorB
+    9 acceptorC_CRASHES_and_RECOVERS (promised reset to accepted ballot 0)
+   10 b1_accept_X_at_acceptorC
+   11 b2_accept_Y_at_acceptorA
