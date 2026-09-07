@@ -1,0 +1,578 @@
+{
+  "model": "paxos_nondurable_promise",
+  "run_tag": "paxos/nondurable_promise",
+  "params": {
+    "acceptors": 3,
+    "proposers": 2,
+    "ballots": [
+      1,
+      2
+    ],
+    "proposer_preferred_values": {
+      "ballot1": "X",
+      "ballot2": "Y"
+    },
+    "quorum_size": 2,
+    "durable_promise": false,
+    "crash_recovery_effect": "resets highest-promised ballot to 0; accepted (ballot,value) survives",
+    "message_model": "atomic RPC; no reordering, loss or duplication"
+  },
+  "invariant_violated": "AtMostOneChosen: at most one value is ever chosen by a quorum",
+  "minimal_violating_schedule_length": 11,
+  "minimality": "minimal in the number of actions of this model's action alphabet; found by BFS",
+  "states_explored_before_violation": 14472,
+  "runtime_seconds": 0.053,
+  "steps": [
+    {
+      "step": 0,
+      "action": "<initial>",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "prepare",
+            "promises_from": [],
+            "value": null
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 1,
+      "action": "b1_prepare_acceptorA (promise recorded)",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "prepare",
+            "promises_from": [
+              "A"
+            ],
+            "value": null
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 2,
+      "action": "b1_prepare_acceptorB (promise recorded)",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "prepare",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": null
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 3,
+      "action": "b1_picks_value_X_from_promise_quorum",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 4,
+      "action": "b1_accept_X_at_acceptorA",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 5,
+      "action": "b2_prepare_acceptorB (promise recorded)",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [
+              "B"
+            ],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 6,
+      "action": "b2_prepare_acceptorC (promise recorded)",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "prepare",
+            "promises_from": [
+              "B",
+              "C"
+            ],
+            "value": null
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 7,
+      "action": "b2_picks_value_Y_from_promise_quorum",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "accept",
+            "promises_from": [
+              "B",
+              "C"
+            ],
+            "value": "Y"
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 8,
+      "action": "b2_accept_Y_at_acceptorB",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 2,
+            "accepted_value": "Y"
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 0,
+            "accepted_value": null
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "accept",
+            "promises_from": [
+              "B",
+              "C"
+            ],
+            "value": "Y"
+          }
+        ],
+        "chosen_values": []
+      }
+    },
+    {
+      "step": 9,
+      "action": "b2_accept_Y_at_acceptorC",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 2,
+            "accepted_value": "Y"
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 2,
+            "accepted_value": "Y"
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "accept",
+            "promises_from": [
+              "B",
+              "C"
+            ],
+            "value": "Y"
+          }
+        ],
+        "chosen_values": [
+          "Y"
+        ]
+      }
+    },
+    {
+      "step": 10,
+      "action": "acceptorB_CRASHES_and_RECOVERS (promise b2 lost, accepted state kept)",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 0,
+            "accepted_ballot": 2,
+            "accepted_value": "Y"
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 2,
+            "accepted_value": "Y"
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "accept",
+            "promises_from": [
+              "B",
+              "C"
+            ],
+            "value": "Y"
+          }
+        ],
+        "chosen_values": [
+          "Y"
+        ]
+      }
+    },
+    {
+      "step": 11,
+      "action": "b1_accept_X_at_acceptorB",
+      "state": {
+        "acceptors": [
+          {
+            "id": "A",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "B",
+            "highest_promised_ballot": 1,
+            "accepted_ballot": 1,
+            "accepted_value": "X"
+          },
+          {
+            "id": "C",
+            "highest_promised_ballot": 2,
+            "accepted_ballot": 2,
+            "accepted_value": "Y"
+          }
+        ],
+        "proposers": [
+          {
+            "ballot": 1,
+            "phase": "accept",
+            "promises_from": [
+              "A",
+              "B"
+            ],
+            "value": "X"
+          },
+          {
+            "ballot": 2,
+            "phase": "accept",
+            "promises_from": [
+              "B",
+              "C"
+            ],
+            "value": "Y"
+          }
+        ],
+        "chosen_values": [
+          "X",
+          "Y"
+        ]
+      }
+    }
+  ]
+}

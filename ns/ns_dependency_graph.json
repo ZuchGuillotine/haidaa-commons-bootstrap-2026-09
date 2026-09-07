@@ -1,0 +1,572 @@
+{
+  "schema": "ns_dependency_graph/v1",
+  "title": "Dependency graph of key results bearing on 3D incompressible Navier-Stokes global regularity",
+  "description": "Hand-curated literature graph. Nodes are theorems, an official problem statement, one numerical study, and two open statements that act as the hubs through which most conditional results would become unconditional. Edges: 'uses' = the source result's proof relies on the target; 'strengthens' = the source improves or extends the target; 'conditional_on' = the source's hypothesis (or its route to regularity) is not supplied by any unconditional theorem and points at the named gap.",
+  "caveats": [
+    "Curated from the literature, not verified line by line against every source. Statements are paraphrases sized for orientation, not quotable theorem statements.",
+    "Hypotheses fields list the load-bearing conditions only; consult the primary source before relying on any hypothesis.",
+    "No node or edge asserts anything about the resolution of the Millennium problem. Conditional results are labelled conditional.",
+    "Constants (for example C in the enstrophy bound) are deliberately left symbolic; verify in the source before quoting.",
+    "Chen-Hou part numbering and journal venue, and the exact Scheffer dimension constants, were not fully verified."
+  ],
+  "relation_vocabulary": [
+    "uses",
+    "strengthens",
+    "conditional_on"
+  ],
+  "node_count": 28,
+  "edge_count": 36,
+  "nodes": [
+    {
+      "id": "clay-2006",
+      "kind": "problem_statement",
+      "statement": "Official Clay Millennium formulation: prove (A) or (B) global existence and smoothness, or (C) or (D) breakdown, for 3D incompressible Navier-Stokes.",
+      "hypotheses": [
+        "(A) and (B): nu>0 constant, f identically 0, u_0 divergence-free and Schwartz (A, on R^3) or C^infty periodic (B, on T^3)",
+        "(C) and (D): same domains but f is allowed, subject to the smoothness and decay bounds stated in the official problem description"
+      ],
+      "conclusion": "(A)/(B): a global smooth solution with finite energy exists. (C)/(D): no such global smooth solution exists for some admissible data. Proving any one of the four settles the prize problem.",
+      "primary_citation": "Fefferman 2006, 'Existence and smoothness of the Navier-Stokes equation', The Millennium Prize Problems, Clay Mathematics Institute, pp. 57-67",
+      "notes": "Note the asymmetry: the affirmative statements (A),(B) require zero forcing; the negative statements (C),(D) permit forcing. A blow-up example with forcing settles (C)/(D) but not the unforced question."
+    },
+    {
+      "id": "leray-1934",
+      "kind": "theorem",
+      "statement": "Global-in-time existence of weak ('turbulent') solutions of 3D Navier-Stokes on R^3 satisfying the energy inequality.",
+      "hypotheses": [
+        "u_0 in L^2(R^3), div u_0 = 0",
+        "nu > 0",
+        "f = 0 or suitably integrable"
+      ],
+      "conclusion": "There exists u in L^infty(0,inf; L^2) intersect L^2(0,inf; dot-H^1) solving Navier-Stokes distributionally with ||u(t)||_2^2 + 2 nu int_0^t ||grad u||_2^2 ds <= ||u_0||_2^2. Uniqueness and smoothness are not asserted.",
+      "primary_citation": "Leray 1934, Acta Mathematica 63, 193-248, DOI:10.1007/BF02547354",
+      "notes": "Leray also proved local-in-time existence of strong solutions and gave the first blow-up rate lower bounds in L^p."
+    },
+    {
+      "id": "hopf-1951",
+      "kind": "theorem",
+      "statement": "Global weak solutions with the energy inequality on bounded domains with no-slip boundary conditions.",
+      "hypotheses": [
+        "Bounded domain with sufficiently regular boundary, u = 0 on the boundary",
+        "u_0 in L^2 divergence-free"
+      ],
+      "conclusion": "Existence of a global weak solution in the Leray class; the pair of results is why the class is called Leray-Hopf.",
+      "primary_citation": "Hopf 1951, Mathematische Nachrichten 4, 213-231, DOI:10.1002/mana.3210040121",
+      "notes": ""
+    },
+    {
+      "id": "2d-global-regularity",
+      "kind": "theorem",
+      "statement": "In two space dimensions weak solutions are unique and smooth for all time.",
+      "hypotheses": [
+        "Two spatial dimensions",
+        "u_0 in L^2 divergence-free, nu > 0"
+      ],
+      "conclusion": "Global well-posedness and smoothness; the enstrophy is non-increasing because vortex stretching vanishes identically in 2D.",
+      "primary_citation": "Leray 1933 (2D case) and Ladyzhenskaya 1959; textbook account in Ladyzhenskaya 1969, 'The Mathematical Theory of Viscous Incompressible Flow'",
+      "notes": "In 2D the energy is critical rather than supercritical; this is the structural reason the 2D and 3D problems differ, not a difference of technique."
+    },
+    {
+      "id": "prodi-serrin-weak-strong",
+      "kind": "theorem",
+      "statement": "Weak-strong uniqueness: a Leray-Hopf weak solution coincides with a strong solution as long as the strong solution exists.",
+      "hypotheses": [
+        "One solution is Leray-Hopf and satisfies the energy inequality",
+        "The other lies in L^p(0,T; L^q) with 2/p + 3/q <= 1, q > 3 (endpoint cases require extra care)",
+        "Same initial data"
+      ],
+      "conclusion": "The two solutions are equal on [0,T]. Consequently non-uniqueness in the Leray class can only occur after a strong solution has ceased to exist.",
+      "primary_citation": "Prodi 1959, Annali di Matematica Pura ed Applicata 48, 173-182; Serrin 1963, 'The initial value problem for the Navier-Stokes equations', Univ. of Wisconsin Press",
+      "notes": ""
+    },
+    {
+      "id": "lps-regularity-criterion",
+      "kind": "theorem",
+      "statement": "Ladyzhenskaya-Prodi-Serrin conditional regularity: a Leray-Hopf solution in a subcritical or critical Serrin class is smooth on that interval.",
+      "hypotheses": [
+        "u in L^p(0,T; L^q(R^3)) with 2/p + 3/q <= 1 and 3 < q <= infinity",
+        "u is a Leray-Hopf weak solution with the same data"
+      ],
+      "conclusion": "u is smooth on (0,T) x R^3 and is the unique Leray-Hopf solution there. The criterion is conditional: no a-priori bound places a general Leray-Hopf solution in these classes.",
+      "primary_citation": "Serrin 1962, Archive for Rational Mechanics and Analysis 9, 187-195; Ladyzhenskaya 1967, Zap. Nauchn. Sem. LOMI 5, 169-185",
+      "notes": "The exponent line 2/p + 3/q = 1 is exactly the scaling-critical line. The endpoint (p,q) = (infinity,3) was left open by these papers."
+    },
+    {
+      "id": "ess-2003",
+      "kind": "theorem",
+      "statement": "Endpoint L^infty_t L^3_x regularity: boundedness of the L^3 norm in time excludes singularities.",
+      "hypotheses": [
+        "u is a Leray-Hopf weak solution on R^3 x (0,T)",
+        "u in L^infty(0,T; L^3(R^3))"
+      ],
+      "conclusion": "u is smooth on (0,T). Proof via a backward-uniqueness / unique-continuation argument for parabolic operators applied to the vorticity after a blow-up rescaling.",
+      "primary_citation": "Escauriaza, Seregin and Sverak 2003, Russian Mathematical Surveys 58(2), 211-250, DOI:10.1070/RM2003v058n02ABEH000609",
+      "notes": "Closes the endpoint left open by the Ladyzhenskaya-Prodi-Serrin family. Still conditional: L^3 is critical and is not controlled by the energy."
+    },
+    {
+      "id": "seregin-2012",
+      "kind": "theorem",
+      "statement": "At a potential first blow-up time the critical L^3 norm must diverge, not merely fail to be bounded.",
+      "hypotheses": [
+        "u is a suitable weak solution smooth on (0,T) with a singularity at T"
+      ],
+      "conclusion": "||u(t)||_{L^3(R^3)} -> infinity as t -> T^-. Upgrades the ESS statement from 'not bounded' to 'blows up'.",
+      "primary_citation": "Seregin 2012, Communications in Mathematical Physics 312(3), 833-845, DOI:10.1007/s00220-012-1479-y",
+      "notes": ""
+    },
+    {
+      "id": "bkm-1984",
+      "kind": "theorem",
+      "statement": "Beale-Kato-Majda: smooth Euler (and, in the analogous Navier-Stokes form, viscous) solutions persist as long as the vorticity is integrable in time in L^infty.",
+      "hypotheses": [
+        "Smooth solution on [0,T) of the 3D incompressible Euler equations with Sobolev data",
+        "int_0^T ||omega(t)||_{L^infty} dt < infinity"
+      ],
+      "conclusion": "The solution extends smoothly past T; equivalently blow-up at T forces int_0^T ||omega||_{L^infty} dt = infinity.",
+      "primary_citation": "Beale, Kato and Majda 1984, Communications in Mathematical Physics 94(1), 61-66, DOI:10.1007/BF01212349",
+      "notes": "Reduces blow-up to a vorticity-magnitude question, but the controlled quantity is supercritical relative to the energy and is not bounded a priori."
+    },
+    {
+      "id": "scheffer-partial-regularity",
+      "kind": "theorem",
+      "statement": "First partial-regularity results: the singular set of a suitably constructed weak solution has restricted Hausdorff dimension.",
+      "hypotheses": [
+        "Weak solutions constructed so as to satisfy a local energy inequality"
+      ],
+      "conclusion": "Bounds on the Hausdorff dimension / measure of the space-time singular set, weaker than the later parabolic-measure-zero statement.",
+      "primary_citation": "Scheffer 1976, Pacific Journal of Mathematics 66, 535-552; Scheffer 1977, Communications in Mathematical Physics 55, 97-112",
+      "notes": "Exact dimension constants differ between the 1976 and 1977 papers; verify against the specific paper before quoting a number."
+    },
+    {
+      "id": "ckn-1982",
+      "kind": "theorem",
+      "statement": "Caffarelli-Kohn-Nirenberg: the singular set of a suitable weak solution has vanishing one-dimensional parabolic Hausdorff measure.",
+      "hypotheses": [
+        "u is a suitable weak solution: Leray-Hopf plus p in L^{3/2}_loc plus the local energy inequality against non-negative test functions"
+      ],
+      "conclusion": "P^1(S) = 0 for the space-time singular set S; in particular S contains no space-time curve and its parabolic Hausdorff dimension is at most 1.",
+      "primary_citation": "Caffarelli, Kohn and Nirenberg 1982, Communications on Pure and Applied Mathematics 35(6), 771-831, DOI:10.1002/cpa.3160350604",
+      "notes": "The engine is an epsilon-regularity lemma: smallness of a scale-invariant local quantity on a parabolic cylinder implies local boundedness. This is the strongest unconditional regularity statement known."
+    },
+    {
+      "id": "fujita-kato-1964",
+      "kind": "theorem",
+      "statement": "Local well-posedness in the critical Sobolev space dot-H^{1/2}, with global existence for small data.",
+      "hypotheses": [
+        "u_0 in dot-H^{1/2}(R^3) divergence-free",
+        "Global statement requires ||u_0||_{dot-H^{1/2}} small relative to nu"
+      ],
+      "conclusion": "A unique mild solution exists locally; globally under the smallness condition, and it is smooth for positive time.",
+      "primary_citation": "Fujita and Kato 1964, Archive for Rational Mechanics and Analysis 16, 269-315, DOI:10.1007/BF00276188",
+      "notes": ""
+    },
+    {
+      "id": "kato-1984",
+      "kind": "theorem",
+      "statement": "Mild solutions in the critical Lebesgue space L^3: local existence for all data, global existence for small data.",
+      "hypotheses": [
+        "u_0 in L^3(R^3) divergence-free",
+        "Global statement requires ||u_0||_{L^3} small relative to nu"
+      ],
+      "conclusion": "Existence and uniqueness of a mild solution of u(t) = e^{nu t Laplacian} u_0 - int_0^t e^{nu (t-s) Laplacian} P div (u tensor u) ds in a Kato-type space; smoothness for t > 0.",
+      "primary_citation": "Kato 1984, Mathematische Zeitschrift 187, 471-480, DOI:10.1007/BF01174182",
+      "notes": "The local existence time depends on the profile of u_0, not only on its L^3 norm - which is why an L^3 a-priori bound would suffice for global regularity only in combination with ESS/Seregin."
+    },
+    {
+      "id": "koch-tataru-2001",
+      "kind": "theorem",
+      "statement": "Global well-posedness for data small in BMO^{-1}, the largest critical space in which the standard fixed-point scheme is known to close.",
+      "hypotheses": [
+        "u_0 in BMO^{-1}(R^3) divergence-free with small norm"
+      ],
+      "conclusion": "A unique global mild solution exists in an adapted Carleson-measure space and is smooth for positive time.",
+      "primary_citation": "Koch and Tataru 2001, Advances in Mathematics 157(1), 22-35, DOI:10.1006/aima.2000.1937",
+      "notes": "BMO^{-1} contains L^3 and dot-H^{1/2}; it is strictly inside B^{-1}_{infty,infty}, where the problem is known to be ill-posed."
+    },
+    {
+      "id": "necas-ruzicka-sverak-1996",
+      "kind": "theorem",
+      "statement": "No nontrivial Leray backward self-similar blow-up solutions in L^3.",
+      "hypotheses": [
+        "u is a backward self-similar solution of Leray's form with profile in L^3(R^3) (later extended to weaker profile classes)"
+      ],
+      "conclusion": "The profile vanishes, so this particular self-similar blow-up ansatz cannot produce a singularity.",
+      "primary_citation": "Necas, Ruzicka and Sverak 1996, Acta Mathematica 176, 283-294, DOI:10.1007/BF02551584",
+      "notes": "Extended by Tsai 1998 to local energy classes. Rules out an ansatz, not blow-up."
+    },
+    {
+      "id": "constantin-fefferman-1993",
+      "kind": "theorem",
+      "statement": "Geometric depletion: regularity follows if the direction of vorticity is uniformly Lipschitz-like where the vorticity is large.",
+      "hypotheses": [
+        "Leray-Hopf solution",
+        "The vorticity direction field omega/|omega| satisfies a quantitative Lipschitz/Holder coherence condition on the set where |omega| exceeds a threshold"
+      ],
+      "conclusion": "No singularity forms; vortex stretching is depleted by the alignment structure.",
+      "primary_citation": "Constantin and Fefferman 1993, Indiana University Mathematics Journal 42(3), 775-789",
+      "notes": "Conditional in exactly the same way as the Serrin criteria: nothing bounds the vorticity direction a priori."
+    },
+    {
+      "id": "axisymmetric-no-swirl-1968",
+      "kind": "theorem",
+      "statement": "Axisymmetric flows without swirl are globally regular.",
+      "hypotheses": [
+        "u axisymmetric with zero azimuthal (swirl) component",
+        "Sufficiently regular finite-energy data"
+      ],
+      "conclusion": "Global existence, uniqueness and smoothness. The quantity omega_theta / r satisfies a maximum-principle-friendly transport-diffusion equation.",
+      "primary_citation": "Ukhovskii and Yudovich 1968, Journal of Applied Mathematics and Mechanics (PMM) 32, 52-61; Ladyzhenskaya 1968, Zap. Nauchn. Sem. LOMI 7, 155-177",
+      "notes": "With swirl the problem is open; the swirl term destroys the conserved structure used here."
+    },
+    {
+      "id": "knss-2009",
+      "kind": "theorem",
+      "statement": "Liouville theorems for bounded ancient solutions, and the reduction of Type I blow-up to such a Liouville statement.",
+      "hypotheses": [
+        "Bounded ancient (defined for all negative times) mild solutions of Navier-Stokes",
+        "Additional structure such as axial symmetry for the proved cases"
+      ],
+      "conclusion": "Non-existence of nontrivial bounded ancient solutions in the treated classes; combined with a blow-up rescaling this excludes Type I singularities in those classes. The general 3D Liouville statement is open.",
+      "primary_citation": "Koch, Nadirashvili, Seregin and Sverak 2009, Acta Mathematica 203(1), 83-105, DOI:10.1007/s11511-009-0039-6",
+      "notes": "See also Chen, Strain, Tsai and Yau (2008/2009) for axisymmetric Type I exclusion under |u| <= C/r."
+    },
+    {
+      "id": "hyperviscosity-lions-1969",
+      "kind": "theorem",
+      "statement": "Global regularity for hyperdissipative Navier-Stokes with dissipation exponent alpha >= 5/4.",
+      "hypotheses": [
+        "Replace nu Laplacian by -nu (-Laplacian)^alpha with alpha >= 5/4",
+        "Finite-energy divergence-free data"
+      ],
+      "conclusion": "Global existence, uniqueness and smoothness. At alpha = 5/4 the energy becomes critical; below it the problem is again supercritical.",
+      "primary_citation": "J.-L. Lions 1969, 'Quelques methodes de resolution des problemes aux limites non lineaires', Dunod, Paris",
+      "notes": "Tao 2009 (arXiv:0906.3070) reached logarithmically supercritical dissipation, which quantifies how narrow the surviving gap is."
+    },
+    {
+      "id": "tao-2016-averaged",
+      "kind": "theorem",
+      "statement": "An averaged version of 3D Navier-Stokes that retains the energy identity, the scaling and the divergence-free structure develops a finite-time singularity.",
+      "hypotheses": [
+        "The bilinear term B(u,u) = -P div (u tensor u) is replaced by an averaged bilinear operator built from Fourier multipliers and rotations",
+        "The replacement preserves the cancellation <B(u,u),u> = 0 and hence the energy identity, and preserves the critical scaling"
+      ],
+      "conclusion": "Finite-time blow-up of a Schwartz-class solution of the averaged system, via a discretely self-similar cascade of energy to smaller scales.",
+      "primary_citation": "Tao 2016, Journal of the American Mathematical Society 29(3), 601-674, arXiv:1402.0290",
+      "notes": "This is the sharpest formal obstruction known: no proof of regularity can use only the energy identity, the scaling and generic harmonic analysis, since the averaged system satisfies all of those and blows up."
+    },
+    {
+      "id": "buckmaster-vicol-2019",
+      "kind": "theorem",
+      "statement": "Non-uniqueness of distributional (non-Leray-Hopf) weak solutions of 3D Navier-Stokes via convex integration.",
+      "hypotheses": [
+        "Weak solutions with finite kinetic energy in C^0_t H^beta_x for some small beta > 0",
+        "The constructed solutions are not required to satisfy the energy inequality"
+      ],
+      "conclusion": "There exist distinct weak solutions with the same data; the energy profile can be prescribed. Does not contradict Leray-Hopf uniqueness questions, which remain open.",
+      "primary_citation": "Buckmaster and Vicol 2019, Annals of Mathematics 189(1), 101-144, arXiv:1709.10033",
+      "notes": "Shows the weak formulation alone is too permissive; admissibility conditions carry real content."
+    },
+    {
+      "id": "albritton-brue-colombo-2022",
+      "kind": "theorem",
+      "statement": "Non-uniqueness of Leray-Hopf solutions of the forced 3D Navier-Stokes equations.",
+      "hypotheses": [
+        "Non-zero body force f in a stated integrability class",
+        "Solutions are genuine Leray-Hopf solutions satisfying the energy inequality"
+      ],
+      "conclusion": "Two distinct Leray-Hopf solutions with the same data and force, built from an unstable self-similar vortex-ring background and a spectral instability analysis.",
+      "primary_citation": "Albritton, Brue and Colombo 2022, Annals of Mathematics 196(1), 415-455, arXiv:2112.03116",
+      "notes": "Critically: the force is essential. The unforced Leray-Hopf uniqueness question is untouched, and this does not settle Clay (C)/(D) because the force does not meet the Clay decay/smoothness requirements."
+    },
+    {
+      "id": "elgindi-2021",
+      "kind": "theorem",
+      "statement": "Finite-time singularity formation for C^{1,alpha} solutions of the 3D incompressible Euler equations on R^3.",
+      "hypotheses": [
+        "3D Euler (nu = 0)",
+        "Axisymmetric, no swirl",
+        "Velocity of limited Holder regularity C^{1,alpha} for small alpha > 0; also a version with finite energy"
+      ],
+      "conclusion": "Self-similar finite-time blow-up of the vorticity. First blow-up proof for 3D Euler without boundary at this regularity.",
+      "primary_citation": "Elgindi 2021, Annals of Mathematics 194(3), 647-727, arXiv:1904.04795",
+      "notes": "The low regularity is essential to the mechanism; it does not give blow-up for smooth Euler data, and viscosity is absent."
+    },
+    {
+      "id": "chen-hou-2022",
+      "kind": "theorem",
+      "statement": "Computer-assisted proof of finite-time blow-up for 3D axisymmetric Euler with smooth data in a cylinder with boundary (and for 2D Boussinesq).",
+      "hypotheses": [
+        "3D incompressible Euler in a cylindrical domain with a solid boundary",
+        "Smooth, finite-energy, axisymmetric data with swirl",
+        "Rigorous computer-assisted interval-arithmetic verification of a stability condition around a numerically computed self-similar profile"
+      ],
+      "conclusion": "Stable nearly self-similar finite-time blow-up. Confirms the Luo-Hou 2014 numerical scenario.",
+      "primary_citation": "Chen and Hou, arXiv:2210.07191 (and companion parts); numerical scenario: Luo and Hou 2014, PNAS 111(36), 12968-12973",
+      "notes": "Journal venue and the exact part numbering of the Chen-Hou series should be re-verified before citing precisely. Boundary and inviscid structure are both load-bearing."
+    },
+    {
+      "id": "lu-doering-2008",
+      "kind": "theorem",
+      "statement": "A-priori instantaneous bound on enstrophy growth of the form dE/dt <= C E^3 / nu^3, and construction of fields that make the estimate sharp as an instantaneous inequality.",
+      "hypotheses": [
+        "E = (1/2) int |omega|^2 on a periodic box or R^3",
+        "Smooth divergence-free velocity field at the instant considered"
+      ],
+      "conclusion": "The cubic-in-enstrophy bound holds instantaneously and cannot be improved in exponent by pointwise-in-time reasoning; integrating it gives only local-in-time enstrophy control, hence only local-in-time regularity.",
+      "primary_citation": "Lu and Doering 2008, Indiana University Mathematics Journal 57(6), 2693-2727",
+      "notes": "Quote the constant C only after checking it in the source; the scaling exponent 3 is the robust content."
+    },
+    {
+      "id": "ayala-protas-2017",
+      "kind": "numerical_study",
+      "statement": "Variational search for extreme vortex states maximizing instantaneous and finite-time enstrophy growth; observed growth falls far short of the a-priori cubic estimate under actual Navier-Stokes evolution.",
+      "hypotheses": [
+        "Numerical optimization over divergence-free fields at fixed enstrophy in a periodic box",
+        "Finite resolution; results are numerical, not proofs"
+      ],
+      "conclusion": "Instantaneously optimal fields exist and saturate the E^3 scaling, but when evolved they de-saturate rapidly, and maximum finite-time enstrophy amplification scales far below the a-priori worst case.",
+      "primary_citation": "Ayala and Protas 2017, Journal of Fluid Mechanics 818, 772-806, DOI:10.1017/jfm.2017.136",
+      "notes": "Evidence against saturation of the bound by real dynamics; it is not evidence of regularity."
+    },
+    {
+      "id": "open-critical-apriori-bound",
+      "kind": "open_statement",
+      "statement": "OPEN: an a-priori bound on some scaling-critical norm of a Leray-Hopf solution in terms of the data, viscosity and time.",
+      "hypotheses": [
+        "Would need to hold for all Leray-Hopf solutions with smooth finite-energy data, with no smallness assumption"
+      ],
+      "conclusion": "Together with ESS 2003 and Seregin 2012 this would immediately give global regularity, settling Clay (A)/(B). Nothing of this kind is known; every known global bound is supercritical.",
+      "primary_citation": "No proof exists. Nearest partial results: Tao arXiv:1908.04958 gives quantitative (triple-exponential) bounds ASSUMING a critical L^infty_t L^3_x bound, i.e. it does not supply the bound.",
+      "notes": "This is the single node through which most conditional results would become unconditional."
+    },
+    {
+      "id": "open-type-I-exclusion",
+      "kind": "open_statement",
+      "statement": "OPEN: exclusion of Type I blow-up for general 3D Navier-Stokes, i.e. of singularities with sup_t (T-t)^{1/2} ||u(t)||_{L^infty} < infinity.",
+      "hypotheses": [
+        "General finite-energy solutions, no symmetry assumption"
+      ],
+      "conclusion": "Would remove the most-studied blow-up scenario. Known in restricted settings (axisymmetric under |u| <= C/r; classes covered by Liouville theorems); open in general, where it is equivalent to a Liouville theorem for bounded ancient mild solutions.",
+      "primary_citation": "Open. Partial: Koch-Nadirashvili-Seregin-Sverak 2009, Acta Math. 203, 83-105; Seregin 2012, CMP 312, 833-845.",
+      "notes": "Excluding Type I would not by itself prove regularity: Type II scenarios would remain."
+    }
+  ],
+  "edges": [
+    {
+      "source": "hopf-1951",
+      "target": "leray-1934",
+      "relation": "strengthens",
+      "why": "Extends global weak existence with the energy inequality from R^3 to bounded domains with no-slip boundary."
+    },
+    {
+      "source": "prodi-serrin-weak-strong",
+      "target": "leray-1934",
+      "relation": "uses",
+      "why": "Compares against a Leray-Hopf solution satisfying the energy inequality; the inequality is what makes the Gronwall argument close."
+    },
+    {
+      "source": "lps-regularity-criterion",
+      "target": "leray-1934",
+      "relation": "uses",
+      "why": "The criterion is stated for a Leray-Hopf weak solution, whose existence is Leray's theorem."
+    },
+    {
+      "source": "lps-regularity-criterion",
+      "target": "prodi-serrin-weak-strong",
+      "relation": "uses",
+      "why": "Uniqueness in the Serrin class is what turns a local regularity statement into identification with the weak solution."
+    },
+    {
+      "source": "ess-2003",
+      "target": "lps-regularity-criterion",
+      "relation": "strengthens",
+      "why": "Closes the endpoint (p,q)=(infinity,3) left open by the Serrin exponent family."
+    },
+    {
+      "source": "ess-2003",
+      "target": "ckn-1982",
+      "relation": "uses",
+      "why": "Uses epsilon-regularity / suitable-weak-solution technology from the partial regularity theory in the blow-up rescaling argument."
+    },
+    {
+      "source": "seregin-2012",
+      "target": "ess-2003",
+      "relation": "strengthens",
+      "why": "Upgrades 'the L^3 norm is unbounded' to 'the L^3 norm tends to infinity' at a first singular time."
+    },
+    {
+      "source": "ckn-1982",
+      "target": "scheffer-partial-regularity",
+      "relation": "strengthens",
+      "why": "Improves the earlier Hausdorff-dimension bounds to vanishing one-dimensional parabolic measure of the singular set."
+    },
+    {
+      "source": "ckn-1982",
+      "target": "leray-1934",
+      "relation": "uses",
+      "why": "Requires existence of suitable weak solutions, constructed by refining the Leray-Hopf construction to satisfy a local energy inequality."
+    },
+    {
+      "source": "kato-1984",
+      "target": "fujita-kato-1964",
+      "relation": "strengthens",
+      "why": "Moves the critical-space local/small-data theory from dot-H^{1/2} to L^3 with a semigroup fixed-point scheme."
+    },
+    {
+      "source": "koch-tataru-2001",
+      "target": "kato-1984",
+      "relation": "strengthens",
+      "why": "Enlarges the small-data space from L^3 to BMO^{-1}, which contains L^3 and dot-H^{1/2}."
+    },
+    {
+      "source": "koch-tataru-2001",
+      "target": "fujita-kato-1964",
+      "relation": "strengthens",
+      "why": "Same scheme, strictly larger critical data space."
+    },
+    {
+      "source": "necas-ruzicka-sverak-1996",
+      "target": "kato-1984",
+      "relation": "uses",
+      "why": "The profile is treated in the critical space L^3, where the mild-solution theory applies."
+    },
+    {
+      "source": "constantin-fefferman-1993",
+      "target": "lps-regularity-criterion",
+      "relation": "strengthens",
+      "why": "Provides a geometric criterion that is not of Serrin norm type, covering configurations the Serrin classes miss."
+    },
+    {
+      "source": "knss-2009",
+      "target": "ess-2003",
+      "relation": "uses",
+      "why": "Reuses the backward-uniqueness and blow-up-rescaling machinery introduced for the L^3 endpoint."
+    },
+    {
+      "source": "open-type-I-exclusion",
+      "target": "knss-2009",
+      "relation": "conditional_on",
+      "why": "General Type I exclusion reduces to a Liouville theorem for bounded ancient solutions, proved only in restricted classes there."
+    },
+    {
+      "source": "clay-2006",
+      "target": "open-critical-apriori-bound",
+      "relation": "conditional_on",
+      "why": "The affirmative Clay statements would follow from any critical a-priori bound combined with the endpoint criterion."
+    },
+    {
+      "source": "open-critical-apriori-bound",
+      "target": "ess-2003",
+      "relation": "uses",
+      "why": "A critical bound is only useful for regularity because the endpoint criterion converts it into smoothness."
+    },
+    {
+      "source": "open-critical-apriori-bound",
+      "target": "seregin-2012",
+      "relation": "uses",
+      "why": "Seregin's divergence statement makes the L^3 route a genuine blow-up criterion rather than only a boundedness criterion."
+    },
+    {
+      "source": "lps-regularity-criterion",
+      "target": "open-critical-apriori-bound",
+      "relation": "conditional_on",
+      "why": "The hypothesis is a critical or subcritical norm bound that no unconditional theorem supplies."
+    },
+    {
+      "source": "bkm-1984",
+      "target": "open-critical-apriori-bound",
+      "relation": "conditional_on",
+      "why": "The controlled quantity, the time integral of the sup-norm of vorticity, is supercritical and is not bounded by the energy."
+    },
+    {
+      "source": "constantin-fefferman-1993",
+      "target": "open-critical-apriori-bound",
+      "relation": "conditional_on",
+      "why": "Nothing bounds the modulus of continuity of the vorticity direction a priori."
+    },
+    {
+      "source": "tao-2016-averaged",
+      "target": "leray-1934",
+      "relation": "uses",
+      "why": "The averaged system is built to preserve exactly the energy identity underlying Leray's global weak theory, which is the point of the construction."
+    },
+    {
+      "source": "tao-2016-averaged",
+      "target": "open-critical-apriori-bound",
+      "relation": "conditional_on",
+      "why": "Shows that any proof of such a bound must use structure of the nonlinearity that averaging destroys; it constrains the proof, it does not supply or refute the bound."
+    },
+    {
+      "source": "hyperviscosity-lions-1969",
+      "target": "leray-1934",
+      "relation": "strengthens",
+      "why": "Same construction with stronger dissipation; at alpha >= 5/4 the energy becomes critical and the argument closes globally."
+    },
+    {
+      "source": "2d-global-regularity",
+      "target": "leray-1934",
+      "relation": "strengthens",
+      "why": "In 2D the same weak solutions are unique and smooth, because the energy is critical there."
+    },
+    {
+      "source": "axisymmetric-no-swirl-1968",
+      "target": "leray-1934",
+      "relation": "strengthens",
+      "why": "Unconditional global regularity in a restricted symmetry class of finite-energy solutions."
+    },
+    {
+      "source": "buckmaster-vicol-2019",
+      "target": "leray-1934",
+      "relation": "conditional_on",
+      "why": "Non-uniqueness holds outside the Leray-Hopf class; the constructed solutions violate the energy inequality that Leray's solutions satisfy."
+    },
+    {
+      "source": "albritton-brue-colombo-2022",
+      "target": "buckmaster-vicol-2019",
+      "relation": "strengthens",
+      "why": "Moves non-uniqueness inside the Leray-Hopf class, at the cost of requiring a body force."
+    },
+    {
+      "source": "albritton-brue-colombo-2022",
+      "target": "clay-2006",
+      "relation": "conditional_on",
+      "why": "Does not settle Clay (C)/(D): the force is essential and does not satisfy the required decay and smoothness conditions."
+    },
+    {
+      "source": "chen-hou-2022",
+      "target": "elgindi-2021",
+      "relation": "strengthens",
+      "why": "Obtains blow-up for smooth data (with boundary) where the earlier result needed C^{1,alpha} regularity."
+    },
+    {
+      "source": "chen-hou-2022",
+      "target": "bkm-1984",
+      "relation": "uses",
+      "why": "Blow-up is certified through vorticity-amplitude control of exactly the BKM type."
+    },
+    {
+      "source": "elgindi-2021",
+      "target": "bkm-1984",
+      "relation": "uses",
+      "why": "Same criterion used to certify singularity formation."
+    },
+    {
+      "source": "ayala-protas-2017",
+      "target": "lu-doering-2008",
+      "relation": "uses",
+      "why": "Takes the cubic a-priori estimate as the reference against which observed enstrophy growth is measured."
+    },
+    {
+      "source": "lu-doering-2008",
+      "target": "bkm-1984",
+      "relation": "uses",
+      "why": "A global enstrophy bound would give the vorticity control needed to rule out blow-up; the cubic bound only gives it locally in time."
+    },
+    {
+      "source": "lu-doering-2008",
+      "target": "open-critical-apriori-bound",
+      "relation": "conditional_on",
+      "why": "Enstrophy is supercritical; closing the enstrophy ODE globally is a route to, not a substitute for, a critical bound."
+    }
+  ]
+}

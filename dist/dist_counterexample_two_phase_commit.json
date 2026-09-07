@@ -1,0 +1,274 @@
+{
+  "model": "two_phase_commit",
+  "run_tag": "two_phase_commit/n2_timeout_abort_on",
+  "params": {
+    "participants": 2,
+    "timeout_abort_optimization": true,
+    "coordinator_may_crash": true,
+    "coordinator_crash_model": "crash-stop, no recovery, no durable log",
+    "channels": "one in-flight slot per link, reliable, no duplication",
+    "votes_allowed": [
+      "yes",
+      "no"
+    ]
+  },
+  "invariant_violated": "AgreementOnDecision: no two participants decide differently",
+  "minimal_violating_schedule_length": 8,
+  "minimality": "minimal in the number of actions of this model's action alphabet; found by BFS",
+  "states_explored_before_violation": 266,
+  "runtime_seconds": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "action": "<initial>",
+      "state": {
+        "coordinator": {
+          "state": "collecting",
+          "crashed": false,
+          "votes_received": [
+            null,
+            null
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "init",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "init",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 1,
+      "action": "p0_votes_yes",
+      "state": {
+        "coordinator": {
+          "state": "collecting",
+          "crashed": false,
+          "votes_received": [
+            null,
+            null
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": "yes",
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "init",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "action": "p1_votes_yes",
+      "state": {
+        "coordinator": {
+          "state": "collecting",
+          "crashed": false,
+          "votes_received": [
+            null,
+            null
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": "yes",
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": "yes",
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "action": "coord_receives_vote_from_p0(yes)",
+      "state": {
+        "coordinator": {
+          "state": "collecting",
+          "crashed": false,
+          "votes_received": [
+            "yes",
+            null
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": "yes",
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "action": "coord_receives_vote_from_p1(yes)",
+      "state": {
+        "coordinator": {
+          "state": "collecting",
+          "crashed": false,
+          "votes_received": [
+            "yes",
+            "yes"
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "action": "coord_decides_COMMIT",
+      "state": {
+        "coordinator": {
+          "state": "decided_commit",
+          "crashed": false,
+          "votes_received": [
+            "yes",
+            "yes"
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "action": "coord_sends_commit_to_p0",
+      "state": {
+        "coordinator": {
+          "state": "decided_commit",
+          "crashed": false,
+          "votes_received": [
+            "yes",
+            "yes"
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": "commit"
+          },
+          {
+            "id": 1,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "action": "p0_receives_commit",
+      "state": {
+        "coordinator": {
+          "state": "decided_commit",
+          "crashed": false,
+          "votes_received": [
+            "yes",
+            "yes"
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "decided_commit",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "voted_yes_uncertain",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    },
+    {
+      "step": 8,
+      "action": "p1_TIMES_OUT_and_unilaterally_ABORTS",
+      "state": {
+        "coordinator": {
+          "state": "decided_commit",
+          "crashed": false,
+          "votes_received": [
+            "yes",
+            "yes"
+          ]
+        },
+        "participants": [
+          {
+            "id": 0,
+            "state": "decided_commit",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          },
+          {
+            "id": 1,
+            "state": "decided_abort",
+            "vote_in_flight": null,
+            "decision_in_flight": null
+          }
+        ]
+      }
+    }
+  ]
+}

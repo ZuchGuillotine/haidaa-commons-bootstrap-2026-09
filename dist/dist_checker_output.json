@@ -1,0 +1,3785 @@
+{
+  "generated_by": "dist_checker.py",
+  "python": "3.14.4",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+  "randomness": "none; fully deterministic",
+  "invariants": {
+    "lease_mutex": "MutualExclusion: at no server time do both clients believe they hold the lease",
+    "two_phase_commit": "AgreementOnDecision: no two participants decide differently",
+    "paxos_nondurable_promise": "AtMostOneChosen: at most one value is ever chosen by a quorum"
+  },
+  "runs": [
+    {
+      "model": "lease_mutex",
+      "params": {
+        "clients": 2,
+        "lease_length_L_server_ticks": 3,
+        "client_guard_margin_ticks": 1,
+        "max_client_clock_lag_ticks": 2,
+        "server_time_horizon": 8,
+        "grant_delivery": "instantaneous",
+        "clock_model": "client clock ticks 0 or 1 per server tick; lag monotone non-decreasing, capped at max_lag",
+        "protocol_is_safe_iff": "guard >= max_lag"
+      },
+      "states_explored": 222,
+      "transitions_examined": 394,
+      "max_depth_reached": 5,
+      "max_depth_bound": 32,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.0,
+      "violation_found": true,
+      "violation_depth": 5,
+      "violation_trace": [
+        {
+          "step": 0,
+          "action": "<initial>",
+          "state": {
+            "server_clock": 0,
+            "lease_end_server_clock": 0,
+            "client0": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            },
+            "client1": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 1,
+          "action": "grant(server->c0)@t=0",
+          "state": {
+            "server_clock": 0,
+            "lease_end_server_clock": 3,
+            "client0": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "tick(server->1, c0_keeps_up, c1_keeps_up)",
+          "state": {
+            "server_clock": 1,
+            "lease_end_server_clock": 3,
+            "client0": {
+              "local_clock": 1,
+              "lag": 0,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 1,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "tick(server->2, c0_lags, c1_keeps_up)",
+          "state": {
+            "server_clock": 2,
+            "lease_end_server_clock": 3,
+            "client0": {
+              "local_clock": 1,
+              "lag": 1,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 2,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "tick(server->3, c0_lags, c1_keeps_up)",
+          "state": {
+            "server_clock": 3,
+            "lease_end_server_clock": 3,
+            "client0": {
+              "local_clock": 1,
+              "lag": 2,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 3,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "grant(server->c1)@t=3",
+          "state": {
+            "server_clock": 3,
+            "lease_end_server_clock": 6,
+            "client0": {
+              "local_clock": 1,
+              "lag": 2,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 3,
+              "lag": 0,
+              "lease_start_local": 3,
+              "believes_it_holds_lock": true
+            }
+          }
+        }
+      ],
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": false,
+      "run_tag": "lease_mutex/drift_exceeds_guard",
+      "note": "guard=1 < max_lag=2: protocol margin too small"
+    },
+    {
+      "model": "lease_mutex",
+      "params": {
+        "clients": 2,
+        "lease_length_L_server_ticks": 3,
+        "client_guard_margin_ticks": 2,
+        "max_client_clock_lag_ticks": 2,
+        "server_time_horizon": 12,
+        "grant_delivery": "instantaneous",
+        "clock_model": "client clock ticks 0 or 1 per server tick; lag monotone non-decreasing, capped at max_lag",
+        "protocol_is_safe_iff": "guard >= max_lag"
+      },
+      "states_explored": 9422,
+      "transitions_examined": 28530,
+      "max_depth_reached": 15,
+      "max_depth_bound": 64,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.017,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "lease_mutex/guard_equals_max_lag",
+      "note": "guard=2 >= max_lag=2: expected safe within bound"
+    },
+    {
+      "model": "lease_mutex",
+      "params": {
+        "clients": 2,
+        "lease_length_L_server_ticks": 3,
+        "client_guard_margin_ticks": 1,
+        "max_client_clock_lag_ticks": 1,
+        "server_time_horizon": 12,
+        "grant_delivery": "instantaneous",
+        "clock_model": "client clock ticks 0 or 1 per server tick; lag monotone non-decreasing, capped at max_lag",
+        "protocol_is_safe_iff": "guard >= max_lag"
+      },
+      "states_explored": 3455,
+      "transitions_examined": 8871,
+      "max_depth_reached": 15,
+      "max_depth_bound": 64,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.006,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "lease_mutex/guard_equals_max_lag_small",
+      "note": "guard=1 >= max_lag=1: expected safe within bound"
+    },
+    {
+      "model": "lease_mutex",
+      "params": {
+        "clients": 2,
+        "lease_length_L_server_ticks": 4,
+        "client_guard_margin_ticks": 3,
+        "max_client_clock_lag_ticks": 4,
+        "server_time_horizon": 12,
+        "grant_delivery": "instantaneous",
+        "clock_model": "client clock ticks 0 or 1 per server tick; lag monotone non-decreasing, capped at max_lag",
+        "protocol_is_safe_iff": "guard >= max_lag"
+      },
+      "states_explored": 714,
+      "transitions_examined": 1379,
+      "max_depth_reached": 6,
+      "max_depth_bound": 64,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.001,
+      "violation_found": true,
+      "violation_depth": 6,
+      "violation_trace": [
+        {
+          "step": 0,
+          "action": "<initial>",
+          "state": {
+            "server_clock": 0,
+            "lease_end_server_clock": 0,
+            "client0": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            },
+            "client1": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 1,
+          "action": "grant(server->c0)@t=0",
+          "state": {
+            "server_clock": 0,
+            "lease_end_server_clock": 4,
+            "client0": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 0,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 2,
+          "action": "tick(server->1, c0_lags, c1_keeps_up)",
+          "state": {
+            "server_clock": 1,
+            "lease_end_server_clock": 4,
+            "client0": {
+              "local_clock": 0,
+              "lag": 1,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 1,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "tick(server->2, c0_lags, c1_keeps_up)",
+          "state": {
+            "server_clock": 2,
+            "lease_end_server_clock": 4,
+            "client0": {
+              "local_clock": 0,
+              "lag": 2,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 2,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 4,
+          "action": "tick(server->3, c0_lags, c1_keeps_up)",
+          "state": {
+            "server_clock": 3,
+            "lease_end_server_clock": 4,
+            "client0": {
+              "local_clock": 0,
+              "lag": 3,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 3,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 5,
+          "action": "tick(server->4, c0_lags, c1_keeps_up)",
+          "state": {
+            "server_clock": 4,
+            "lease_end_server_clock": 4,
+            "client0": {
+              "local_clock": 0,
+              "lag": 4,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 4,
+              "lag": 0,
+              "lease_start_local": null,
+              "believes_it_holds_lock": false
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "grant(server->c1)@t=4",
+          "state": {
+            "server_clock": 4,
+            "lease_end_server_clock": 8,
+            "client0": {
+              "local_clock": 0,
+              "lag": 4,
+              "lease_start_local": 0,
+              "believes_it_holds_lock": true
+            },
+            "client1": {
+              "local_clock": 4,
+              "lag": 0,
+              "lease_start_local": 4,
+              "believes_it_holds_lock": true
+            }
+          }
+        }
+      ],
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": false,
+      "run_tag": "lease_mutex/large_drift_small_guard",
+      "note": "guard=3 < max_lag=4: expected unsafe"
+    },
+    {
+      "model": "lease_mutex",
+      "params": {
+        "clients": 2,
+        "lease_length_L_server_ticks": 4,
+        "client_guard_margin_ticks": 3,
+        "max_client_clock_lag_ticks": 3,
+        "server_time_horizon": 20,
+        "grant_delivery": "instantaneous",
+        "clock_model": "client clock ticks 0 or 1 per server tick; lag monotone non-decreasing, capped at max_lag",
+        "protocol_is_safe_iff": "guard >= max_lag"
+      },
+      "states_explored": 81452,
+      "transitions_examined": 292935,
+      "max_depth_reached": 23,
+      "max_depth_bound": 128,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.172,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "lease_mutex/guard_equals_max_lag_wide",
+      "note": "guard=3 >= max_lag=3, longer horizon: expected safe within bound"
+    },
+    {
+      "model": "two_phase_commit",
+      "params": {
+        "participants": 2,
+        "timeout_abort_optimization": true,
+        "coordinator_may_crash": true,
+        "coordinator_crash_model": "crash-stop, no recovery, no durable log",
+        "channels": "one in-flight slot per link, reliable, no duplication",
+        "votes_allowed": [
+          "yes",
+          "no"
+        ]
+      },
+      "states_explored": 266,
+      "transitions_examined": 525,
+      "max_depth_reached": 8,
+      "max_depth_bound": 32,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.0,
+      "violation_found": true,
+      "violation_depth": 8,
+      "violation_trace": [
+        {
+          "step": 0,
+          "action": "<initial>",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 1,
+          "action": "p0_votes_yes",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 2,
+          "action": "p1_votes_yes",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 3,
+          "action": "coord_receives_vote_from_p0(yes)",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 4,
+          "action": "coord_receives_vote_from_p1(yes)",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 5,
+          "action": "coord_decides_COMMIT",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 6,
+          "action": "coord_sends_commit_to_p0",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": "commit"
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 7,
+          "action": "p0_receives_commit",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "decided_commit",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 8,
+          "action": "p1_TIMES_OUT_and_unilaterally_ABORTS",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "decided_commit",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "decided_abort",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        }
+      ],
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": false,
+      "run_tag": "two_phase_commit/n2_timeout_abort_on",
+      "note": "timeout-abort optimization enabled: expected unsafe"
+    },
+    {
+      "model": "two_phase_commit",
+      "params": {
+        "participants": 3,
+        "timeout_abort_optimization": true,
+        "coordinator_may_crash": true,
+        "coordinator_crash_model": "crash-stop, no recovery, no durable log",
+        "channels": "one in-flight slot per link, reliable, no duplication",
+        "votes_allowed": [
+          "yes",
+          "no"
+        ]
+      },
+      "states_explored": 3893,
+      "transitions_examined": 11586,
+      "max_depth_reached": 10,
+      "max_depth_bound": 32,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.008,
+      "violation_found": true,
+      "violation_depth": 10,
+      "violation_trace": [
+        {
+          "step": 0,
+          "action": "<initial>",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 1,
+          "action": "p0_votes_yes",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 2,
+          "action": "p1_votes_yes",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "init",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 3,
+          "action": "p2_votes_yes",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                null,
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 4,
+          "action": "coord_receives_vote_from_p0(yes)",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                null,
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 5,
+          "action": "coord_receives_vote_from_p1(yes)",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes",
+                null
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": "yes",
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 6,
+          "action": "coord_receives_vote_from_p2(yes)",
+          "state": {
+            "coordinator": {
+              "state": "collecting",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 7,
+          "action": "coord_decides_COMMIT",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 8,
+          "action": "coord_sends_commit_to_p0",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": "commit"
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 9,
+          "action": "p0_receives_commit",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "decided_commit",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        },
+        {
+          "step": 10,
+          "action": "p1_TIMES_OUT_and_unilaterally_ABORTS",
+          "state": {
+            "coordinator": {
+              "state": "decided_commit",
+              "crashed": false,
+              "votes_received": [
+                "yes",
+                "yes",
+                "yes"
+              ]
+            },
+            "participants": [
+              {
+                "id": 0,
+                "state": "decided_commit",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 1,
+                "state": "decided_abort",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              },
+              {
+                "id": 2,
+                "state": "voted_yes_uncertain",
+                "vote_in_flight": null,
+                "decision_in_flight": null
+              }
+            ]
+          }
+        }
+      ],
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": false,
+      "run_tag": "two_phase_commit/n3_timeout_abort_on",
+      "note": "3 participants, timeout-abort enabled"
+    },
+    {
+      "model": "two_phase_commit",
+      "params": {
+        "participants": 2,
+        "timeout_abort_optimization": false,
+        "coordinator_may_crash": true,
+        "coordinator_crash_model": "crash-stop, no recovery, no durable log",
+        "channels": "one in-flight slot per link, reliable, no duplication",
+        "votes_allowed": [
+          "yes",
+          "no"
+        ]
+      },
+      "states_explored": 230,
+      "transitions_examined": 449,
+      "max_depth_reached": 11,
+      "max_depth_bound": 64,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.001,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 23,
+      "deadlocks": [
+        {
+          "depth": 3,
+          "trace": [
+            {
+              "step": 0,
+              "action": "<initial>",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 1,
+              "action": "p0_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 2,
+              "action": "p1_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 3,
+              "action": "coord_CRASHES",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": true,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "depth": 3,
+          "trace": [
+            {
+              "step": 0,
+              "action": "<initial>",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 1,
+              "action": "p0_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 2,
+              "action": "p1_votes_no_and_aborts",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 3,
+              "action": "coord_CRASHES",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": true,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "depth": 3,
+          "trace": [
+            {
+              "step": 0,
+              "action": "<initial>",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 1,
+              "action": "p0_votes_no_and_aborts",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 2,
+              "action": "p1_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 3,
+              "action": "coord_CRASHES",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": true,
+                  "votes_received": [
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "two_phase_commit/n2_timeout_abort_off",
+      "note": "no optimization: expected safe, but blocking states exist"
+    },
+    {
+      "model": "two_phase_commit",
+      "params": {
+        "participants": 3,
+        "timeout_abort_optimization": false,
+        "coordinator_may_crash": true,
+        "coordinator_crash_model": "crash-stop, no recovery, no durable log",
+        "channels": "one in-flight slot per link, reliable, no duplication",
+        "votes_allowed": [
+          "yes",
+          "no"
+        ]
+      },
+      "states_explored": 3598,
+      "transitions_examined": 10735,
+      "max_depth_reached": 15,
+      "max_depth_bound": 64,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.012,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 231,
+      "deadlocks": [
+        {
+          "depth": 4,
+          "trace": [
+            {
+              "step": 0,
+              "action": "<initial>",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 1,
+              "action": "p0_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 2,
+              "action": "p1_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 3,
+              "action": "p2_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 4,
+              "action": "coord_CRASHES",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": true,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "depth": 4,
+          "trace": [
+            {
+              "step": 0,
+              "action": "<initial>",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 1,
+              "action": "p0_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 2,
+              "action": "p1_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 3,
+              "action": "p2_votes_no_and_aborts",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 4,
+              "action": "coord_CRASHES",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": true,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "depth": 4,
+          "trace": [
+            {
+              "step": 0,
+              "action": "<initial>",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 1,
+              "action": "p0_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 2,
+              "action": "p1_votes_no_and_aborts",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "init",
+                    "vote_in_flight": null,
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 3,
+              "action": "p2_votes_yes",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": false,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            },
+            {
+              "step": 4,
+              "action": "coord_CRASHES",
+              "state": {
+                "coordinator": {
+                  "state": "collecting",
+                  "crashed": true,
+                  "votes_received": [
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "participants": [
+                  {
+                    "id": 0,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 1,
+                    "state": "decided_abort",
+                    "vote_in_flight": "no",
+                    "decision_in_flight": null
+                  },
+                  {
+                    "id": 2,
+                    "state": "voted_yes_uncertain",
+                    "vote_in_flight": "yes",
+                    "decision_in_flight": null
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "two_phase_commit/n3_timeout_abort_off",
+      "note": "3 participants, no optimization"
+    },
+    {
+      "model": "two_phase_commit",
+      "params": {
+        "participants": 2,
+        "timeout_abort_optimization": false,
+        "coordinator_may_crash": false,
+        "coordinator_crash_model": "crash-stop, no recovery, no durable log",
+        "channels": "one in-flight slot per link, reliable, no duplication",
+        "votes_allowed": [
+          "yes",
+          "no"
+        ]
+      },
+      "states_explored": 115,
+      "transitions_examined": 230,
+      "max_depth_reached": 10,
+      "max_depth_bound": 64,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.0,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "two_phase_commit/n2_no_opt_no_crash",
+      "note": "no optimization, no coordinator crash: expected safe and non-blocking"
+    },
+    {
+      "model": "paxos_nondurable_promise",
+      "params": {
+        "acceptors": 3,
+        "proposers": 2,
+        "ballots": [
+          1,
+          2
+        ],
+        "proposer_preferred_values": {
+          "ballot1": "X",
+          "ballot2": "Y"
+        },
+        "quorum_size": 2,
+        "durable_promise": false,
+        "crash_recovery_effect": "resets highest-promised ballot to 0; accepted (ballot,value) survives",
+        "message_model": "atomic RPC; no reordering, loss or duplication"
+      },
+      "states_explored": 14472,
+      "transitions_examined": 50336,
+      "max_depth_reached": 11,
+      "max_depth_bound": 24,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.053,
+      "violation_found": true,
+      "violation_depth": 11,
+      "violation_trace": [
+        {
+          "step": 0,
+          "action": "<initial>",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 1,
+          "action": "b1_prepare_acceptorA (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "prepare",
+                "promises_from": [
+                  "A"
+                ],
+                "value": null
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 2,
+          "action": "b1_prepare_acceptorB (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "prepare",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": null
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 3,
+          "action": "b1_picks_value_X_from_promise_quorum",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 4,
+          "action": "b1_accept_X_at_acceptorA",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 5,
+          "action": "b2_prepare_acceptorB (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [
+                  "B"
+                ],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 6,
+          "action": "b2_prepare_acceptorC (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 7,
+          "action": "b2_picks_value_Y_from_promise_quorum",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 8,
+          "action": "b2_accept_Y_at_acceptorB",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 9,
+          "action": "b2_accept_Y_at_acceptorC",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              }
+            ],
+            "chosen_values": [
+              "Y"
+            ]
+          }
+        },
+        {
+          "step": 10,
+          "action": "acceptorB_CRASHES_and_RECOVERS (promise b2 lost, accepted state kept)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              }
+            ],
+            "chosen_values": [
+              "Y"
+            ]
+          }
+        },
+        {
+          "step": 11,
+          "action": "b1_accept_X_at_acceptorB",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              }
+            ],
+            "chosen_values": [
+              "X",
+              "Y"
+            ]
+          }
+        }
+      ],
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": false,
+      "run_tag": "paxos/nondurable_promise",
+      "note": "promise lost on crash-recovery: expected unsafe"
+    },
+    {
+      "model": "paxos_nondurable_promise",
+      "params": {
+        "acceptors": 3,
+        "proposers": 2,
+        "ballots": [
+          1,
+          2
+        ],
+        "proposer_preferred_values": {
+          "ballot1": "X",
+          "ballot2": "Y"
+        },
+        "quorum_size": 2,
+        "durable_promise": true,
+        "crash_recovery_effect": "none",
+        "message_model": "atomic RPC; no reordering, loss or duplication"
+      },
+      "states_explored": 1240,
+      "transitions_examined": 2876,
+      "max_depth_reached": 13,
+      "max_depth_bound": 24,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.004,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "paxos/durable_promise",
+      "note": "promise persisted: expected safe within bound"
+    },
+    {
+      "model": "paxos_nondurable_promise",
+      "params": {
+        "acceptors": 3,
+        "proposers": 3,
+        "ballots": [
+          1,
+          2,
+          3
+        ],
+        "proposer_preferred_values": {
+          "ballot1": "X",
+          "ballot2": "Y",
+          "ballot3": "X"
+        },
+        "quorum_size": 2,
+        "durable_promise": true,
+        "crash_recovery_effect": "none",
+        "message_model": "atomic RPC; no reordering, loss or duplication"
+      },
+      "states_explored": 31088,
+      "transitions_examined": 88092,
+      "max_depth_reached": 17,
+      "max_depth_bound": 40,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.138,
+      "violation_found": false,
+      "violation_depth": null,
+      "violation_trace": null,
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": true,
+      "run_tag": "paxos/durable_promise_3_ballots",
+      "note": "3 ballots (values X,Y,X), promise persisted: expected safe"
+    },
+    {
+      "model": "paxos_nondurable_promise",
+      "params": {
+        "acceptors": 3,
+        "proposers": 3,
+        "ballots": [
+          1,
+          2,
+          3
+        ],
+        "proposer_preferred_values": {
+          "ballot1": "X",
+          "ballot2": "Y",
+          "ballot3": "X"
+        },
+        "quorum_size": 2,
+        "durable_promise": false,
+        "crash_recovery_effect": "resets highest-promised ballot to 0; accepted (ballot,value) survives",
+        "message_model": "atomic RPC; no reordering, loss or duplication"
+      },
+      "states_explored": 164741,
+      "transitions_examined": 565719,
+      "max_depth_reached": 11,
+      "max_depth_bound": 40,
+      "max_states_bound": 4000000,
+      "runtime_seconds": 0.664,
+      "violation_found": true,
+      "violation_depth": 11,
+      "violation_trace": [
+        {
+          "step": 0,
+          "action": "<initial>",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 1,
+          "action": "b1_prepare_acceptorA (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "prepare",
+                "promises_from": [
+                  "A"
+                ],
+                "value": null
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 2,
+          "action": "b1_prepare_acceptorB (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "prepare",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": null
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 3,
+          "action": "b1_picks_value_X_from_promise_quorum",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 4,
+          "action": "b1_accept_X_at_acceptorA",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 5,
+          "action": "b2_prepare_acceptorB (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [
+                  "B"
+                ],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 6,
+          "action": "b2_prepare_acceptorC (promise recorded)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "prepare",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": null
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 7,
+          "action": "b2_picks_value_Y_from_promise_quorum",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 8,
+          "action": "b2_accept_Y_at_acceptorB",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 0,
+                "accepted_value": null
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": []
+          }
+        },
+        {
+          "step": 9,
+          "action": "b2_accept_Y_at_acceptorC",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": [
+              "Y"
+            ]
+          }
+        },
+        {
+          "step": 10,
+          "action": "acceptorB_CRASHES_and_RECOVERS (promise b2 lost, accepted state kept)",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 0,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": [
+              "Y"
+            ]
+          }
+        },
+        {
+          "step": 11,
+          "action": "b1_accept_X_at_acceptorB",
+          "state": {
+            "acceptors": [
+              {
+                "id": "A",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "B",
+                "highest_promised_ballot": 1,
+                "accepted_ballot": 1,
+                "accepted_value": "X"
+              },
+              {
+                "id": "C",
+                "highest_promised_ballot": 2,
+                "accepted_ballot": 2,
+                "accepted_value": "Y"
+              }
+            ],
+            "proposers": [
+              {
+                "ballot": 1,
+                "phase": "accept",
+                "promises_from": [
+                  "A",
+                  "B"
+                ],
+                "value": "X"
+              },
+              {
+                "ballot": 2,
+                "phase": "accept",
+                "promises_from": [
+                  "B",
+                  "C"
+                ],
+                "value": "Y"
+              },
+              {
+                "ballot": 3,
+                "phase": "prepare",
+                "promises_from": [],
+                "value": null
+              }
+            ],
+            "chosen_values": [
+              "X",
+              "Y"
+            ]
+          }
+        }
+      ],
+      "deadlock_count": 0,
+      "deadlocks": [],
+      "truncated_by_depth_bound": false,
+      "truncated_by_state_bound": false,
+      "state_space_exhausted": false,
+      "run_tag": "paxos/nondurable_promise_3_ballots",
+      "note": "3 ballots, promise lost on recovery: expected unsafe"
+    }
+  ],
+  "two_phase_commit_blocking_example": {
+    "note": "terminal state with no enabled action in which a participant is still uncertain (blocking = liveness failure, not a safety violation)",
+    "run_tag": "two_phase_commit/n2_timeout_abort_off",
+    "terminal_blocking_states_found": 23,
+    "shortest_examples": [
+      {
+        "depth": 3,
+        "trace": [
+          {
+            "step": 0,
+            "action": "<initial>",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 1,
+            "action": "p0_votes_yes",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 2,
+            "action": "p1_votes_yes",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 3,
+            "action": "coord_CRASHES",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": true,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "depth": 3,
+        "trace": [
+          {
+            "step": 0,
+            "action": "<initial>",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 1,
+            "action": "p0_votes_yes",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 2,
+            "action": "p1_votes_no_and_aborts",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "decided_abort",
+                  "vote_in_flight": "no",
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 3,
+            "action": "coord_CRASHES",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": true,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "decided_abort",
+                  "vote_in_flight": "no",
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "depth": 3,
+        "trace": [
+          {
+            "step": 0,
+            "action": "<initial>",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 1,
+            "action": "p0_votes_no_and_aborts",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "decided_abort",
+                  "vote_in_flight": "no",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "init",
+                  "vote_in_flight": null,
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 2,
+            "action": "p1_votes_yes",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": false,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "decided_abort",
+                  "vote_in_flight": "no",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          },
+          {
+            "step": 3,
+            "action": "coord_CRASHES",
+            "state": {
+              "coordinator": {
+                "state": "collecting",
+                "crashed": true,
+                "votes_received": [
+                  null,
+                  null
+                ]
+              },
+              "participants": [
+                {
+                  "id": 0,
+                  "state": "decided_abort",
+                  "vote_in_flight": "no",
+                  "decision_in_flight": null
+                },
+                {
+                  "id": 1,
+                  "state": "voted_yes_uncertain",
+                  "vote_in_flight": "yes",
+                  "decision_in_flight": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "caveats": [
+    "Bounded exploration. 'No violation' means no violation within the stated depth, state and parameter bounds; it is not a proof.",
+    "Counterexamples are counterexamples for these toy models under these explicit fault parameters, not statements about any real implementation.",
+    "Minimal length is relative to each model's action granularity."
+  ]
+}

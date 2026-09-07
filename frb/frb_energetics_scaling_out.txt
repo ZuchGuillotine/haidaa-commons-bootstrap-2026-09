@@ -1,0 +1,34 @@
+frb_energetics_scaling.py -- isotropic radio energy conversions
+python: 3.14.4
+numpy: 2.5.3   scipy: 1.18.1
+cosmology: flat LCDM, H0=67.7, Om=0.31
+assumed effective bandwidth: 1.0e9 Hz for every case
+no random numbers used; output is deterministic
+
+case                                                              D_L (Mpc)    E_iso (erg)
+--------------------------------------------------------------------------------------------
+SGR 1935+2154 (2020-04-28 radio burst), d = 9 kpc                     0.009      1.454e+35
+    note: fluence ~1.5 MJy ms (STARE2, Bochenek+2020); distance poorly known
+SGR 1935+2154, d = 4.4 kpc (low distance estimate)                   0.0044      3.475e+34
+    note: same fluence, lower distance bound sometimes quoted
+SGR 1935+2154, d = 12.5 kpc (high distance estimate)                 0.0125      2.804e+35
+    note: same fluence, higher distance bound sometimes quoted
+Nearby repeater in M81 (FRB 20200120E), d = 3.6 Mpc, F = 1 Jy ms          3.6      1.551e+34
+    note: representative bright burst; M81 distance ~3.6 Mpc
+Modest FRB at z = 0.1, F = 1 Jy ms                                    475.6      2.460e+38
+    note: representative low-z cosmological FRB
+Typical FRB at z = 0.5, F = 1 Jy ms                                    2919      6.797e+39
+    note: representative cosmological FRB
+Bright FRB at z = 0.5, F = 10 Jy ms                                    2919      6.797e+40
+    note: bright end of the common population
+FRB 20220610A-like at z = 1.016, F = 45 Jy ms                          6926      1.281e+42
+    note: z from Ryder+2023; fluence approximate, VERIFY against source
+
+ratios (dimensionless, same bandwidth convention throughout):
+  E(typical z=0.5 FRB) / E(SGR 1935 burst)      = 4.676e+04  (4.67 dex)
+  E(M81 repeater burst) / E(SGR 1935 burst)     = 1.067e-01  (-0.97 dex)
+  E(z=1.016, 45 Jy ms) / E(SGR 1935 burst)      = 8.813e+06  (6.95 dex)
+
+caveats: E_iso scales as d^2 and linearly with assumed bandwidth;
+the SGR 1935+2154 distance is uncertain by roughly a factor 3 in d,
+i.e. ~1 dex in energy. These are order-of-magnitude framings only.

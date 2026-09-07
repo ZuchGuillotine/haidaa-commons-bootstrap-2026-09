@@ -1,0 +1,1822 @@
+{
+  "meta": {
+    "script": "tes_screening.py",
+    "script_version": "1.2",
+    "input_file": "tes_property_table.csv",
+    "input_kind": "curated",
+    "input_sha256": "c885d27f1526a8ff6b589493b7baedf4bfea74374b56d2c369e1cf9bfda83668",
+    "input_is_demo_placeholder": false,
+    "seed": 20260907,
+    "monte_carlo_draws": 2000,
+    "default_relative_uncertainty_when_no_interval": 0.1,
+    "freeze_margin_C": 20.0,
+    "pcm_half_swing_C": 50.0,
+    "solid_headroom_below_melt_C": 100.0,
+    "assumed_cold_end_C_when_no_data": 200.0,
+    "common_window_C": [
+      500.0,
+      700.0
+    ],
+    "indistinguishable_band_on_pairwise_probability": [
+      0.4,
+      0.6
+    ],
+    "sampling_model": "per draw: pick one competing source row uniformly per material+property, then sample uniformly inside that row's [low, high]; if no interval is given, value*(1 +/- 0.10)",
+    "deterministic": "fixed seed, sorted iteration, no timestamps; identical inputs give byte-identical output",
+    "environment": {
+      "python": "3.14.4",
+      "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+      "numpy": "2.5.3",
+      "scipy": "1.18.1"
+    },
+    "canonical_units": {
+      "density": "kg/m3",
+      "heat_capacity": "J/(kg K)",
+      "thermal_conductivity": "W/(m K)",
+      "latent_heat": "J/kg",
+      "cost_per_tonne": "USD/tonne",
+      "melting_point": "C",
+      "max_operating_temperature": "C",
+      "min_operating_temperature": "C"
+    },
+    "n_input_rows_parsed": 63,
+    "n_materials_in_table": 16
+  },
+  "figure_of_merit_definitions": {
+    "energy_density_kWh_per_m3": "rho * (cp * dT + L if the melting point falls inside dT) / 3.6e6. Volumetric, media only, no void fraction or vessel.",
+    "cost_per_kWh_th_USD": "cost_per_tonne / (1000 kg * (cp*dT + L) / 3.6e6). Media cost only, mixed and mostly unstated price-basis years.",
+    "diffusivity_mm2_per_s": "1e6 * k / (rho * cp). A conduction-limited charge-rate proxy only; meaningless where convection or particle transport sets the rate."
+  },
+  "limitations": [
+    "Media-only screening. Containment, vessel, insulation, pumps, heat exchangers and system integration are excluded, and they usually dominate installed cost per kWh_th.",
+    "No exergy or temperature-quality weighting: a kWh stored at 700 C counts the same as a kWh stored at 300 C.",
+    "No degradation term. Cycle life, corrosion allowance, salt make-up and particle attrition are not represented, so media known to degrade are not penalised here.",
+    "Properties are constant over the whole swing; real cp, rho and k vary with temperature, and the script picks the tabulated temperature nearest the window midpoint.",
+    "Cold-end temperatures are system design choices. Where the table gives none, the script assumes one; those materials are listed and their energy densities are assumption-driven.",
+    "Uniform sampling inside [low, high] is a deliberately weak uncertainty model, not a calibrated posterior; its width is whatever the table compiler entered.",
+    "Competing sources are drawn with equal probability; no source is judged more reliable than another.",
+    "Volumetric figures mix bulk packed-bed density with monolith and melt density, so cross-family volumetric comparison is coarse.",
+    "Ranks are computed within the set of materials in the input table; adding or removing a material changes every rank."
+  ],
+  "scenarios": {
+    "own_window": {
+      "scenario": "own_window",
+      "swing_C": "per material, own derived window",
+      "n_materials_included": 8,
+      "materials_included": [
+        "Alumina (Al2O3, dense sintered/refractory)",
+        "Basalt / natural rock (packed bed)",
+        "Graphite (isotropic molded grade)",
+        "High-temperature storage concrete (DLR-type castable)",
+        "Magnesia (MgO, refractory)",
+        "NaCl",
+        "Silica sand (quartz, granular)",
+        "Solar Salt (NaNO3-KNO3 60/40 wt%)"
+      ],
+      "materials_excluded": {
+        "AlSi12 (Al-Si eutectic, ~12.6 wt% Si)": "missing required property/properties: heat_capacity",
+        "Castable ceramic (DLR-type, solid sensible module)": "no upper temperature: neither max_operating_temperature nor a usable melting_point for a solid medium",
+        "Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%)": "missing required property/properties: density, heat_capacity",
+        "KNO3": "missing required property/properties: density, heat_capacity",
+        "Li2CO3-Na2CO3-K2CO3 ternary eutectic": "missing required property/properties: density, heat_capacity",
+        "LiF-CaF2 eutectic (~80.5/19.5 mol%)": "missing required property/properties: density, heat_capacity",
+        "NaCl-KCl-MgCl2 eutectic": "missing required property/properties: density, heat_capacity",
+        "NaNO3": "missing required property/properties: density, heat_capacity"
+      },
+      "materials_with_assumed_cold_end": [
+        "Alumina (Al2O3, dense sintered/refractory)",
+        "Basalt / natural rock (packed bed)",
+        "Graphite (isotropic molded grade)",
+        "High-temperature storage concrete (DLR-type castable)",
+        "Magnesia (MgO, refractory)",
+        "Silica sand (quartz, granular)"
+      ],
+      "material_detail": {
+        "Alumina (Al2O3, dense sintered/refractory)": {
+          "family": "solid: oxide ceramic",
+          "window_C_mean": [
+            200.0,
+            1700.0
+          ],
+          "delta_T_C_mean": 1500.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Basalt / natural rock (packed bed)": {
+          "family": "solid: natural rock",
+          "window_C_mean": [
+            200.0,
+            698.4
+          ],
+          "delta_T_C_mean": 498.4,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Graphite (isotropic molded grade)": {
+          "family": "solid: carbon",
+          "window_C_mean": [
+            200.0,
+            1232.2
+          ],
+          "delta_T_C_mean": 1032.2,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {
+            "max_operating_temperature": 2
+          },
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "High-temperature storage concrete (DLR-type castable)": {
+          "family": "solid: cementitious",
+          "window_C_mean": [
+            200.0,
+            399.8
+          ],
+          "delta_T_C_mean": 199.8,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Magnesia (MgO, refractory)": {
+          "family": "solid: oxide ceramic",
+          "window_C_mean": [
+            200.0,
+            1699.1
+          ],
+          "delta_T_C_mean": 1499.1,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "NaCl": {
+          "family": "chloride salt (latent, PCM)",
+          "window_C_mean": [
+            750.3,
+            850.3
+          ],
+          "delta_T_C_mean": 100.0,
+          "window_basis": "upper: melting_point + 50 C (PCM stage, no max_operating_temperature in table); lower: PCM stage, melting_point +/- 50 C capped by the upper limit",
+          "cold_end_is_an_assumption": false,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "latent_heat",
+            "melting_point"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": 1.0
+        },
+        "Silica sand (quartz, granular)": {
+          "family": "solid: granular silica",
+          "window_C_mean": [
+            200.0,
+            800.2
+          ],
+          "delta_T_C_mean": 600.2,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Solar Salt (NaNO3-KNO3 60/40 wt%)": {
+          "family": "nitrate salt (sensible, liquid)",
+          "window_C_mean": [
+            249.9,
+            580.9
+          ],
+          "delta_T_C_mean": 331.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: melting_point + 20 C freeze margin (liquid medium)",
+          "cold_end_is_an_assumption": false,
+          "properties_used": [
+            "cost_per_tonne",
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "melting_point",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {
+            "max_operating_temperature": 2
+          },
+          "latent_heat_counted_fraction_of_draws": null
+        }
+      },
+      "figures_of_merit": {
+        "energy_density_kWh_per_m3": {
+          "direction": "higher_is_better",
+          "n_materials": 8,
+          "median_value_ordering_best_to_worst": [
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Magnesia (MgO, refractory)",
+            "Graphite (isotropic molded grade)",
+            "Silica sand (quartz, granular)",
+            "Basalt / natural rock (packed bed)",
+            "NaCl",
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+            "High-temperature storage concrete (DLR-type castable)"
+          ],
+          "value_percentiles": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "p05": 1570.5268,
+              "p50": 1788.9529,
+              "p95": 2035.2344
+            },
+            "Basalt / natural rock (packed bed)": {
+              "p05": 274.1462,
+              "p50": 346.9361,
+              "p95": 434.3089
+            },
+            "Graphite (isotropic molded grade)": {
+              "p05": 182.5369,
+              "p50": 1287.2478,
+              "p95": 1755.3341
+            },
+            "High-temperature storage concrete (DLR-type castable)": {
+              "p05": 97.8577,
+              "p50": 126.1098,
+              "p95": 159.2189
+            },
+            "Magnesia (MgO, refractory)": {
+              "p05": 1382.1564,
+              "p50": 1603.9856,
+              "p95": 1864.6409
+            },
+            "NaCl": {
+              "p05": 298.492,
+              "p50": 341.0635,
+              "p95": 386.089
+            },
+            "Silica sand (quartz, granular)": {
+              "p05": 399.6616,
+              "p50": 484.1559,
+              "p95": 580.7377
+            },
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)": {
+              "p05": 193.4695,
+              "p50": 246.5082,
+              "p95": 308.9599
+            }
+          },
+          "rank_distribution": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "mean_rank": 1.258,
+              "median_rank": 1,
+              "modal_rank": 1,
+              "rank_p05": 1,
+              "rank_p95": 2,
+              "prob_rank_1": 0.7705,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                1541,
+                403,
+                56,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "Basalt / natural rock (packed bed)": {
+              "mean_rank": 4.989,
+              "median_rank": 5,
+              "modal_rank": 5,
+              "rank_p05": 4,
+              "rank_p95": 6,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0115,
+              "rank_histogram": [
+                0,
+                0,
+                23,
+                537,
+                921,
+                478,
+                41,
+                0
+              ]
+            },
+            "Graphite (isotropic molded grade)": {
+              "mean_rank": 4.571,
+              "median_rank": 3,
+              "modal_rank": 7,
+              "rank_p05": 2,
+              "rank_p95": 7,
+              "prob_rank_1": 0.0485,
+              "prob_top_3": 0.505,
+              "rank_histogram": [
+                97,
+                359,
+                554,
+                0,
+                5,
+                256,
+                728,
+                1
+              ]
+            },
+            "High-temperature storage concrete (DLR-type castable)": {
+              "mean_rank": 8.0,
+              "median_rank": 8,
+              "modal_rank": 8,
+              "rank_p05": 8,
+              "rank_p95": 8,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0,
+              "rank_histogram": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1999
+              ]
+            },
+            "Magnesia (MgO, refractory)": {
+              "mean_rank": 2.019,
+              "median_rank": 2,
+              "modal_rank": 2,
+              "rank_p05": 1,
+              "rank_p95": 3,
+              "prob_rank_1": 0.181,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                362,
+                1238,
+                400,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "NaCl": {
+              "mean_rank": 5.061,
+              "median_rank": 5,
+              "modal_rank": 5,
+              "rank_p05": 4,
+              "rank_p95": 6,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.001,
+              "rank_histogram": [
+                0,
+                0,
+                2,
+                452,
+                983,
+                547,
+                16,
+                0
+              ]
+            },
+            "Silica sand (quartz, granular)": {
+              "mean_rank": 3.533,
+              "median_rank": 4,
+              "modal_rank": 4,
+              "rank_p05": 3,
+              "rank_p95": 4,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.4825,
+              "rank_histogram": [
+                0,
+                0,
+                965,
+                1006,
+                27,
+                2,
+                0,
+                0
+              ]
+            },
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)": {
+              "mean_rank": 6.57,
+              "median_rank": 7,
+              "modal_rank": 7,
+              "rank_p05": 6,
+              "rank_p95": 7,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0,
+              "rank_histogram": [
+                0,
+                0,
+                0,
+                5,
+                64,
+                717,
+                1214,
+                0
+              ]
+            }
+          },
+          "pairwise": [
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Basalt / natural rock (packed bed)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.9375,
+              "verdict": "a_better",
+              "decisive": false
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "High-temperature storage concrete (DLR-type castable)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.805,
+              "verdict": "a_better",
+              "decisive": false
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "NaCl",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.493,
+              "verdict": "indistinguishable",
+              "decisive": false
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "High-temperature storage concrete (DLR-type castable)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "NaCl",
+              "prob_a_better": 0.5365,
+              "verdict": "indistinguishable",
+              "decisive": false
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.0255,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 0.9565,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "High-temperature storage concrete (DLR-type castable)",
+              "prob_a_better": 0.9995,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.214,
+              "verdict": "b_better",
+              "decisive": false
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "NaCl",
+              "prob_a_better": 0.5055,
+              "verdict": "indistinguishable",
+              "decisive": false
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.505,
+              "verdict": "indistinguishable",
+              "decisive": false
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 0.6355,
+              "verdict": "a_better",
+              "decisive": false
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "NaCl",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "NaCl",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "NaCl",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.0025,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "NaCl",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 0.978,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Silica sand (quartz, granular)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            }
+          ]
+        },
+        "cost_per_kWh_th_USD": {
+          "note": "fewer than two materials carry this figure of merit",
+          "materials": [
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)"
+          ]
+        },
+        "diffusivity_mm2_per_s": {
+          "direction": "higher_is_better",
+          "n_materials": 7,
+          "median_value_ordering_best_to_worst": [
+            "Graphite (isotropic molded grade)",
+            "Magnesia (MgO, refractory)",
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Basalt / natural rock (packed bed)",
+            "High-temperature storage concrete (DLR-type castable)",
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+            "Silica sand (quartz, granular)"
+          ],
+          "value_percentiles": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "p05": 1.2227,
+              "p50": 1.7446,
+              "p95": 2.276
+            },
+            "Basalt / natural rock (packed bed)": {
+              "p05": 0.6067,
+              "p50": 0.8858,
+              "p95": 1.1908
+            },
+            "Graphite (isotropic molded grade)": {
+              "p05": 10.6997,
+              "p50": 34.5957,
+              "p95": 61.0607
+            },
+            "High-temperature storage concrete (DLR-type castable)": {
+              "p05": 0.3569,
+              "p50": 0.5002,
+              "p95": 0.6753
+            },
+            "Magnesia (MgO, refractory)": {
+              "p05": 2.3881,
+              "p50": 7.6686,
+              "p95": 12.5233
+            },
+            "Silica sand (quartz, granular)": {
+              "p05": 0.0704,
+              "p50": 0.102,
+              "p95": 0.1395
+            },
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)": {
+              "p05": 0.1702,
+              "p50": 0.1989,
+              "p95": 0.2362
+            }
+          },
+          "rank_distribution": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "mean_rank": 2.994,
+              "median_rank": 3,
+              "modal_rank": 3,
+              "rank_p05": 3,
+              "rank_p95": 3,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.995,
+              "rank_histogram": [
+                0,
+                21,
+                1969,
+                10,
+                0,
+                0,
+                0
+              ]
+            },
+            "Basalt / natural rock (packed bed)": {
+              "mean_rank": 4.021,
+              "median_rank": 4,
+              "modal_rank": 4,
+              "rank_p05": 4,
+              "rank_p95": 4,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.005,
+              "rank_histogram": [
+                0,
+                0,
+                10,
+                1937,
+                53,
+                0,
+                0
+              ]
+            },
+            "Graphite (isotropic molded grade)": {
+              "mean_rank": 1.022,
+              "median_rank": 1,
+              "modal_rank": 1,
+              "rank_p05": 1,
+              "rank_p95": 1,
+              "prob_rank_1": 0.978,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                1956,
+                44,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "High-temperature storage concrete (DLR-type castable)": {
+              "mean_rank": 4.973,
+              "median_rank": 5,
+              "modal_rank": 5,
+              "rank_p05": 5,
+              "rank_p95": 5,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0,
+              "rank_histogram": [
+                0,
+                0,
+                0,
+                53,
+                1947,
+                0,
+                0
+              ]
+            },
+            "Magnesia (MgO, refractory)": {
+              "mean_rank": 1.988,
+              "median_rank": 2,
+              "modal_rank": 2,
+              "rank_p05": 2,
+              "rank_p95": 2,
+              "prob_rank_1": 0.022,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                44,
+                1935,
+                21,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "Silica sand (quartz, granular)": {
+              "mean_rank": 7.0,
+              "median_rank": 7,
+              "modal_rank": 7,
+              "rank_p05": 7,
+              "rank_p95": 7,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0,
+              "rank_histogram": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                2000
+              ]
+            },
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)": {
+              "mean_rank": 6.0,
+              "median_rank": 6,
+              "modal_rank": 6,
+              "rank_p05": 6,
+              "rank_p95": 6,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0,
+              "rank_histogram": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                2000,
+                0
+              ]
+            }
+          },
+          "pairwise": [
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Basalt / natural rock (packed bed)",
+              "prob_a_better": 0.995,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "High-temperature storage concrete (DLR-type castable)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0105,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "High-temperature storage concrete (DLR-type castable)",
+              "prob_a_better": 0.9735,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "High-temperature storage concrete (DLR-type castable)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.978,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "High-temperature storage concrete (DLR-type castable)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Silica sand (quartz, granular)",
+              "b": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            }
+          ]
+        }
+      }
+    },
+    "common_window": {
+      "scenario": "common_window",
+      "swing_C": [
+        500.0,
+        700.0
+      ],
+      "n_materials_included": 5,
+      "materials_included": [
+        "Alumina (Al2O3, dense sintered/refractory)",
+        "Basalt / natural rock (packed bed)",
+        "Graphite (isotropic molded grade)",
+        "Magnesia (MgO, refractory)",
+        "Silica sand (quartz, granular)"
+      ],
+      "materials_excluded": {
+        "AlSi12 (Al-Si eutectic, ~12.6 wt% Si)": "missing required property/properties: heat_capacity",
+        "Castable ceramic (DLR-type, solid sensible module)": "no upper temperature: neither max_operating_temperature nor a usable melting_point for a solid medium",
+        "High-temperature storage concrete (DLR-type castable)": "derived window 200-400 C does not cover the common swing 500-700 C",
+        "Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%)": "missing required property/properties: density, heat_capacity",
+        "KNO3": "missing required property/properties: density, heat_capacity",
+        "Li2CO3-Na2CO3-K2CO3 ternary eutectic": "missing required property/properties: density, heat_capacity",
+        "LiF-CaF2 eutectic (~80.5/19.5 mol%)": "missing required property/properties: density, heat_capacity",
+        "NaCl": "derived window 751-851 C does not cover the common swing 500-700 C",
+        "NaCl-KCl-MgCl2 eutectic": "missing required property/properties: density, heat_capacity",
+        "NaNO3": "missing required property/properties: density, heat_capacity",
+        "Solar Salt (NaNO3-KNO3 60/40 wt%)": "derived window 250-582 C does not cover the common swing 500-700 C"
+      },
+      "materials_with_assumed_cold_end": [
+        "Alumina (Al2O3, dense sintered/refractory)",
+        "Basalt / natural rock (packed bed)",
+        "Graphite (isotropic molded grade)",
+        "Magnesia (MgO, refractory)",
+        "Silica sand (quartz, granular)"
+      ],
+      "material_detail": {
+        "Alumina (Al2O3, dense sintered/refractory)": {
+          "family": "solid: oxide ceramic",
+          "window_C_mean": [
+            500.0,
+            700.0
+          ],
+          "delta_T_C_mean": 200.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Basalt / natural rock (packed bed)": {
+          "family": "solid: natural rock",
+          "window_C_mean": [
+            500.0,
+            700.0
+          ],
+          "delta_T_C_mean": 200.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Graphite (isotropic molded grade)": {
+          "family": "solid: carbon",
+          "window_C_mean": [
+            500.0,
+            700.0
+          ],
+          "delta_T_C_mean": 200.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {
+            "max_operating_temperature": 2
+          },
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Magnesia (MgO, refractory)": {
+          "family": "solid: oxide ceramic",
+          "window_C_mean": [
+            500.0,
+            700.0
+          ],
+          "delta_T_C_mean": 200.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        },
+        "Silica sand (quartz, granular)": {
+          "family": "solid: granular silica",
+          "window_C_mean": [
+            500.0,
+            700.0
+          ],
+          "delta_T_C_mean": 200.0,
+          "window_basis": "upper: max_operating_temperature from table; lower: ASSUMED cold end 200 C, no data in table",
+          "cold_end_is_an_assumption": true,
+          "properties_used": [
+            "density",
+            "heat_capacity",
+            "max_operating_temperature",
+            "thermal_conductivity"
+          ],
+          "n_competing_source_rows": {},
+          "latent_heat_counted_fraction_of_draws": null
+        }
+      },
+      "figures_of_merit": {
+        "energy_density_kWh_per_m3": {
+          "direction": "higher_is_better",
+          "n_materials": 5,
+          "median_value_ordering_best_to_worst": [
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Magnesia (MgO, refractory)",
+            "Graphite (isotropic molded grade)",
+            "Silica sand (quartz, granular)",
+            "Basalt / natural rock (packed bed)"
+          ],
+          "value_percentiles": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "p05": 222.6429,
+              "p50": 239.04,
+              "p95": 256.842
+            },
+            "Basalt / natural rock (packed bed)": {
+              "p05": 123.1035,
+              "p50": 139.9369,
+              "p95": 157.7705
+            },
+            "Graphite (isotropic molded grade)": {
+              "p05": 157.3479,
+              "p50": 174.676,
+              "p95": 191.9447
+            },
+            "Magnesia (MgO, refractory)": {
+              "p05": 192.0469,
+              "p50": 214.0025,
+              "p95": 237.6571
+            },
+            "Silica sand (quartz, granular)": {
+              "p05": 141.2891,
+              "p50": 161.9755,
+              "p95": 183.7081
+            }
+          },
+          "rank_distribution": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "mean_rank": 1.077,
+              "median_rank": 1,
+              "modal_rank": 1,
+              "rank_p05": 1,
+              "rank_p95": 2,
+              "prob_rank_1": 0.9235,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                1847,
+                153,
+                0,
+                0,
+                0
+              ]
+            },
+            "Basalt / natural rock (packed bed)": {
+              "mean_rank": 4.899,
+              "median_rank": 5,
+              "modal_rank": 5,
+              "rank_p05": 4,
+              "rank_p95": 5,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0015,
+              "rank_histogram": [
+                0,
+                0,
+                3,
+                197,
+                1800
+              ]
+            },
+            "Graphite (isotropic molded grade)": {
+              "mean_rank": 3.232,
+              "median_rank": 3,
+              "modal_rank": 3,
+              "rank_p05": 3,
+              "rank_p95": 4,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.7665,
+              "rank_histogram": [
+                0,
+                9,
+                1524,
+                461,
+                6
+              ]
+            },
+            "Magnesia (MgO, refractory)": {
+              "mean_rank": 1.929,
+              "median_rank": 2,
+              "modal_rank": 2,
+              "rank_p05": 1,
+              "rank_p95": 2,
+              "prob_rank_1": 0.0765,
+              "prob_top_3": 0.9995,
+              "rank_histogram": [
+                153,
+                1838,
+                8,
+                1,
+                0
+              ]
+            },
+            "Silica sand (quartz, granular)": {
+              "mean_rank": 3.865,
+              "median_rank": 4,
+              "modal_rank": 4,
+              "rank_p05": 3,
+              "rank_p95": 5,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.2325,
+              "rank_histogram": [
+                0,
+                0,
+                465,
+                1341,
+                194
+              ]
+            }
+          },
+          "pairwise": [
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Basalt / natural rock (packed bed)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.9235,
+              "verdict": "a_better",
+              "decisive": false
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.0045,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.097,
+              "verdict": "b_better",
+              "decisive": false
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0045,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.768,
+              "verdict": "a_better",
+              "decisive": false
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 0.9995,
+              "verdict": "a_better",
+              "decisive": true
+            }
+          ]
+        },
+        "cost_per_kWh_th_USD": {
+          "note": "fewer than two materials carry this figure of merit",
+          "materials": []
+        },
+        "diffusivity_mm2_per_s": {
+          "direction": "higher_is_better",
+          "n_materials": 5,
+          "median_value_ordering_best_to_worst": [
+            "Graphite (isotropic molded grade)",
+            "Magnesia (MgO, refractory)",
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Basalt / natural rock (packed bed)",
+            "Silica sand (quartz, granular)"
+          ],
+          "value_percentiles": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "p05": 1.2259,
+              "p50": 1.7222,
+              "p95": 2.2826
+            },
+            "Basalt / natural rock (packed bed)": {
+              "p05": 0.6084,
+              "p50": 0.8937,
+              "p95": 1.2061
+            },
+            "Graphite (isotropic molded grade)": {
+              "p05": 10.4481,
+              "p50": 36.4098,
+              "p95": 60.803
+            },
+            "Magnesia (MgO, refractory)": {
+              "p05": 2.4647,
+              "p50": 7.5029,
+              "p95": 12.5291
+            },
+            "Silica sand (quartz, granular)": {
+              "p05": 0.0705,
+              "p50": 0.103,
+              "p95": 0.1408
+            }
+          },
+          "rank_distribution": {
+            "Alumina (Al2O3, dense sintered/refractory)": {
+              "mean_rank": 2.995,
+              "median_rank": 3,
+              "modal_rank": 3,
+              "rank_p05": 3,
+              "rank_p95": 3,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.9945,
+              "rank_histogram": [
+                0,
+                21,
+                1968,
+                11,
+                0
+              ]
+            },
+            "Basalt / natural rock (packed bed)": {
+              "mean_rank": 3.994,
+              "median_rank": 4,
+              "modal_rank": 4,
+              "rank_p05": 4,
+              "rank_p95": 4,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0055,
+              "rank_histogram": [
+                0,
+                0,
+                11,
+                1989,
+                0
+              ]
+            },
+            "Graphite (isotropic molded grade)": {
+              "mean_rank": 1.019,
+              "median_rank": 1,
+              "modal_rank": 1,
+              "rank_p05": 1,
+              "rank_p95": 1,
+              "prob_rank_1": 0.981,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                1962,
+                38,
+                0,
+                0,
+                0
+              ]
+            },
+            "Magnesia (MgO, refractory)": {
+              "mean_rank": 1.992,
+              "median_rank": 2,
+              "modal_rank": 2,
+              "rank_p05": 2,
+              "rank_p95": 2,
+              "prob_rank_1": 0.019,
+              "prob_top_3": 1.0,
+              "rank_histogram": [
+                38,
+                1941,
+                21,
+                0,
+                0
+              ]
+            },
+            "Silica sand (quartz, granular)": {
+              "mean_rank": 5.0,
+              "median_rank": 5,
+              "modal_rank": 5,
+              "rank_p05": 5,
+              "rank_p95": 5,
+              "prob_rank_1": 0.0,
+              "prob_top_3": 0.0,
+              "rank_histogram": [
+                0,
+                0,
+                0,
+                0,
+                2000
+              ]
+            }
+          },
+          "pairwise": [
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Basalt / natural rock (packed bed)",
+              "prob_a_better": 0.9945,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0105,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Alumina (Al2O3, dense sintered/refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Graphite (isotropic molded grade)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.0,
+              "verdict": "b_better",
+              "decisive": true
+            },
+            {
+              "a": "Basalt / natural rock (packed bed)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Magnesia (MgO, refractory)",
+              "prob_a_better": 0.981,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Graphite (isotropic molded grade)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            },
+            {
+              "a": "Magnesia (MgO, refractory)",
+              "b": "Silica sand (quartz, granular)",
+              "prob_a_better": 1.0,
+              "verdict": "a_better",
+              "decisive": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "stability_summary": {
+    "own_window": {
+      "energy_density_kWh_per_m3": {
+        "materials_holding_one_rank_in_90pct_of_draws": [
+          {
+            "material": "High-temperature storage concrete (DLR-type castable)",
+            "rank": 8
+          }
+        ],
+        "materials_whose_rank_moves": [
+          {
+            "material": "Alumina (Al2O3, dense sintered/refractory)",
+            "modal_rank": 1,
+            "rank_p05_p95": [
+              1,
+              2
+            ]
+          },
+          {
+            "material": "Magnesia (MgO, refractory)",
+            "modal_rank": 2,
+            "rank_p05_p95": [
+              1,
+              3
+            ]
+          },
+          {
+            "material": "Silica sand (quartz, granular)",
+            "modal_rank": 4,
+            "rank_p05_p95": [
+              3,
+              4
+            ]
+          },
+          {
+            "material": "Basalt / natural rock (packed bed)",
+            "modal_rank": 5,
+            "rank_p05_p95": [
+              4,
+              6
+            ]
+          },
+          {
+            "material": "NaCl",
+            "modal_rank": 5,
+            "rank_p05_p95": [
+              4,
+              6
+            ]
+          },
+          {
+            "material": "Graphite (isotropic molded grade)",
+            "modal_rank": 7,
+            "rank_p05_p95": [
+              2,
+              7
+            ]
+          },
+          {
+            "material": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+            "modal_rank": 7,
+            "rank_p05_p95": [
+              6,
+              7
+            ]
+          }
+        ],
+        "indistinguishable_pairs": [
+          {
+            "a": "Basalt / natural rock (packed bed)",
+            "b": "Graphite (isotropic molded grade)",
+            "prob_a_better": 0.493,
+            "verdict": "indistinguishable",
+            "decisive": false
+          },
+          {
+            "a": "Basalt / natural rock (packed bed)",
+            "b": "NaCl",
+            "prob_a_better": 0.5365,
+            "verdict": "indistinguishable",
+            "decisive": false
+          },
+          {
+            "a": "Graphite (isotropic molded grade)",
+            "b": "NaCl",
+            "prob_a_better": 0.5055,
+            "verdict": "indistinguishable",
+            "decisive": false
+          },
+          {
+            "a": "Graphite (isotropic molded grade)",
+            "b": "Silica sand (quartz, granular)",
+            "prob_a_better": 0.505,
+            "verdict": "indistinguishable",
+            "decisive": false
+          }
+        ],
+        "n_indistinguishable_pairs": 4,
+        "n_decisive_pairs": 20,
+        "n_pairs_total": 28
+      },
+      "diffusivity_mm2_per_s": {
+        "materials_holding_one_rank_in_90pct_of_draws": [
+          {
+            "material": "Graphite (isotropic molded grade)",
+            "rank": 1
+          },
+          {
+            "material": "Magnesia (MgO, refractory)",
+            "rank": 2
+          },
+          {
+            "material": "Alumina (Al2O3, dense sintered/refractory)",
+            "rank": 3
+          },
+          {
+            "material": "Basalt / natural rock (packed bed)",
+            "rank": 4
+          },
+          {
+            "material": "High-temperature storage concrete (DLR-type castable)",
+            "rank": 5
+          },
+          {
+            "material": "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+            "rank": 6
+          },
+          {
+            "material": "Silica sand (quartz, granular)",
+            "rank": 7
+          }
+        ],
+        "materials_whose_rank_moves": [],
+        "indistinguishable_pairs": [],
+        "n_indistinguishable_pairs": 0,
+        "n_decisive_pairs": 21,
+        "n_pairs_total": 21
+      }
+    },
+    "common_window": {
+      "energy_density_kWh_per_m3": {
+        "materials_holding_one_rank_in_90pct_of_draws": [],
+        "materials_whose_rank_moves": [
+          {
+            "material": "Alumina (Al2O3, dense sintered/refractory)",
+            "modal_rank": 1,
+            "rank_p05_p95": [
+              1,
+              2
+            ]
+          },
+          {
+            "material": "Magnesia (MgO, refractory)",
+            "modal_rank": 2,
+            "rank_p05_p95": [
+              1,
+              2
+            ]
+          },
+          {
+            "material": "Graphite (isotropic molded grade)",
+            "modal_rank": 3,
+            "rank_p05_p95": [
+              3,
+              4
+            ]
+          },
+          {
+            "material": "Silica sand (quartz, granular)",
+            "modal_rank": 4,
+            "rank_p05_p95": [
+              3,
+              5
+            ]
+          },
+          {
+            "material": "Basalt / natural rock (packed bed)",
+            "modal_rank": 5,
+            "rank_p05_p95": [
+              4,
+              5
+            ]
+          }
+        ],
+        "indistinguishable_pairs": [],
+        "n_indistinguishable_pairs": 0,
+        "n_decisive_pairs": 7,
+        "n_pairs_total": 10
+      },
+      "diffusivity_mm2_per_s": {
+        "materials_holding_one_rank_in_90pct_of_draws": [
+          {
+            "material": "Graphite (isotropic molded grade)",
+            "rank": 1
+          },
+          {
+            "material": "Magnesia (MgO, refractory)",
+            "rank": 2
+          },
+          {
+            "material": "Alumina (Al2O3, dense sintered/refractory)",
+            "rank": 3
+          },
+          {
+            "material": "Basalt / natural rock (packed bed)",
+            "rank": 4
+          },
+          {
+            "material": "Silica sand (quartz, granular)",
+            "rank": 5
+          }
+        ],
+        "materials_whose_rank_moves": [],
+        "indistinguishable_pairs": [],
+        "n_indistinguishable_pairs": 0,
+        "n_decisive_pairs": 10,
+        "n_pairs_total": 10
+      }
+    }
+  },
+  "source_disagreement_scenarios": {
+    "note": "deterministic rankings on volumetric energy density for every combination of competing source rows, nominal values only, no sampling",
+    "own_window": {
+      "n_source_choice_groups": 2,
+      "source_choice_groups": [
+        "Graphite (isotropic molded grade) / max_operating_temperature (2 competing rows)",
+        "Solar Salt (NaNO3-KNO3 60/40 wt%) / max_operating_temperature (2 competing rows)"
+      ],
+      "n_scenarios_possible": 4,
+      "n_scenarios_evaluated": 4,
+      "truncated": false,
+      "n_distinct_orderings": 2,
+      "distinct_orderings": [
+        {
+          "order_best_to_worst": [
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Magnesia (MgO, refractory)",
+            "Graphite (isotropic molded grade)",
+            "Silica sand (quartz, granular)",
+            "Basalt / natural rock (packed bed)",
+            "NaCl",
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+            "High-temperature storage concrete (DLR-type castable)"
+          ],
+          "n_scenarios": 2,
+          "example_source_choice": "Graphite (isotropic molded grade)/max_operating_temperature=2000 ; Solar Salt (NaNO3-KNO3 60/40 wt%)/max_operating_temperature=565"
+        },
+        {
+          "order_best_to_worst": [
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Magnesia (MgO, refractory)",
+            "Silica sand (quartz, granular)",
+            "Basalt / natural rock (packed bed)",
+            "NaCl",
+            "Solar Salt (NaNO3-KNO3 60/40 wt%)",
+            "Graphite (isotropic molded grade)",
+            "High-temperature storage concrete (DLR-type castable)"
+          ],
+          "n_scenarios": 2,
+          "example_source_choice": "Graphite (isotropic molded grade)/max_operating_temperature=450 ; Solar Salt (NaNO3-KNO3 60/40 wt%)/max_operating_temperature=565"
+        }
+      ]
+    },
+    "common_window": {
+      "n_source_choice_groups": 2,
+      "source_choice_groups": [
+        "Graphite (isotropic molded grade) / max_operating_temperature (2 competing rows)",
+        "Solar Salt (NaNO3-KNO3 60/40 wt%) / max_operating_temperature (2 competing rows)"
+      ],
+      "n_scenarios_possible": 4,
+      "n_scenarios_evaluated": 4,
+      "truncated": false,
+      "n_distinct_orderings": 2,
+      "distinct_orderings": [
+        {
+          "order_best_to_worst": [
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Magnesia (MgO, refractory)",
+            "Graphite (isotropic molded grade)",
+            "Silica sand (quartz, granular)",
+            "Basalt / natural rock (packed bed)"
+          ],
+          "n_scenarios": 2,
+          "example_source_choice": "Graphite (isotropic molded grade)/max_operating_temperature=2000 ; Solar Salt (NaNO3-KNO3 60/40 wt%)/max_operating_temperature=565"
+        },
+        {
+          "order_best_to_worst": [
+            "Alumina (Al2O3, dense sintered/refractory)",
+            "Magnesia (MgO, refractory)",
+            "Silica sand (quartz, granular)",
+            "Basalt / natural rock (packed bed)"
+          ],
+          "n_scenarios": 2,
+          "example_source_choice": "Graphite (isotropic molded grade)/max_operating_temperature=450 ; Solar Salt (NaNO3-KNO3 60/40 wt%)/max_operating_temperature=565"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "skipped row with no usable value: Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%) / density",
+    "skipped row with no usable value: Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%) / heat_capacity",
+    "skipped row with no usable value: NaCl-KCl-MgCl2 eutectic / density",
+    "skipped row with no usable value: NaCl-KCl-MgCl2 eutectic / heat_capacity",
+    "skipped row with no usable value: NaCl-KCl-MgCl2 eutectic / thermal_conductivity",
+    "skipped row with no usable value: AlSi12 (Al-Si eutectic, ~12.6 wt% Si) / max_operating_temperature",
+    "skipped row with no usable value: LiF-CaF2 eutectic (~80.5/19.5 mol%) / density",
+    "skipped row with no usable value: LiF-CaF2 eutectic (~80.5/19.5 mol%) / cost_per_tonne",
+    "Alumina (Al2O3, dense sintered/refractory) / thermal_conductivity: kept 1 row(s) at 800 C nearest the window midpoint, dropped 1 row(s) at other temperatures",
+    "Solar Salt (NaNO3-KNO3 60/40 wt%) / density: kept 1 row(s) at 500 C nearest the window midpoint, dropped 1 row(s) at other temperatures",
+    "Solar Salt (NaNO3-KNO3 60/40 wt%) / heat_capacity: kept 1 row(s) at 500 C nearest the window midpoint, dropped 1 row(s) at other temperatures",
+    "Solar Salt (NaNO3-KNO3 60/40 wt%) / thermal_conductivity: kept 1 row(s) at 500 C nearest the window midpoint, dropped 2 row(s) at other temperatures"
+  ]
+}

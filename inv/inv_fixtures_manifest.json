@@ -1,0 +1,1077 @@
+{
+  "bundle": "inv_fixtures_bundle.npz",
+  "sha256": "ca9a4aa4d7d1569e3068cae53d2fd5cb305ccdee3100477173dc28034e94588a",
+  "bytes": 3656693,
+  "generator": "inv_fixtures.py",
+  "generator_sha256": "2d5eb40a3ddf79740400de8603bc362797ce04c51842b04565fd32a70ed1e30d",
+  "build_command": "python inv_fixtures.py",
+  "npz_key_convention": "<key_prefix>/<array>, arrays: A, x_true, b_clean, grid_t",
+  "global_seed_note": "Only the coherent_dictionary fixtures are random; they use numpy.random.default_rng(seed) with seed=20250906 (support/amplitudes use seed+10000). All other fixtures are deterministic functions of n/sigma/kappa.",
+  "environment": {
+    "python": "3.14.4",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "platform": "darwin"
+  },
+  "n_entries": 23,
+  "entries": [
+    {
+      "key_prefix": "shaw_n64",
+      "family": "shaw",
+      "call": "shaw(n=64)",
+      "shape_A": [
+        64,
+        64
+      ],
+      "meta": {
+        "name": "shaw_n64",
+        "family": "shaw",
+        "n": 64,
+        "quadrature": "midpoint, h = pi/n",
+        "domain": [
+          -1.5707963267948966,
+          1.5707963267948966
+        ],
+        "x_true_desc": "2*exp(-6*(t-0.8)^2) + exp(-2*(t+0.5)^2)",
+        "reference": "Shaw 1972 J. Math. Anal. Appl.; Hansen 1994 Regularization Tools",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          64,
+          64
+        ],
+        "smax": 2.9933096619408643,
+        "smin": 1.2614067193788982e-19,
+        "cond2": 2.37299327485328e+19,
+        "numerical_rank": 20,
+        "n_fitted": 15,
+        "exp_rate_per_index": 1.4520220998343412,
+        "r2_exponential": 0.9674272168688407,
+        "alg_power": 7.359037255652827,
+        "r2_algebraic": 0.7597438867563076,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "shaw_n128",
+      "family": "shaw",
+      "call": "shaw(n=128)",
+      "shape_A": [
+        128,
+        128
+      ],
+      "meta": {
+        "name": "shaw_n128",
+        "family": "shaw",
+        "n": 128,
+        "quadrature": "midpoint, h = pi/n",
+        "domain": [
+          -1.5707963267948966,
+          1.5707963267948966
+        ],
+        "x_true_desc": "2*exp(-6*(t-0.8)^2) + exp(-2*(t+0.5)^2)",
+        "reference": "Shaw 1972 J. Math. Anal. Appl.; Hansen 1994 Regularization Tools",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          128
+        ],
+        "smax": 2.9933050047577794,
+        "smin": 1.231861235207171e-19,
+        "cond2": 2.4299043749472104e+19,
+        "numerical_rank": 20,
+        "n_fitted": 15,
+        "exp_rate_per_index": 1.4460282394039325,
+        "r2_exponential": 0.9679022500795174,
+        "alg_power": 7.331928137369686,
+        "r2_algebraic": 0.7607951101113238,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "shaw_n256",
+      "family": "shaw",
+      "call": "shaw(n=256)",
+      "shape_A": [
+        256,
+        256
+      ],
+      "meta": {
+        "name": "shaw_n256",
+        "family": "shaw",
+        "n": 256,
+        "quadrature": "midpoint, h = pi/n",
+        "domain": [
+          -1.5707963267948966,
+          1.5707963267948966
+        ],
+        "x_true_desc": "2*exp(-6*(t-0.8)^2) + exp(-2*(t+0.5)^2)",
+        "reference": "Shaw 1972 J. Math. Anal. Appl.; Hansen 1994 Regularization Tools",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          256,
+          256
+        ],
+        "smax": 2.9933038382081514,
+        "smin": 1.7137482231431603e-19,
+        "cond2": 1.7466415414967884e+19,
+        "numerical_rank": 20,
+        "n_fitted": 15,
+        "exp_rate_per_index": 1.4445535578600355,
+        "r2_exponential": 0.9680180244691747,
+        "alg_power": 7.32525427784525,
+        "r2_algebraic": 0.7610530300817673,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "phillips_n128",
+      "family": "phillips",
+      "call": "phillips(n=128)",
+      "shape_A": [
+        128,
+        128
+      ],
+      "meta": {
+        "name": "phillips_n128",
+        "family": "phillips",
+        "n": 128,
+        "quadrature": "midpoint, h = 12/n",
+        "domain": [
+          -6.0,
+          6.0
+        ],
+        "x_true_desc": "phi(t) = 1 + cos(pi*t/3) on |t|<3, 0 otherwise",
+        "reference": "Phillips 1962 J. ACM 9:84-97; Hansen 1994 Regularization Tools",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          128
+        ],
+        "smax": 5.8029838762906065,
+        "smin": 1.2287232382714997e-06,
+        "cond2": 4722775.394444338,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.09643952775152229,
+        "r2_exponential": 0.8317385359491327,
+        "alg_power": 3.148086366271804,
+        "r2_algebraic": 0.9796359978430603,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "phillips_n256",
+      "family": "phillips",
+      "call": "phillips(n=256)",
+      "shape_A": [
+        256,
+        256
+      ],
+      "meta": {
+        "name": "phillips_n256",
+        "family": "phillips",
+        "n": 256,
+        "quadrature": "midpoint, h = 12/n",
+        "domain": [
+          -6.0,
+          6.0
+        ],
+        "x_true_desc": "phi(t) = 1 + cos(pi*t/3) on |t|<3, 0 otherwise",
+        "reference": "Phillips 1962 J. ACM 9:84-97; Hansen 1994 Regularization Tools",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          256,
+          256
+        ],
+        "smax": 5.802954824569907,
+        "smin": 7.666083960580053e-08,
+        "cond2": 75696468.42389694,
+        "numerical_rank": 256,
+        "n_fitted": 192,
+        "exp_rate_per_index": 0.04840487807738937,
+        "r2_exponential": 0.7982799770381547,
+        "alg_power": 3.143156558856041,
+        "r2_algebraic": 0.9903770784251116,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "heat_n128_kappa1",
+      "family": "heat",
+      "call": "heat(n=128, kappa=1.0)",
+      "shape_A": [
+        128,
+        128
+      ],
+      "meta": {
+        "name": "heat_n128_kappa1",
+        "family": "heat",
+        "n": 128,
+        "kappa": 1.0,
+        "quadrature": "h = 1/n; unknown at midpoints t_j=(j+0.5)h, data at endpoints s_i=(i+1)h; lower-triangular Toeplitz",
+        "domain": [
+          0.0,
+          1.0
+        ],
+        "x_true_desc": "piecewise smooth ramp-peak-decay, zero on the second half",
+        "reference": "inverse heat conduction / Volterra first-kind equation; the discretization follows Hansen 1994 Regularization Tools (heat.m). Carasso 1982 SIAM J. Appl. Math. is often cited for this problem but that citation is unverified here.",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          128
+        ],
+        "smax": 0.3558340812953066,
+        "smin": 1.8844281489096625e-44,
+        "cond2": 1.8882868073330022e+43,
+        "numerical_rank": 124,
+        "n_fitted": 93,
+        "exp_rate_per_index": 0.10405935186884663,
+        "r2_exponential": 0.961472430366265,
+        "alg_power": 2.9882802410258664,
+        "r2_algebraic": 0.9305111935614158,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "heat_n256_kappa1",
+      "family": "heat",
+      "call": "heat(n=256, kappa=1.0)",
+      "shape_A": [
+        256,
+        256
+      ],
+      "meta": {
+        "name": "heat_n256_kappa1",
+        "family": "heat",
+        "n": 256,
+        "kappa": 1.0,
+        "quadrature": "h = 1/n; unknown at midpoints t_j=(j+0.5)h, data at endpoints s_i=(i+1)h; lower-triangular Toeplitz",
+        "domain": [
+          0.0,
+          1.0
+        ],
+        "x_true_desc": "piecewise smooth ramp-peak-decay, zero on the second half",
+        "reference": "inverse heat conduction / Volterra first-kind equation; the discretization follows Hansen 1994 Regularization Tools (heat.m). Carasso 1982 SIAM J. Appl. Math. is often cited for this problem but that citation is unverified here.",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          256,
+          256
+        ],
+        "smax": 0.3554391400564091,
+        "smin": 2.0038985129598708e-72,
+        "cond2": 1.7737382295443968e+71,
+        "numerical_rank": 250,
+        "n_fitted": 188,
+        "exp_rate_per_index": 0.07329349516418344,
+        "r2_exponential": 0.961049511964001,
+        "alg_power": 4.092110661855344,
+        "r2_algebraic": 0.917973263265872,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "heat_n128_kappa5",
+      "family": "heat",
+      "call": "heat(n=128, kappa=5.0)",
+      "shape_A": [
+        128,
+        128
+      ],
+      "meta": {
+        "name": "heat_n128_kappa5",
+        "family": "heat",
+        "n": 128,
+        "kappa": 5.0,
+        "quadrature": "h = 1/n; unknown at midpoints t_j=(j+0.5)h, data at endpoints s_i=(i+1)h; lower-triangular Toeplitz",
+        "domain": [
+          0.0,
+          1.0
+        ],
+        "x_true_desc": "piecewise smooth ramp-peak-decay, zero on the second half",
+        "reference": "inverse heat conduction / Volterra first-kind equation; the discretization follows Hansen 1994 Regularization Tools (heat.m). Carasso 1982 SIAM J. Appl. Math. is often cited for this problem but that citation is unverified here.",
+        "identity_to_hansen_matlab": "not verified"
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          128
+        ],
+        "smax": 0.8502200969501975,
+        "smin": 0.049211942349317125,
+        "cond2": 17.27670269373132,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.022816945861957105,
+        "r2_exponential": 0.9791706398610313,
+        "alg_power": 0.6592807725059728,
+        "r2_algebraic": 0.9036057041084957,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "deconv_gauss_n256_sigma0.02",
+      "family": "deconv_gauss",
+      "call": "deconv_gauss(n=256, sigma=0.02)",
+      "shape_A": [
+        256,
+        256
+      ],
+      "meta": {
+        "name": "deconv_gauss_n256_sigma0.02",
+        "family": "deconv_gauss",
+        "n": 256,
+        "sigma": 0.02,
+        "quadrature": "midpoint, h = 1/n",
+        "domain": [
+          0.0,
+          1.0
+        ],
+        "x_true_desc": "box on [0.12,0.28] + Gaussian bump at 0.5 + ramp on [0.68,0.88]",
+        "reference": "standard Gaussian-blur deconvolution model; original to this library"
+      },
+      "conditioning": {
+        "shape": [
+          256,
+          256
+        ],
+        "smax": 0.9981172307540361,
+        "smin": 8.325182406780184e-20,
+        "cond2": 1.1989133474614934e+19,
+        "numerical_rank": 130,
+        "n_fitted": 104,
+        "exp_rate_per_index": 0.19200476831202049,
+        "r2_exponential": 0.9420005782486998,
+        "alg_power": 5.013747386968074,
+        "r2_algebraic": 0.610286739676644,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "deconv_gauss_n256_sigma0.05",
+      "family": "deconv_gauss",
+      "call": "deconv_gauss(n=256, sigma=0.05)",
+      "shape_A": [
+        256,
+        256
+      ],
+      "meta": {
+        "name": "deconv_gauss_n256_sigma0.05",
+        "family": "deconv_gauss",
+        "n": 256,
+        "sigma": 0.05,
+        "quadrature": "midpoint, h = 1/n",
+        "domain": [
+          0.0,
+          1.0
+        ],
+        "x_true_desc": "box on [0.12,0.28] + Gaussian bump at 0.5 + ramp on [0.68,0.88]",
+        "reference": "standard Gaussian-blur deconvolution model; original to this library"
+      },
+      "conditioning": {
+        "shape": [
+          256,
+          256
+        ],
+        "smax": 0.9890461332428995,
+        "smin": 9.273847229391577e-20,
+        "cond2": 1.066489568760976e+19,
+        "numerical_rank": 56,
+        "n_fitted": 45,
+        "exp_rate_per_index": 0.46503824322450305,
+        "r2_exponential": 0.9495927405737732,
+        "alg_power": 5.743530404618029,
+        "r2_algebraic": 0.6531243557965822,
+        "decay_class": "exponential",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.5_k3_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.5, seed=20250906, k=3)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.5_k3_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 3,
+        "seed": 20250906,
+        "coherence_target": 0.5,
+        "coherence": 0.5000873256781782,
+        "coherence_mean_offdiag": 0.21236013920221536,
+        "rho_common_component": 0.21316552734375,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 2.500436628390891,
+        "donoho_elad_k_bound": 1.4998253791414133,
+        "support": [
+          155,
+          207,
+          209
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 7.441909850676778,
+        "smin": 0.3793222479304307,
+        "cond2": 19.61896485449927,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010450882946759913,
+        "r2_exponential": 0.8371978081573808,
+        "alg_power": 0.3126397535892123,
+        "r2_algebraic": 0.8281429326099311,
+        "decay_class": "mixed",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.5_k5_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.5, seed=20250906, k=5)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.5_k5_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 5,
+        "seed": 20250906,
+        "coherence_target": 0.5,
+        "coherence": 0.5000873256781782,
+        "coherence_mean_offdiag": 0.21236013920221536,
+        "rho_common_component": 0.21316552734375,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 4.500785931103604,
+        "donoho_elad_k_bound": 1.4998253791414133,
+        "support": [
+          114,
+          133,
+          153,
+          205,
+          208
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 7.441909850676778,
+        "smin": 0.3793222479304307,
+        "cond2": 19.61896485449927,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010450882946759913,
+        "r2_exponential": 0.8371978081573808,
+        "alg_power": 0.3126397535892123,
+        "r2_algebraic": 0.8281429326099311,
+        "decay_class": "mixed",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.5_k8_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.5, seed=20250906, k=8)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.5_k8_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 8,
+        "seed": 20250906,
+        "coherence_target": 0.5,
+        "coherence": 0.5000873256781782,
+        "coherence_mean_offdiag": 0.21236013920221536,
+        "rho_common_component": 0.21316552734375,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 7.501309885172672,
+        "donoho_elad_k_bound": 1.4998253791414133,
+        "support": [
+          73,
+          113,
+          131,
+          152,
+          184,
+          202,
+          203,
+          205
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 7.441909850676778,
+        "smin": 0.3793222479304307,
+        "cond2": 19.61896485449927,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010450882946759913,
+        "r2_exponential": 0.8371978081573808,
+        "alg_power": 0.3126397535892123,
+        "r2_algebraic": 0.8281429326099311,
+        "decay_class": "mixed",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.5_k12_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.5, seed=20250906, k=12)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.5_k12_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 12,
+        "seed": 20250906,
+        "coherence_target": 0.5,
+        "coherence": 0.5000873256781782,
+        "coherence_mean_offdiag": 0.21236013920221536,
+        "rho_common_component": 0.21316552734375,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 11.502008490598097,
+        "donoho_elad_k_bound": 1.4998253791414133,
+        "support": [
+          65,
+          71,
+          81,
+          111,
+          129,
+          149,
+          181,
+          199,
+          202,
+          228,
+          241,
+          251
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 7.441909850676778,
+        "smin": 0.3793222479304307,
+        "cond2": 19.61896485449927,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010450882946759913,
+        "r2_exponential": 0.8371978081573808,
+        "alg_power": 0.3126397535892123,
+        "r2_algebraic": 0.8281429326099311,
+        "decay_class": "mixed",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.7_k3_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.7, seed=20250906, k=3)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.7_k3_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 3,
+        "seed": 20250906,
+        "coherence_target": 0.7,
+        "coherence": 0.6999842073202388,
+        "coherence_mean_offdiag": 0.5257265838426888,
+        "rho_common_component": 0.5277919921875001,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 3.499921036601194,
+        "donoho_elad_k_bound": 1.2143018296286403,
+        "support": [
+          155,
+          207,
+          209
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 11.64430092106475,
+        "smin": 0.29386030189102735,
+        "cond2": 39.625294216783395,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010904122031004899,
+        "r2_exponential": 0.7003458139181189,
+        "alg_power": 0.3436900171916426,
+        "r2_algebraic": 0.7690591636212982,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.7_k5_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.7, seed=20250906, k=5)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.7_k5_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 5,
+        "seed": 20250906,
+        "coherence_target": 0.7,
+        "coherence": 0.6999842073202388,
+        "coherence_mean_offdiag": 0.5257265838426888,
+        "rho_common_component": 0.5277919921875001,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 6.299857865882149,
+        "donoho_elad_k_bound": 1.2143018296286403,
+        "support": [
+          114,
+          133,
+          153,
+          205,
+          208
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 11.64430092106475,
+        "smin": 0.29386030189102735,
+        "cond2": 39.625294216783395,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010904122031004899,
+        "r2_exponential": 0.7003458139181189,
+        "alg_power": 0.3436900171916426,
+        "r2_algebraic": 0.7690591636212982,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.7_k8_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.7, seed=20250906, k=8)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.7_k8_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 8,
+        "seed": 20250906,
+        "coherence_target": 0.7,
+        "coherence": 0.6999842073202388,
+        "coherence_mean_offdiag": 0.5257265838426888,
+        "rho_common_component": 0.5277919921875001,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 10.499763109803583,
+        "donoho_elad_k_bound": 1.2143018296286403,
+        "support": [
+          73,
+          113,
+          131,
+          152,
+          184,
+          202,
+          203,
+          205
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 11.64430092106475,
+        "smin": 0.29386030189102735,
+        "cond2": 39.625294216783395,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010904122031004899,
+        "r2_exponential": 0.7003458139181189,
+        "alg_power": 0.3436900171916426,
+        "r2_algebraic": 0.7690591636212982,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.7_k12_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.7, seed=20250906, k=12)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.7_k12_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 12,
+        "seed": 20250906,
+        "coherence_target": 0.7,
+        "coherence": 0.6999842073202388,
+        "coherence_mean_offdiag": 0.5257265838426888,
+        "rho_common_component": 0.5277919921875001,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 16.099636768365492,
+        "donoho_elad_k_bound": 1.2143018296286403,
+        "support": [
+          65,
+          71,
+          81,
+          111,
+          129,
+          149,
+          181,
+          199,
+          202,
+          228,
+          241,
+          251
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 11.64430092106475,
+        "smin": 0.29386030189102735,
+        "cond2": 39.625294216783395,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.010904122031004899,
+        "r2_exponential": 0.7003458139181189,
+        "alg_power": 0.3436900171916426,
+        "r2_algebraic": 0.7690591636212982,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.9_k3_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.9, seed=20250906, k=3)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.9_k3_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 3,
+        "seed": 20250906,
+        "coherence_target": 0.9,
+        "coherence": 0.9000360477852783,
+        "coherence_mean_offdiag": 0.8393694639177909,
+        "rho_common_component": 0.842662353515625,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 4.500180238926392,
+        "donoho_elad_k_bound": 1.0555333047274624,
+        "support": [
+          155,
+          207,
+          209
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 14.692815965232874,
+        "smin": 0.1696260265179613,
+        "cond2": 86.61887722564254,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.01140808699905107,
+        "r2_exponential": 0.5680834389078379,
+        "alg_power": 0.3782217446584313,
+        "r2_algebraic": 0.6901988824400438,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.9_k5_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.9, seed=20250906, k=5)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.9_k5_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 5,
+        "seed": 20250906,
+        "coherence_target": 0.9,
+        "coherence": 0.9000360477852783,
+        "coherence_mean_offdiag": 0.8393694639177909,
+        "rho_common_component": 0.842662353515625,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 8.100324430067506,
+        "donoho_elad_k_bound": 1.0555333047274624,
+        "support": [
+          114,
+          133,
+          153,
+          205,
+          208
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 14.692815965232874,
+        "smin": 0.1696260265179613,
+        "cond2": 86.61887722564254,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.01140808699905107,
+        "r2_exponential": 0.5680834389078379,
+        "alg_power": 0.3782217446584313,
+        "r2_algebraic": 0.6901988824400438,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.9_k8_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.9, seed=20250906, k=8)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.9_k8_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 8,
+        "seed": 20250906,
+        "coherence_target": 0.9,
+        "coherence": 0.9000360477852783,
+        "coherence_mean_offdiag": 0.8393694639177909,
+        "rho_common_component": 0.842662353515625,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 13.500540716779176,
+        "donoho_elad_k_bound": 1.0555333047274624,
+        "support": [
+          73,
+          113,
+          131,
+          152,
+          184,
+          202,
+          203,
+          205
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 14.692815965232874,
+        "smin": 0.1696260265179613,
+        "cond2": 86.61887722564254,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.01140808699905107,
+        "r2_exponential": 0.5680834389078379,
+        "alg_power": 0.3782217446584313,
+        "r2_algebraic": 0.6901988824400438,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "coherent_m128_n256_mu0.9_k12_s20250906",
+      "family": "coherent_dictionary",
+      "call": "coherent_dictionary(m=128, n=256, coherence_target=0.9, seed=20250906, k=12)",
+      "shape_A": [
+        128,
+        256
+      ],
+      "meta": {
+        "name": "coherent_m128_n256_mu0.9_k12_s20250906",
+        "family": "coherent_dictionary",
+        "m": 128,
+        "n": 256,
+        "k": 12,
+        "seed": 20250906,
+        "coherence_target": 0.9,
+        "coherence": 0.9000360477852783,
+        "coherence_mean_offdiag": 0.8393694639177909,
+        "rho_common_component": 0.842662353515625,
+        "target_reached": true,
+        "exact_recovery_coefficient_bound": 20.7008290990614,
+        "donoho_elad_k_bound": 1.0555333047274624,
+        "support": [
+          65,
+          71,
+          81,
+          111,
+          129,
+          149,
+          181,
+          199,
+          202,
+          228,
+          241,
+          251
+        ],
+        "reference": "Donoho & Elad 2003 PNAS 100:2197-2202; Tropp 2004 IEEE Trans. Inf. Theory 50:2231-2242 (coherence-based uniqueness/recovery conditions)",
+        "note": "The sufficient condition k < 0.5*(1+1/mu) is only sufficient; failure above it is expected but not guaranteed, and success above it is common."
+      },
+      "conditioning": {
+        "shape": [
+          128,
+          256
+        ],
+        "smax": 14.692815965232874,
+        "smin": 0.1696260265179613,
+        "cond2": 86.61887722564254,
+        "numerical_rank": 128,
+        "n_fitted": 96,
+        "exp_rate_per_index": 0.01140808699905107,
+        "r2_exponential": 0.5680834389078379,
+        "alg_power": 0.3782217446584313,
+        "r2_algebraic": 0.6901988824400438,
+        "decay_class": "algebraic",
+        "note": "cond2 above ~1e16 is at or past the double-precision resolution limit; treat it as 'numerically singular', not as an accurate number."
+      }
+    },
+    {
+      "key_prefix": "expsum_K3_nt24",
+      "family": "expsum",
+      "call": "expsum(np.linspace(0.0, 1.15, 24))",
+      "shape_A": null,
+      "meta": {
+        "name": "expsum_K3_nt24",
+        "family": "expsum",
+        "K": 3,
+        "n_samples": 24,
+        "t_range": [
+          0.0,
+          1.15
+        ],
+        "rates": [
+          1.0,
+          3.0,
+          5.0
+        ],
+        "amps": [
+          0.0951,
+          0.8607,
+          1.5576
+        ],
+        "param_order": "[a_1..a_K, r_1..r_K]",
+        "jacobian_cond_at_truth": 21857.843601825283,
+        "jacobian_svals_at_truth": [
+          3.869816641609949,
+          1.0875296134720362,
+          0.20495744362323942,
+          0.028550353885155637,
+          0.0021464546474974948,
+          0.00017704475849057645
+        ],
+        "reference": "Lanczos 1956 Applied Analysis; NIST StRD nonlinear regression set (Lanczos1/2/3) - constants reported from memory, verify before quoting"
+      },
+      "conditioning": {
+        "jacobian_cond_at_truth": 21857.843601825283,
+        "note": "nonlinear model; conditioning is of the Jacobian at the truth"
+      }
+    }
+  ]
+}

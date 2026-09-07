@@ -1,0 +1,72 @@
+input: tes_screening_demo_inputs.csv (demo_placeholder)
+sha256: 5763fd53777c48323ca84340c1c0666efef6680e31cc6781e8d20f492b7db3ba
+rows parsed: 57   materials in table: 8
+seed=20260907 draws=2000  python=3.14.4 numpy=2.5.3 scipy=1.18.1
+
+=== scenario: own_window (swing: per material, own derived window) ===
+included: 8   excluded: 0
+  -- energy_density_kWh_per_m3 (higher_is_better, 8 materials)
+     Alumina refractory (dense)                   median=  1075.110  p05-p95=  812.091-  1382.029  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=1.000
+     AlSi12 alloy (metallic PCM)                  median=   532.323  p05-p95=  473.412-   588.648  modal_rank= 2  rank p05-p95= 2- 2  P(1st)=0.000
+     Silica sand (packed/particle bed)            median=   345.558  p05-p95=  258.700-   436.679  modal_rank= 3  rank p05-p95= 3- 4  P(1st)=0.000
+     Li2CO3-Na2CO3-K2CO3 eutectic                 median=   246.484  p05-p95=  180.948-   320.799  modal_rank= 4  rank p05-p95= 3- 6  P(1st)=0.000
+     Hitec NaNO3-KNO3-NaNO2                       median=   222.224  p05-p95=  179.006-   266.054  modal_rank= 5  rank p05-p95= 4- 7  P(1st)=0.000
+     Solar Salt 60/40 NaNO3-KNO3                  median=   215.615  p05-p95=  196.213-   236.524  modal_rank= 6  rank p05-p95= 4- 6  P(1st)=0.000
+     High-temperature concrete (castable)         median=   160.582  p05-p95=  108.717-   213.893  modal_rank= 7  rank p05-p95= 6- 8  P(1st)=0.000
+     MgCl2-KCl-NaCl eutectic                      median=   140.110  p05-p95=  113.195-   171.554  modal_rank= 8  rank p05-p95= 7- 8  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 1 of 28
+        Hitec NaNO3-KNO3-NaNO2  vs  Solar Salt 60/40 NaNO3-KNO3   P(a better)=0.591
+  -- cost_per_kWh_th_USD (lower_is_better, 8 materials)
+     Silica sand (packed/particle bed)            median=     0.244  p05-p95=    0.125-     0.398  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=0.999
+     High-temperature concrete (castable)         median=     0.816  p05-p95=    0.475-     1.343  modal_rank= 2  rank p05-p95= 2- 2  P(1st)=0.002
+     MgCl2-KCl-NaCl eutectic                      median=     3.372  p05-p95=    1.935-     5.920  modal_rank= 3  rank p05-p95= 3- 5  P(1st)=0.000
+     Alumina refractory (dense)                   median=     3.952  p05-p95=    1.962-     6.573  modal_rank= 4  rank p05-p95= 3- 5  P(1st)=0.000
+     Solar Salt 60/40 NaNO3-KNO3                  median=     5.486  p05-p95=    3.580-     7.509  modal_rank= 5  rank p05-p95= 3- 6  P(1st)=0.000
+     Hitec NaNO3-KNO3-NaNO2                       median=     8.467  p05-p95=    5.703-    11.902  modal_rank= 6  rank p05-p95= 5- 7  P(1st)=0.000
+     AlSi12 alloy (metallic PCM)                  median=    13.818  p05-p95=   10.229-    17.693  modal_rank= 7  rank p05-p95= 7- 8  P(1st)=0.000
+     Li2CO3-Na2CO3-K2CO3 eutectic                 median=    18.860  p05-p95=   10.134-    31.400  modal_rank= 8  rank p05-p95= 7- 8  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 1 of 28
+        Alumina refractory (dense)  vs  MgCl2-KCl-NaCl eutectic   P(a better)=0.408
+  -- diffusivity_mm2_per_s (higher_is_better, 8 materials)
+     AlSi12 alloy (metallic PCM)                  median=    51.528  p05-p95=   41.424-    62.742  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=1.000
+     Alumina refractory (dense)                   median=     1.476  p05-p95=    0.863-     2.119  modal_rank= 2  rank p05-p95= 2- 2  P(1st)=0.000
+     High-temperature concrete (castable)         median=     0.554  p05-p95=    0.395-     0.712  modal_rank= 3  rank p05-p95= 3- 3  P(1st)=0.000
+     MgCl2-KCl-NaCl eutectic                      median=     0.250  p05-p95=    0.183-     0.329  modal_rank= 4  rank p05-p95= 4- 6  P(1st)=0.000
+     Li2CO3-Na2CO3-K2CO3 eutectic                 median=     0.230  p05-p95=    0.133-     0.337  modal_rank= 4  rank p05-p95= 4- 7  P(1st)=0.000
+     Silica sand (packed/particle bed)            median=     0.190  p05-p95=    0.115-     0.276  modal_rank= 6  rank p05-p95= 4- 8  P(1st)=0.000
+     Solar Salt 60/40 NaNO3-KNO3                  median=     0.178  p05-p95=    0.148-     0.197  modal_rank= 7  rank p05-p95= 5- 8  P(1st)=0.000
+     Hitec NaNO3-KNO3-NaNO2                       median=     0.127  p05-p95=    0.077-     0.176  modal_rank= 8  rank p05-p95= 6- 8  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 2 of 28
+        Li2CO3-Na2CO3-K2CO3 eutectic  vs  MgCl2-KCl-NaCl eutectic   P(a better)=0.400
+        Silica sand (packed/particle bed)  vs  Solar Salt 60/40 NaNO3-KNO3   P(a better)=0.590
+
+=== scenario: common_window (swing: [500.0, 700.0]) ===
+included: 4   excluded: 4
+  excluded: AlSi12 alloy (metallic PCM) -- derived window 500-650 C does not cover the common swing 500-700 C
+  excluded: High-temperature concrete (castable) -- derived window 200-500 C does not cover the common swing 500-700 C
+  excluded: Hitec NaNO3-KNO3-NaNO2 -- derived window 200-500 C does not cover the common swing 500-700 C
+  excluded: Solar Salt 60/40 NaNO3-KNO3 -- derived window 290-565 C does not cover the common swing 500-700 C
+  -- energy_density_kWh_per_m3 (higher_is_better, 4 materials)
+     Alumina refractory (dense)                   median=   206.876  p05-p95=  184.367-   231.423  modal_rank= 1  rank p05-p95= 1- 2  P(1st)=0.922
+     Li2CO3-Na2CO3-K2CO3 eutectic                 median=   179.569  p05-p95=  161.634-   200.396  modal_rank= 2  rank p05-p95= 1- 2  P(1st)=0.077
+     Silica sand (packed/particle bed)            median=   101.870  p05-p95=   90.073-   115.101  modal_rank= 3  rank p05-p95= 3- 4  P(1st)=0.000
+     MgCl2-KCl-NaCl eutectic                      median=    93.619  p05-p95=   84.555-   103.306  modal_rank= 4  rank p05-p95= 3- 4  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 0 of 6
+  -- cost_per_kWh_th_USD (lower_is_better, 4 materials)
+     Silica sand (packed/particle bed)            median=     0.846  p05-p95=    0.444-     1.233  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=1.000
+     MgCl2-KCl-NaCl eutectic                      median=     5.102  p05-p95=    2.950-     8.565  modal_rank= 2  rank p05-p95= 2- 2  P(1st)=0.000
+     Alumina refractory (dense)                   median=    20.510  p05-p95=   10.415-    30.506  modal_rank= 3  rank p05-p95= 3- 4  P(1st)=0.000
+     Li2CO3-Na2CO3-K2CO3 eutectic                 median=    26.323  p05-p95=   14.694-    38.161  modal_rank= 4  rank p05-p95= 3- 4  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 0 of 6
+  -- diffusivity_mm2_per_s (higher_is_better, 4 materials)
+     Alumina refractory (dense)                   median=     1.478  p05-p95=    0.864-     2.136  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=1.000
+     MgCl2-KCl-NaCl eutectic                      median=     0.254  p05-p95=    0.182-     0.326  modal_rank= 2  rank p05-p95= 2- 4  P(1st)=0.000
+     Li2CO3-Na2CO3-K2CO3 eutectic                 median=     0.226  p05-p95=    0.132-     0.334  modal_rank= 2  rank p05-p95= 2- 4  P(1st)=0.000
+     Silica sand (packed/particle bed)            median=     0.191  p05-p95=    0.116-     0.271  modal_rank= 4  rank p05-p95= 2- 4  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 0 of 6
+
+source-choice scenarios (own_window): 3 groups, 8 of 8 combinations evaluated, 1 distinct orderings
+
+source-choice scenarios (common_window): 3 groups, 8 of 8 combinations evaluated, 1 distinct orderings
+
+wrote tes_screening_output_demo.json

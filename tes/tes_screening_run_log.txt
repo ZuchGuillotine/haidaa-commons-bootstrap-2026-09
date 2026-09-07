@@ -1,0 +1,90 @@
+input: tes_property_table.csv (curated)
+sha256: c885d27f1526a8ff6b589493b7baedf4bfea74374b56d2c369e1cf9bfda83668
+rows parsed: 63   materials in table: 16
+seed=20260907 draws=2000  python=3.14.4 numpy=2.5.3 scipy=1.18.1
+
+=== scenario: own_window (swing: per material, own derived window) ===
+included: 8   excluded: 8
+  excluded: AlSi12 (Al-Si eutectic, ~12.6 wt% Si) -- missing required property/properties: heat_capacity
+  excluded: Castable ceramic (DLR-type, solid sensible module) -- no upper temperature: neither max_operating_temperature nor a usable melting_point for a solid medium
+  excluded: Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%) -- missing required property/properties: density, heat_capacity
+  excluded: KNO3 -- missing required property/properties: density, heat_capacity
+  excluded: Li2CO3-Na2CO3-K2CO3 ternary eutectic -- missing required property/properties: density, heat_capacity
+  excluded: LiF-CaF2 eutectic (~80.5/19.5 mol%) -- missing required property/properties: density, heat_capacity
+  excluded: NaCl-KCl-MgCl2 eutectic -- missing required property/properties: density, heat_capacity
+  excluded: NaNO3 -- missing required property/properties: density, heat_capacity
+  cold end assumed (200 C) for: Alumina (Al2O3, dense sintered/refractory), Basalt / natural rock (packed bed), Graphite (isotropic molded grade), High-temperature storage concrete (DLR-type castable), Magnesia (MgO, refractory), Silica sand (quartz, granular)
+  -- energy_density_kWh_per_m3 (higher_is_better, 8 materials)
+     Alumina (Al2O3, dense sintered/refractory)   median=  1788.953  p05-p95= 1570.527-  2035.234  modal_rank= 1  rank p05-p95= 1- 2  P(1st)=0.770
+     Magnesia (MgO, refractory)                   median=  1603.986  p05-p95= 1382.156-  1864.641  modal_rank= 2  rank p05-p95= 1- 3  P(1st)=0.181
+     Graphite (isotropic molded grade)            median=  1287.248  p05-p95=  182.537-  1755.334  modal_rank= 7  rank p05-p95= 2- 7  P(1st)=0.049
+     Silica sand (quartz, granular)               median=   484.156  p05-p95=  399.662-   580.738  modal_rank= 4  rank p05-p95= 3- 4  P(1st)=0.000
+     Basalt / natural rock (packed bed)           median=   346.936  p05-p95=  274.146-   434.309  modal_rank= 5  rank p05-p95= 4- 6  P(1st)=0.000
+     NaCl                                         median=   341.063  p05-p95=  298.492-   386.089  modal_rank= 5  rank p05-p95= 4- 6  P(1st)=0.000
+     Solar Salt (NaNO3-KNO3 60/40 wt%)            median=   246.508  p05-p95=  193.470-   308.960  modal_rank= 7  rank p05-p95= 6- 7  P(1st)=0.000
+     High-temperature storage concrete (DLR-type  median=   126.110  p05-p95=   97.858-   159.219  modal_rank= 8  rank p05-p95= 8- 8  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 4 of 28
+        Basalt / natural rock (packed bed)  vs  Graphite (isotropic molded grade)   P(a better)=0.493
+        Basalt / natural rock (packed bed)  vs  NaCl   P(a better)=0.536
+        Graphite (isotropic molded grade)  vs  NaCl   P(a better)=0.505
+        Graphite (isotropic molded grade)  vs  Silica sand (quartz, granular)   P(a better)=0.505
+  -- cost_per_kWh_th_USD: fewer than two materials carry this figure of merit
+  -- diffusivity_mm2_per_s (higher_is_better, 7 materials)
+     Graphite (isotropic molded grade)            median=    34.596  p05-p95=   10.700-    61.061  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=0.978
+     Magnesia (MgO, refractory)                   median=     7.669  p05-p95=    2.388-    12.523  modal_rank= 2  rank p05-p95= 2- 2  P(1st)=0.022
+     Alumina (Al2O3, dense sintered/refractory)   median=     1.745  p05-p95=    1.223-     2.276  modal_rank= 3  rank p05-p95= 3- 3  P(1st)=0.000
+     Basalt / natural rock (packed bed)           median=     0.886  p05-p95=    0.607-     1.191  modal_rank= 4  rank p05-p95= 4- 4  P(1st)=0.000
+     High-temperature storage concrete (DLR-type  median=     0.500  p05-p95=    0.357-     0.675  modal_rank= 5  rank p05-p95= 5- 5  P(1st)=0.000
+     Solar Salt (NaNO3-KNO3 60/40 wt%)            median=     0.199  p05-p95=    0.170-     0.236  modal_rank= 6  rank p05-p95= 6- 6  P(1st)=0.000
+     Silica sand (quartz, granular)               median=     0.102  p05-p95=    0.070-     0.140  modal_rank= 7  rank p05-p95= 7- 7  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 0 of 21
+
+=== scenario: common_window (swing: [500.0, 700.0]) ===
+included: 5   excluded: 11
+  excluded: AlSi12 (Al-Si eutectic, ~12.6 wt% Si) -- missing required property/properties: heat_capacity
+  excluded: Castable ceramic (DLR-type, solid sensible module) -- no upper temperature: neither max_operating_temperature nor a usable melting_point for a solid medium
+  excluded: High-temperature storage concrete (DLR-type castable) -- derived window 200-400 C does not cover the common swing 500-700 C
+  excluded: Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%) -- missing required property/properties: density, heat_capacity
+  excluded: KNO3 -- missing required property/properties: density, heat_capacity
+  excluded: Li2CO3-Na2CO3-K2CO3 ternary eutectic -- missing required property/properties: density, heat_capacity
+  excluded: LiF-CaF2 eutectic (~80.5/19.5 mol%) -- missing required property/properties: density, heat_capacity
+  excluded: NaCl -- derived window 751-851 C does not cover the common swing 500-700 C
+  excluded: NaCl-KCl-MgCl2 eutectic -- missing required property/properties: density, heat_capacity
+  excluded: NaNO3 -- missing required property/properties: density, heat_capacity
+  excluded: Solar Salt (NaNO3-KNO3 60/40 wt%) -- derived window 250-582 C does not cover the common swing 500-700 C
+  cold end assumed (200 C) for: Alumina (Al2O3, dense sintered/refractory), Basalt / natural rock (packed bed), Graphite (isotropic molded grade), Magnesia (MgO, refractory), Silica sand (quartz, granular)
+  -- energy_density_kWh_per_m3 (higher_is_better, 5 materials)
+     Alumina (Al2O3, dense sintered/refractory)   median=   239.040  p05-p95=  222.643-   256.842  modal_rank= 1  rank p05-p95= 1- 2  P(1st)=0.923
+     Magnesia (MgO, refractory)                   median=   214.002  p05-p95=  192.047-   237.657  modal_rank= 2  rank p05-p95= 1- 2  P(1st)=0.076
+     Graphite (isotropic molded grade)            median=   174.676  p05-p95=  157.348-   191.945  modal_rank= 3  rank p05-p95= 3- 4  P(1st)=0.000
+     Silica sand (quartz, granular)               median=   161.976  p05-p95=  141.289-   183.708  modal_rank= 4  rank p05-p95= 3- 5  P(1st)=0.000
+     Basalt / natural rock (packed bed)           median=   139.937  p05-p95=  123.103-   157.770  modal_rank= 5  rank p05-p95= 4- 5  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 0 of 10
+  -- cost_per_kWh_th_USD: fewer than two materials carry this figure of merit
+  -- diffusivity_mm2_per_s (higher_is_better, 5 materials)
+     Graphite (isotropic molded grade)            median=    36.410  p05-p95=   10.448-    60.803  modal_rank= 1  rank p05-p95= 1- 1  P(1st)=0.981
+     Magnesia (MgO, refractory)                   median=     7.503  p05-p95=    2.465-    12.529  modal_rank= 2  rank p05-p95= 2- 2  P(1st)=0.019
+     Alumina (Al2O3, dense sintered/refractory)   median=     1.722  p05-p95=    1.226-     2.283  modal_rank= 3  rank p05-p95= 3- 3  P(1st)=0.000
+     Basalt / natural rock (packed bed)           median=     0.894  p05-p95=    0.608-     1.206  modal_rank= 4  rank p05-p95= 4- 4  P(1st)=0.000
+     Silica sand (quartz, granular)               median=     0.103  p05-p95=    0.070-     0.141  modal_rank= 5  rank p05-p95= 5- 5  P(1st)=0.000
+     indistinguishable pairs (0.40 <= P(a better) <= 0.60): 0 of 10
+
+source-choice scenarios (own_window): 2 groups, 4 of 4 combinations evaluated, 2 distinct orderings
+
+source-choice scenarios (common_window): 2 groups, 4 of 4 combinations evaluated, 2 distinct orderings
+
+warnings (12):
+  - skipped row with no usable value: Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%) / density
+  - skipped row with no usable value: Hitec (NaNO2 40 / NaNO3 7 / KNO3 53 wt%) / heat_capacity
+  - skipped row with no usable value: NaCl-KCl-MgCl2 eutectic / density
+  - skipped row with no usable value: NaCl-KCl-MgCl2 eutectic / heat_capacity
+  - skipped row with no usable value: NaCl-KCl-MgCl2 eutectic / thermal_conductivity
+  - skipped row with no usable value: AlSi12 (Al-Si eutectic, ~12.6 wt% Si) / max_operating_temperature
+  - skipped row with no usable value: LiF-CaF2 eutectic (~80.5/19.5 mol%) / density
+  - skipped row with no usable value: LiF-CaF2 eutectic (~80.5/19.5 mol%) / cost_per_tonne
+  - Alumina (Al2O3, dense sintered/refractory) / thermal_conductivity: kept 1 row(s) at 800 C nearest the window midpoint, dropped 1 row(s) at other temperatures
+  - Solar Salt (NaNO3-KNO3 60/40 wt%) / density: kept 1 row(s) at 500 C nearest the window midpoint, dropped 1 row(s) at other temperatures
+  - Solar Salt (NaNO3-KNO3 60/40 wt%) / heat_capacity: kept 1 row(s) at 500 C nearest the window midpoint, dropped 1 row(s) at other temperatures
+  - Solar Salt (NaNO3-KNO3 60/40 wt%) / thermal_conductivity: kept 1 row(s) at 500 C nearest the window midpoint, dropped 2 row(s) at other temperatures
+
+wrote /private/tmp/claude-501/-Users-benjamincox-dsm-haidaa/da69bd54-2977-4882-88ec-9babfab4e89d/scratchpad/commons/tes/artifacts/tes_screening_output.json

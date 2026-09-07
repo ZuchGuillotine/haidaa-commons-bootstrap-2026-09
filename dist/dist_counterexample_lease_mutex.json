@@ -1,0 +1,141 @@
+{
+  "model": "lease_mutex",
+  "run_tag": "lease_mutex/drift_exceeds_guard",
+  "params": {
+    "clients": 2,
+    "lease_length_L_server_ticks": 3,
+    "client_guard_margin_ticks": 1,
+    "max_client_clock_lag_ticks": 2,
+    "server_time_horizon": 8,
+    "grant_delivery": "instantaneous",
+    "clock_model": "client clock ticks 0 or 1 per server tick; lag monotone non-decreasing, capped at max_lag",
+    "protocol_is_safe_iff": "guard >= max_lag"
+  },
+  "invariant_violated": "MutualExclusion: at no server time do both clients believe they hold the lease",
+  "minimal_violating_schedule_length": 5,
+  "minimality": "minimal in the number of actions of this model's action alphabet; found by BFS",
+  "states_explored_before_violation": 222,
+  "runtime_seconds": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "action": "<initial>",
+      "state": {
+        "server_clock": 0,
+        "lease_end_server_clock": 0,
+        "client0": {
+          "local_clock": 0,
+          "lag": 0,
+          "lease_start_local": null,
+          "believes_it_holds_lock": false
+        },
+        "client1": {
+          "local_clock": 0,
+          "lag": 0,
+          "lease_start_local": null,
+          "believes_it_holds_lock": false
+        }
+      }
+    },
+    {
+      "step": 1,
+      "action": "grant(server->c0)@t=0",
+      "state": {
+        "server_clock": 0,
+        "lease_end_server_clock": 3,
+        "client0": {
+          "local_clock": 0,
+          "lag": 0,
+          "lease_start_local": 0,
+          "believes_it_holds_lock": true
+        },
+        "client1": {
+          "local_clock": 0,
+          "lag": 0,
+          "lease_start_local": null,
+          "believes_it_holds_lock": false
+        }
+      }
+    },
+    {
+      "step": 2,
+      "action": "tick(server->1, c0_keeps_up, c1_keeps_up)",
+      "state": {
+        "server_clock": 1,
+        "lease_end_server_clock": 3,
+        "client0": {
+          "local_clock": 1,
+          "lag": 0,
+          "lease_start_local": 0,
+          "believes_it_holds_lock": true
+        },
+        "client1": {
+          "local_clock": 1,
+          "lag": 0,
+          "lease_start_local": null,
+          "believes_it_holds_lock": false
+        }
+      }
+    },
+    {
+      "step": 3,
+      "action": "tick(server->2, c0_lags, c1_keeps_up)",
+      "state": {
+        "server_clock": 2,
+        "lease_end_server_clock": 3,
+        "client0": {
+          "local_clock": 1,
+          "lag": 1,
+          "lease_start_local": 0,
+          "believes_it_holds_lock": true
+        },
+        "client1": {
+          "local_clock": 2,
+          "lag": 0,
+          "lease_start_local": null,
+          "believes_it_holds_lock": false
+        }
+      }
+    },
+    {
+      "step": 4,
+      "action": "tick(server->3, c0_lags, c1_keeps_up)",
+      "state": {
+        "server_clock": 3,
+        "lease_end_server_clock": 3,
+        "client0": {
+          "local_clock": 1,
+          "lag": 2,
+          "lease_start_local": 0,
+          "believes_it_holds_lock": true
+        },
+        "client1": {
+          "local_clock": 3,
+          "lag": 0,
+          "lease_start_local": null,
+          "believes_it_holds_lock": false
+        }
+      }
+    },
+    {
+      "step": 5,
+      "action": "grant(server->c1)@t=3",
+      "state": {
+        "server_clock": 3,
+        "lease_end_server_clock": 6,
+        "client0": {
+          "local_clock": 1,
+          "lag": 2,
+          "lease_start_local": 0,
+          "believes_it_holds_lock": true
+        },
+        "client1": {
+          "local_clock": 3,
+          "lag": 0,
+          "lease_start_local": 3,
+          "believes_it_holds_lock": true
+        }
+      }
+    }
+  ]
+}
