@@ -1,0 +1,444 @@
+{
+ "cone_mixed_sign_eps": {
+  "cone": {
+   "lp_status_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "min_margin": 0.9999999999999964,
+   "separating_vector": [
+    1.0514101053754186,
+    69.63121754849543,
+    -100.0
+   ],
+   "separating_vector_found": true
+  },
+  "linear_span_dimension": 3,
+  "singular_values": [
+   0.429442092660627,
+   0.1434796276513796,
+   0.06210486819184569
+  ],
+  "traces": [
+   -0.19432291666666685,
+   0.12171874999999993,
+   -0.2455729166666668,
+   0.07217708333333328,
+   -0.4259444444444445,
+   0.03608
+  ]
+ },
+ "cone_single_sign_eps_positive": {
+  "cone": {
+   "lp_status_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "min_margin": 85.54760690647026,
+   "separating_vector": [
+    -100.0,
+    -100.0,
+    -100.0
+   ],
+   "separating_vector_found": true
+  },
+  "linear_span_dimension": 3,
+  "singular_values": [
+   0.4317217107293768,
+   0.14677589296270144,
+   0.0649135077233222
+  ],
+  "traces": [
+   -0.19432291666666685,
+   -0.13453125000000016,
+   -0.2455729166666668,
+   -0.07587847222222233,
+   -0.4259444444444445,
+   -0.036808888888888947
+  ]
+ },
+ "description": "Admissible stress cone spanned by families of exact finite-amplitude shear-Alfven disturbances on a uniform field, with non-negative amplitude weights. Reports per-family net stress (Reynolds minus Maxwell), the identically vanishing parallel-flux components, the linear span dimension and pointedness of the cone for single-sign and mixed-sign equipartition breaking, the distance from the span to a target carrying a parallel momentum flux, and the O(eps) magnitude scaling.",
+ "environment": {
+  "numpy": "2.5.3",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4",
+  "scipy": "1.18.1"
+ },
+ "magnitude_scaling_with_epsilon": [
+  {
+   "epsilon": 1e-06,
+   "frobenius_net_stress": 1.7835662601472117e-06,
+   "ratio": 1.9274542936419166e-06,
+   "total_fluctuation_energy": 0.9253481475699072
+  },
+  {
+   "epsilon": 0.0001,
+   "frobenius_net_stress": 0.0001783654546898954,
+   "ratio": 0.00019273588848945985,
+   "total_fluctuation_energy": 0.9254397615711807
+  },
+  {
+   "epsilon": 0.01,
+   "frobenius_net_stress": 0.01792483195474243,
+   "ratio": 0.019178184584385905,
+   "total_fluctuation_energy": 0.9346469618055557
+  },
+  {
+   "epsilon": 0.1,
+   "frobenius_net_stress": 0.18727436370626346,
+   "ratio": 0.18315185706248716,
+   "total_fluctuation_energy": 1.0225086805555557
+  },
+  {
+   "epsilon": 0.5,
+   "frobenius_net_stress": 1.1147283553944243,
+   "ratio": 0.7413289452529235,
+   "total_fluctuation_energy": 1.5036892361111112
+  },
+  {
+   "epsilon": 1.0,
+   "frobenius_net_stress": 2.6753480529466183,
+   "ratio": 1.1564731545945606,
+   "total_fluctuation_energy": 2.313368055555556
+  }
+ ],
+ "max_abs_parallel_flux_component_over_all_families": 0.0,
+ "parallel_flux_target": {
+  "interpretation": "residual 1.0 means the target is exactly orthogonal to the generators' linear span, so no combination of these families, with weights of either sign, supplies any parallel momentum flux",
+  "least_squares_residual_norm": 1.0,
+  "target": "unit symmetric tensor along xz, components (xx,yy,zz,xy,xz,yz)"
+ },
+ "parameters": {
+  "Lz": 6.283185307179586,
+  "epsilon_scan": [
+   1e-06,
+   0.0001,
+   0.01,
+   0.1,
+   0.5,
+   1.0
+  ],
+  "families_mixed_sign": [
+   [
+    "f1",
+    0.7,
+    0.9,
+    0.4,
+    0.1
+   ],
+   [
+    "f2",
+    0.9,
+    0.3,
+    1.9,
+    -0.1
+   ],
+   [
+    "f3",
+    0.5,
+    0.5,
+    0.0,
+    0.3
+   ],
+   [
+    "f4",
+    0.2,
+    1.0,
+    2.6,
+    -0.05
+   ],
+   [
+    "f5",
+    1.0,
+    0.6,
+    1.1,
+    0.2
+   ],
+   [
+    "f6",
+    0.8,
+    0.8,
+    2.2,
+    -0.02
+   ]
+  ],
+  "families_single_sign": [
+   [
+    "f1",
+    0.7,
+    0.9,
+    0.4,
+    0.1
+   ],
+   [
+    "f2",
+    0.9,
+    0.3,
+    1.9,
+    0.1
+   ],
+   [
+    "f3",
+    0.5,
+    0.5,
+    0.0,
+    0.3
+   ],
+   [
+    "f4",
+    0.2,
+    1.0,
+    2.6,
+    0.05
+   ],
+   [
+    "f5",
+    1.0,
+    0.6,
+    1.1,
+    0.2
+   ],
+   [
+    "f6",
+    0.8,
+    0.8,
+    2.2,
+    0.02
+   ]
+  ],
+  "nmodes_per_family": 4,
+  "nz": 4096,
+  "seed": 20260909
+ },
+ "per_family": {
+  "f1": {
+   "energy_kinetic": 0.46267361111111116,
+   "energy_magnetic": 0.5598350694444446,
+   "frobenius_net_over_total_energy": 0.18315185706248716,
+   "max_abs_deviation_from_prefactor_times_R": 1.1102230246251565e-16,
+   "net_stress_parallel_xz_yz_zz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "net_stress_transverse": [
+    [
+     -0.0732447916666667,
+     -0.08673804079461556
+    ],
+    [
+     -0.08673804079461556,
+     -0.12107812500000015
+    ]
+   ],
+   "params": {
+    "ax": 0.7,
+    "ay": 0.9,
+    "dphi": 0.4,
+    "eps": 0.1,
+    "eps_mixed_set": 0.1
+   },
+   "prefactor_minus_2eps_minus_eps2": -0.21000000000000002,
+   "reynolds_transverse": [
+    [
+     0.34878472222222223,
+     0.4130382894981688
+    ],
+    [
+     0.4130382894981688,
+     0.5765625000000001
+    ]
+   ]
+  },
+  "f2": {
+   "energy_kinetic": 0.3203125000000001,
+   "energy_magnetic": 0.3875781250000002,
+   "frobenius_net_over_total_energy": 0.1740562284113034,
+   "max_abs_deviation_from_prefactor_times_R": 1.1102230246251565e-16,
+   "net_stress_parallel_xz_yz_zz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "net_stress_transverse": [
+    [
+     -0.12107812500000015,
+     0.01304776486263172
+    ],
+    [
+     0.01304776486263172,
+     -0.01345312500000001
+    ]
+   ],
+   "params": {
+    "ax": 0.9,
+    "ay": 0.3,
+    "dphi": 1.9,
+    "eps": 0.1,
+    "eps_mixed_set": -0.1
+   },
+   "prefactor_minus_2eps_minus_eps2": -0.21000000000000002,
+   "reynolds_transverse": [
+    [
+     0.5765625000000001,
+     -0.062132213631579614
+    ],
+    [
+     -0.062132213631579614,
+     0.06406250000000001
+    ]
+   ]
+  },
+  "f3": {
+   "energy_kinetic": 0.1779513888888889,
+   "energy_magnetic": 0.30073784722222224,
+   "frobenius_net_over_total_energy": 0.5130111524163572,
+   "max_abs_deviation_from_prefactor_times_R": 6.938893903907228e-17,
+   "net_stress_parallel_xz_yz_zz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "net_stress_transverse": [
+    [
+     -0.1227864583333334,
+     -0.1227864583333334
+    ],
+    [
+     -0.1227864583333334,
+     -0.1227864583333334
+    ]
+   ],
+   "params": {
+    "ax": 0.5,
+    "ay": 0.5,
+    "dphi": 0.0,
+    "eps": 0.3,
+    "eps_mixed_set": 0.3
+   },
+   "prefactor_minus_2eps_minus_eps2": -0.69,
+   "reynolds_transverse": [
+    [
+     0.1779513888888889,
+     0.1779513888888889
+    ],
+    [
+     0.1779513888888889,
+     0.1779513888888889
+    ]
+   ]
+  },
+  "f4": {
+   "energy_kinetic": 0.3701388888888889,
+   "energy_magnetic": 0.408078125,
+   "frobenius_net_over_total_energy": 0.09653998484754349,
+   "max_abs_deviation_from_prefactor_times_R": 9.71445146547012e-17,
+   "net_stress_parallel_xz_yz_zz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "net_stress_transverse": [
+    [
+     -0.00291840277777778,
+     0.012503732590392391
+    ],
+    [
+     0.012503732590392391,
+     -0.07296006944444455
+    ]
+   ],
+   "params": {
+    "ax": 0.2,
+    "ay": 1.0,
+    "dphi": 2.6,
+    "eps": 0.05,
+    "eps_mixed_set": -0.05
+   },
+   "prefactor_minus_2eps_minus_eps2": -0.10250000000000001,
+   "reynolds_transverse": [
+    [
+     0.028472222222222225,
+     -0.12198763502821819
+    ],
+    [
+     -0.12198763502821819,
+     0.7118055555555556
+    ]
+   ]
+  },
+  "f5": {
+   "energy_kinetic": 0.4840277777777777,
+   "energy_magnetic": 0.6969999999999998,
+   "frobenius_net_over_total_energy": 0.29976099002829854,
+   "max_abs_deviation_from_prefactor_times_R": 1.6653345369377348e-16,
+   "net_stress_parallel_xz_yz_zz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "net_stress_transverse": [
+    [
+     -0.31319444444444455,
+     -0.08523827115122304
+    ],
+    [
+     -0.08523827115122304,
+     -0.11274999999999996
+    ]
+   ],
+   "params": {
+    "ax": 1.0,
+    "ay": 0.6,
+    "dphi": 1.1,
+    "eps": 0.2,
+    "eps_mixed_set": 0.2
+   },
+   "prefactor_minus_2eps_minus_eps2": -0.44000000000000006,
+   "reynolds_transverse": [
+    [
+     0.7118055555555554,
+     0.19372334352550694
+    ],
+    [
+     0.19372334352550694,
+     0.25625
+    ]
+   ]
+  },
+  "f6": {
+   "energy_kinetic": 0.4555555555555556,
+   "energy_magnetic": 0.47396000000000005,
+   "frobenius_net_over_total_energy": 0.03249057405451169,
+   "max_abs_deviation_from_prefactor_times_R": 5.551115123125783e-17,
+   "net_stress_parallel_xz_yz_zz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "net_stress_transverse": [
+    [
+     -0.0184044444444445,
+     0.010831036118019444
+    ],
+    [
+     0.010831036118019444,
+     -0.018404444444444445
+    ]
+   ],
+   "params": {
+    "ax": 0.8,
+    "ay": 0.8,
+    "dphi": 2.2,
+    "eps": 0.02,
+    "eps_mixed_set": -0.02
+   },
+   "prefactor_minus_2eps_minus_eps2": -0.0404,
+   "reynolds_transverse": [
+    [
+     0.4555555555555556,
+     -0.2680949534163242
+    ],
+    [
+     -0.2680949534163242,
+     0.4555555555555556
+    ]
+   ]
+  }
+ },
+ "sign_convention": "T_ij = <v_i v_j> - <b_i b_j>, Alfven units, b = -(1+eps) v"
+}

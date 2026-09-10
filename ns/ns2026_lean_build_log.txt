@@ -1,0 +1,8 @@
+Independent build attempt of openai/NavierStokesAndEuler, 2026-09-09 UTC, macOS arm64 8 cores 8 GB RAM, elan 4.2.4, Lean v4.34.0-rc2
+Commands: lake exe cache get; lake build NavierStokes
+START Wed Sep  9 05:39:40 UTC 2026
+Decompressed 8747 file(s)
+CACHE DONE Wed Sep  9 05:42:15 UTC 2026
+STOPPED BY OPERATOR REQUEST after building      171 module outputs (cache fetched 05:42 UTC, build started 05:42 UTC)
+Module outputs present at stop (.lake/build/lib/lean/NavierStokes): 171 of 2486 source files
+No errors or warnings observed in the build output before the stop.

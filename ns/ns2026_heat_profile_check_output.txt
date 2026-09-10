@@ -1,0 +1,135 @@
+environment: python 3.14.4
+numpy 2.5.3   scipy 1.18.1
+
+=== 1. Hcal(0) = 1, Hcal > 0, Hcal' < 0 ===
+  h=0.001   Hcal(0) = 0.999999999999991   (target 1)
+  h=0.01   Hcal(0) = 0.999999999999994   (target 1)
+  h=0.05   Hcal(0) = 1.000000000000007   (target 1)
+  h=0.2   Hcal(0) = 1.000000000000071   (target 1)
+  h=0.45   Hcal(0) = 1.000000000000338   (target 1)
+
+  h=0.01 Z=0        Hcal=1.000000000000  Hcal'=-1.010000e-02
+  h=0.01 Z=0.01     Hcal=0.999900005125  Hcal'=-9.900925e-03
+  h=0.01 Z=0.1      Hcal=0.999076379659  Hcal'=-8.500271e-03
+  h=0.01 Z=1        Hcal=0.994015508506  Hcal'=-4.029806e-03
+  h=0.01 Z=10       Hcal=0.979985536425  Hcal'=-7.833617e-04
+  h=0.01 Z=100      Hcal=0.959958253233  Hcal'=-9.209391e-05
+
+=== 2. ODE  Z^2 H'' + ((2+2h)Z + 1) H' + h(1+h) H = 0 ===
+    (residual normalised by max(1,|each term|) scale)
+  h=0.001  Z=0        residual=+9.063e-14  relative=9.053e-11
+  h=0.001  Z=0.05     residual=+9.970e-14  relative=9.922e-11
+  h=0.001  Z=0.5      residual=+1.814e-13  relative=1.634e-10
+  h=0.001  Z=2        residual=+4.540e-13  relative=3.371e-10
+  h=0.001  Z=20       residual=+9.311e-13  relative=5.227e-10
+  h=0.001  Z=200      residual=+1.899e-13  relative=9.740e-11
+  h=0.01   Z=0        residual=+5.227e-13  relative=5.175e-11
+  h=0.01   Z=0.05     residual=+5.755e-13  relative=5.679e-11
+  h=0.01   Z=0.5      residual=+1.053e-12  relative=9.425e-11
+  h=0.01   Z=2        residual=+2.667e-12  relative=1.977e-10
+  h=0.01   Z=20       residual=+5.398e-12  relative=3.073e-10
+  h=0.01   Z=200      residual=+5.023e-11  relative=2.664e-09
+  h=0.05   Z=0        residual=+5.343e-13  relative=1.018e-11
+  h=0.05   Z=0.05     residual=+5.903e-13  relative=1.123e-11
+  h=0.05   Z=0.5      residual=+2.466e-14  relative=4.298e-13
+  h=0.05   Z=2        residual=+4.642e-14  relative=6.851e-13
+  h=0.05   Z=20       residual=-1.509e-13  relative=1.835e-12
+  h=0.05   Z=200      residual=+4.006e-11  relative=4.952e-10
+  h=0.2    Z=0        residual=+1.725e-12  relative=7.188e-12
+  h=0.2    Z=0.05     residual=+1.919e-12  relative=8.048e-12
+  h=0.2    Z=0.5      residual=-6.711e-14  relative=2.697e-13
+  h=0.2    Z=2        residual=-6.959e-13  relative=2.590e-12
+  h=0.2    Z=20       residual=-1.477e-11  relative=5.924e-11
+  h=0.2    Z=200      residual=-1.351e-10  relative=7.653e-10
+  h=0.45   Z=0        residual=+2.697e-12  relative=4.133e-12
+  h=0.45   Z=0.05     residual=+2.868e-12  relative=4.503e-12
+  h=0.45   Z=0.5      residual=+5.913e-12  relative=9.790e-12
+  h=0.45   Z=2        residual=+1.420e-11  relative=2.577e-11
+  h=0.45   Z=20       residual=-3.509e-11  relative=1.088e-10
+  h=0.45   Z=200      residual=-1.548e-08  relative=1.176e-07
+  worst relative ODE residual over the grid: 1.176e-07
+
+=== 3. d_t K = (d_rr + r^{-1} d_r - r^{-2}) K  for K = s^{-A} Hcal(2 tau / s) ===
+    centered differences, step chosen by scale; c_inf = 1
+  h=0.001  r=0.7   t=0.3    d_tK=+2.08383804e-03  (Lap-1/r^2)K=+2.08376481e-03  rel=3.51e-05
+  h=0.001  r=1     t=0.5    d_tK=+1.52334947e-03  (Lap-1/r^2)K=+1.52326908e-03  rel=5.28e-05
+  h=0.001  r=2     t=0.9    d_tK=+5.96600008e-04  (Lap-1/r^2)K=+5.96614259e-04  rel=2.39e-05
+  h=0.001  r=0.35  t=0.99   d_tK=+8.54374687e-02  (Lap-1/r^2)K=+8.54410136e-02  rel=4.15e-05
+  h=0.001  r=5     t=0      d_tK=+3.50948492e-05  (Lap-1/r^2)K=+3.50935042e-05  rel=3.83e-05
+  h=0.01   r=0.7   t=0.3    d_tK=+2.08320862e-02  (Lap-1/r^2)K=+2.08327580e-02  rel=3.22e-05
+  h=0.01   r=1     t=0.5    d_tK=+1.52428362e-02  (Lap-1/r^2)K=+1.52431406e-02  rel=2.00e-05
+  h=0.01   r=2     t=0.9    d_tK=+5.96908126e-03  (Lap-1/r^2)K=+5.96903448e-03  rel=7.84e-06
+  h=0.01   r=0.35  t=0.99   d_tK=+8.79268299e-01  (Lap-1/r^2)K=+8.79269716e-01  rel=1.61e-06
+  h=0.01   r=5     t=0      d_tK=+3.45039006e-04  (Lap-1/r^2)K=+3.45040048e-04  rel=3.02e-06
+  h=0.05   r=0.7   t=0.3    d_tK=+1.03865715e-01  (Lap-1/r^2)K=+1.03865554e-01  rel=1.56e-06
+  h=0.05   r=1     t=0.5    d_tK=+7.63138893e-02  (Lap-1/r^2)K=+7.63140913e-02  rel=2.65e-06
+  h=0.05   r=2     t=0.9    d_tK=+2.98818220e-02  (Lap-1/r^2)K=+2.98818339e-02  rel=3.99e-07
+  h=0.05   r=0.35  t=0.99   d_tK=+4.98886170e+00  (Lap-1/r^2)K=+4.98885777e+00  rel=7.88e-07
+  h=0.05   r=5     t=0      d_tK=+1.59798048e-03  (Lap-1/r^2)K=+1.59798071e-03  rel=1.45e-07
+  h=0.2    r=0.7   t=0.3    d_tK=+4.03007077e-01  (Lap-1/r^2)K=+4.03007427e-01  rel=8.69e-07
+  h=0.2    r=1     t=0.5    d_tK=+3.01041257e-01  (Lap-1/r^2)K=+3.01040973e-01  rel=9.43e-07
+  h=0.2    r=2     t=0.9    d_tK=+1.18400677e-01  (Lap-1/r^2)K=+1.18400686e-01  rel=8.19e-08
+  h=0.2    r=0.35  t=0.99   d_tK=+3.15536883e+01  (Lap-1/r^2)K=+3.15536860e+01  rel=7.25e-08
+  h=0.2    r=5     t=0      d_tK=+4.72588409e-03  (Lap-1/r^2)K=+4.72588451e-03  rel=8.83e-08
+  worst relative PDE residual: 5.277e-05   (finite-difference truncation dominated)
+
+=== 4. K_r < 0 for r > 0 ===
+    hand identity: K_s = -s^{-A-1} (A Hcal + Z Hcal'),
+    A Hcal + Z Hcal' = (1/Gamma(1+h)) int e^{-v} v^h (1+Zv)^{-h-1} [A + (A-h) Z v] dv > 0
+  h=0.001  r=0.5   t=0.5    K_r=-5.660809e+00   A*H+Z*H'=+0.49931014
+  h=0.001  r=1     t=0.5    K_r=-1.415192e+00   A*H+Z*H'=+0.49999937
+  h=0.001  r=3     t=0.2    K_r=-1.570989e-01   A*H+Z*H'=+0.50063822
+  h=0.001  r=0.2   t=0.95   K_r=-3.546209e+01   A*H+Z*H'=+0.49955167
+  h=0.01   r=0.5   t=0.5    K_r=-5.696017e+00   A*H+Z*H'=+0.49310044
+  h=0.01   r=1     t=0.5    K_r=-1.423871e+00   A*H+Z*H'=+0.49993716
+  h=0.01   r=3     t=0.2    K_r=-1.567524e-01   A*H+Z*H'=+0.50634172
+  h=0.01   r=0.2   t=0.95   K_r=-3.643405e+01   A*H+Z*H'=+0.49548761
+  h=0.05   r=0.5   t=0.5    K_r=-5.844207e+00   A*H+Z*H'=+0.46554973
+  h=0.05   r=1     t=0.5    K_r=-1.459623e+00   A*H+Z*H'=+0.49847588
+  h=0.05   r=3     t=0.2    K_r=-1.547317e-01   A*H+Z*H'=+0.53080794
+  h=0.05   r=0.2   t=0.95   K_r=-4.100405e+01   A*H+Z*H'=+0.47686262
+  h=0.2    r=0.5   t=0.5    K_r=-6.278703e+00   A*H+Z*H'=+0.36613980
+  h=0.2    r=1     t=0.5    K_r=-1.554109e+00   A*H+Z*H'=+0.47833314
+  h=0.2    r=3     t=0.2    K_r=-1.418522e-01   A*H+Z*H'=+0.60978397
+  h=0.2    r=0.2   t=0.95   K_r=-6.221663e+01   A*H+Z*H'=+0.40237176
+  all sampled K_r negative: True
+
+=== 5. a = 2 - 2 D_X log H, H = sqrt(2X) E ===
+  (a) reference inner branch of Lemma 4.8(i): E = P_* f(eta) x^{1/10}
+      H propto X^{1/2 + 1/10} = X^{3/5} so l = D_X log H = 3/5 exactly and a = 2 - 6/5 = 4/5
+      X=1         l=0.600000000007  a=2-2l=0.799999999987
+      X=10        l=0.600000000010  a=2-2l=0.799999999980
+      X=123       l=0.599999999997  a=2-2l=0.800000000006
+      X=1000      l=0.600000000009  a=2-2l=0.799999999982
+
+  (b) heat exterior: E = c_inf X^{-A} Hcal(2d/X); D_X Z = -Z so
+      l = -h - Z Hcal'/Hcal  and  a = 2 + 2h + 2 Z Hcal'/Hcal <= 2 + 2h.
+      Lemma 4.9 needs 2 + h < a, i.e. -Z Hcal'/Hcal < h/2;
+      (A.56) asserts the stronger -Z Hcal'/Hcal < h/4.
+      h = 0.001   (h/4 = 0.00025)
+        Z=0.0001    -Z H'/H = 1.000800e-07   a = 2.0019997998   < h/4 ? True
+        Z=0.001     -Z H'/H = 9.990020e-07   a = 2.0019980020   < h/4 ? True
+        Z=0.01      -Z H'/H = 9.815387e-06   a = 2.0019803692   < h/4 ? True
+        Z=0.1       -Z H'/H = 8.443822e-05   a = 2.0018311236   < h/4 ? True
+        Z=0.5       -Z H'/H = 2.775032e-04   a = 2.0014449936   < h/4 ? False
+        Z=1         -Z H'/H = 4.038288e-04   a = 2.0011923423   < h/4 ? False
+      h = 0.01   (h/4 = 0.0025)
+        Z=0.0001    -Z H'/H = 1.009796e-06   a = 2.0199979804   < h/4 ? True
+        Z=0.001     -Z H'/H = 1.007966e-05   a = 2.0199798407   < h/4 ? True
+        Z=0.01      -Z H'/H = 9.901915e-05   a = 2.0198019617   < h/4 ? True
+        Z=0.1       -Z H'/H = 8.508130e-04   a = 2.0182983741   < h/4 ? True
+        Z=0.5       -Z H'/H = 2.789415e-03   a = 2.0144211697   < h/4 ? False
+        Z=1         -Z H'/H = 4.054067e-03   a = 2.0118918658   < h/4 ? False
+      h = 0.05   (h/4 = 0.0125)
+        Z=0.0001    -Z H'/H = 5.248898e-06   a = 2.0999895022   < h/4 ? True
+        Z=0.001     -Z H'/H = 5.239009e-05   a = 2.0998952198   < h/4 ? True
+        Z=0.01      -Z H'/H = 5.143060e-04   a = 2.0989713880   < h/4 ? True
+        Z=0.1       -Z H'/H = 4.395952e-03   a = 2.0912080965   < h/4 ? True
+        Z=0.5       -Z H'/H = 1.426073e-02   a = 2.0714785429   < h/4 ? False
+        Z=1         -Z H'/H = 2.061247e-02   a = 2.0587750655   < h/4 ? False
+
+  Note: Z = 2d/X with d = 1 - eta^2 <= 1, so Z <= 2/X; the condition
+  -Z Hcal'/Hcal < h/4 is a largeness requirement on the outer radius,
+  consistent with Lemma 4.8's 'for every X_R >= R_*'.  For small h the
+  admissible Z window itself shrinks like h, which the table shows.
+

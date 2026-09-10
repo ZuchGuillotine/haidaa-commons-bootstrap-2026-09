@@ -1,0 +1,87 @@
+{
+ "caveats": [
+  "Single-process numpy FFT timings on one laptop; a tuned solver using in-place plans or pyfftw would be faster, a Python-level loop slower.",
+  "Dealiasing, time-step control, diagnostics and I/O are not timed and typically add tens of percent.",
+  "Extrapolation to 4096 squared is by the measured N^2 log N trend, not measured directly."
+ ],
+ "description": "Measured numpy FFT throughput converted into the cost of one RK4 step of a 2D reduced-MHD pseudo-spectral solver (48 transforms per step) and into per-run core-hours and per-snapshot storage, for the fixture library resolution ladder.",
+ "environment": {
+  "numpy": "2.5.3",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4",
+  "scipy": "1.18.1"
+ },
+ "parameters": {
+  "repeats": 5,
+  "seed": 20260909,
+  "sizes": [
+   128,
+   256,
+   512,
+   1024,
+   2048
+  ]
+ },
+ "rows": [
+  {
+   "N": 128,
+   "core_hours_per_20000_steps": 0.014794533490203321,
+   "field_bytes_float64": 131072,
+   "forward_seconds": 5.270900146570057e-05,
+   "inverse_seconds": 5.824999971082434e-05,
+   "mean_transform_seconds": 5.5479500588262454e-05,
+   "roundtrip_max_abs_error": 1.4432899320127035e-15,
+   "seconds_per_rk4_step": 0.0026630160282365978,
+   "snapshot_bytes_two_fields_float64": 262144
+  },
+  {
+   "N": 256,
+   "core_hours_per_20000_steps": 0.046705601077216365,
+   "field_bytes_float64": 524288,
+   "forward_seconds": 0.00015383300342364237,
+   "inverse_seconds": 0.00019645900465548038,
+   "mean_transform_seconds": 0.00017514600403956138,
+   "roundtrip_max_abs_error": 1.7763568394002505e-15,
+   "seconds_per_rk4_step": 0.008407008193898946,
+   "snapshot_bytes_two_fields_float64": 1048576
+  },
+  {
+   "N": 512,
+   "core_hours_per_20000_steps": 0.23012226641488573,
+   "field_bytes_float64": 2097152,
+   "forward_seconds": 0.0007909999985713512,
+   "inverse_seconds": 0.0009349169995402917,
+   "mean_transform_seconds": 0.0008629584990558214,
+   "roundtrip_max_abs_error": 1.9984014443252818e-15,
+   "seconds_per_rk4_step": 0.04142200795467943,
+   "snapshot_bytes_two_fields_float64": 4194304
+  },
+  {
+   "N": 1024,
+   "core_hours_per_20000_steps": 1.1888665321748704,
+   "field_bytes_float64": 8388608,
+   "forward_seconds": 0.004029915995488409,
+   "inverse_seconds": 0.004886582995823119,
+   "mean_transform_seconds": 0.004458249495655764,
+   "roundtrip_max_abs_error": 2.220446049250313e-15,
+   "seconds_per_rk4_step": 0.21399597579147667,
+   "snapshot_bytes_two_fields_float64": 16777216
+  },
+  {
+   "N": 2048,
+   "core_hours_per_20000_steps": 6.141866534017026,
+   "field_bytes_float64": 33554432,
+   "forward_seconds": 0.020670791003794875,
+   "inverse_seconds": 0.025393208001332823,
+   "mean_transform_seconds": 0.02303199950256385,
+   "roundtrip_max_abs_error": 2.6645352591003757e-15,
+   "seconds_per_rk4_step": 1.1055359761230648,
+   "snapshot_bytes_two_fields_float64": 67108864
+  }
+ ],
+ "step_model": {
+  "breakdown": "12 transforms per stage (2 fields, 8 gradients, 2 products), 4 stages",
+  "reference_run_length_steps": 20000,
+  "transforms_per_rk4_step": 48
+ }
+}

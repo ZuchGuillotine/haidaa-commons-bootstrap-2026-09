@@ -1,6 +1,78 @@
 {
  "generated": "2026-09-07",
  "files": {
+  "ns/ns2026_appendixA_heat_factor_check.py": {
+   "sha256": "052c5cb1426c8e6efb21d3d93e4755fe98b77f2e1d41cfb7f91353dbd23170fe",
+   "bytes": 5223
+  },
+  "ns/ns2026_appendixA_heat_factor_check_output.txt": {
+   "sha256": "6cdcd497ef4b8682c091b69682ab58dffb4c339af10a4e2bc7ddc05b9eee50a7",
+   "bytes": 9875
+  },
+  "ns/ns2026_audit_appendices_A_C.md": {
+   "sha256": "a0cf24d5bdc04eb3b5b5c22ad9fe5a3882545070f6755ba8489fc6dd019a60d8",
+   "bytes": 86279
+  },
+  "ns/ns2026_audit_sections_4_5.md": {
+   "sha256": "55b12a5c5c3af5ee4f95a1c6d5941959f569cfab751e1babee172ab4229cdc86",
+   "bytes": 69466
+  },
+  "ns/ns2026_audit_sections_6_8.md": {
+   "sha256": "54e059991cd7275d2a313b75a863b7f67a5e08a97bd5fd250986b15d576fd0ee",
+   "bytes": 87193
+  },
+  "ns/ns2026_audit_sections_9_10.md": {
+   "sha256": "9147e20379ff8230b6b228bdcc016852ea93953243be056b2de59f3c4e61c185",
+   "bytes": 79985
+  },
+  "ns/ns2026_cl_exponent_checks.py": {
+   "sha256": "2342d574a986ce930771ab822377b9dfffec57457b0d6c509241202c3d53a749",
+   "bytes": 7488
+  },
+  "ns/ns2026_cl_exponent_checks_output.txt": {
+   "sha256": "03fcb04f2651ea4ad61e588f2d6b35181014dfae6f4bf4dd650e8e95b8442c5a",
+   "bytes": 5332
+  },
+  "ns/ns2026_clay_and_literature.md": {
+   "sha256": "6b58b82ccb36aa9bd671e9e8b2a104d2a2ede98c486bca0ea4d3d4985acf2a74",
+   "bytes": 62718
+  },
+  "ns/ns2026_comparator_vs_upstream.diff": {
+   "sha256": "1440651b164c96a6821e2090b87361c78639a63e6299ab3661ca87e327f77465",
+   "bytes": 3303
+  },
+  "ns/ns2026_comparator_vs_upstream.md": {
+   "sha256": "907174ff4c921ec34a7f1d813641c67b0d485555fb4882187e23c30b5dca7061",
+   "bytes": 1040
+  },
+  "ns/ns2026_formal_statement_audit.md": {
+   "sha256": "f0a93f3ccb669c2c1e9b3e86ded2076cf713805ba0892c65e31db55ad82da3a5",
+   "bytes": 30196
+  },
+  "ns/ns2026_heat_profile_check.py": {
+   "sha256": "369a31dcbf61c0a2252e69a6abcb1bc77c18160d905e45db0ce58bf16724fc87",
+   "bytes": 8749
+  },
+  "ns/ns2026_heat_profile_check_output.txt": {
+   "sha256": "3b3259f79c2f5b03fb73e6734f596659b4e9110ed87f2c506c0d3697613684c2",
+   "bytes": 8616
+  },
+  "ns/ns2026_heat_shear_threshold.py": {
+   "sha256": "7aef585aba280da19ae4ba560164bb97aed7e2bc03502ed0ee944ef00da71c60",
+   "bytes": 3384
+  },
+  "ns/ns2026_heat_shear_threshold_output.txt": {
+   "sha256": "8cc95b28e9002633e0520b40a4d1c97deb481f2d2334ab700bced32feadce322",
+   "bytes": 1614
+  },
+  "ns/ns2026_lean_build_log.txt": {
+   "sha256": "2f4af3bee0486c35fe75f41375d537134ca82b4f1b9a64bbb21f4d0848fcff1a",
+   "bytes": 567
+  },
+  "ns/ns2026_lean_statement_scan.txt": {
+   "sha256": "759d628fa5943c7764ba237eaf53e13e69be312ad748aebbc5a71de5a115a1db",
+   "bytes": 6864
+  },
   "ns/ns_dependency_graph.json": {
    "sha256": "9afeeb483176c8b6c6c2b94e878ea2b47afaf3f4c52423b6af9b219e21ef4a8e",
    "bytes": 33433
@@ -160,6 +232,102 @@
   "dist/make_records.py": {
    "sha256": "18f5b78a25b65c50e95cd8226c6684c9e6f495c13031b88a43120a37f07de45a",
    "bytes": 29409
+  },
+  "nsnum/axis_profile_f0.py": {
+   "sha256": "a0dbdde8a4ac1a1b5bb1a0b00441decda96e858627feef14e21e998c51d48905",
+   "bytes": 11099
+  },
+  "nsnum/axis_profile_f0.txt": {
+   "sha256": "5a85188312f34a0cd0569a8e17841fdccec66f285a9647a24418dfb7de95d5a5",
+   "bytes": 4559
+  },
+  "nsnum/cone_margin.py": {
+   "sha256": "d70e44131666353732a6ea6d23a197a4c6eaf4e2e7d88cc9ba3a0cafe15016c8",
+   "bytes": 11485
+  },
+  "nsnum/cone_margin.txt": {
+   "sha256": "a09ef7f9416744be5c76be000e7d4507ade015bdf5ca9bfa8e7474177f610313",
+   "bytes": 4778
+  },
+  "nsnum/cost_model.py": {
+   "sha256": "3cfb330f4e6904f9210bcdc9efe27f2d9698daf95bbdd717e24310730d6172e0",
+   "bytes": 10008
+  },
+  "nsnum/cost_tables.txt": {
+   "sha256": "2fa8da6a63ac029818d569a032ed0e58a8fc5aa3139af05c63fa59c983453f5f",
+   "bytes": 4896
+  },
+  "nsnum/pulse_envelope.py": {
+   "sha256": "b9e7f9d23766e5d8201cdd18939af39395b25ac29d4e111a73171c8e6f3ead0f",
+   "bytes": 11194
+  },
+  "nsnum/pulse_envelope.txt": {
+   "sha256": "ac70f56d5c86a8e04c6f9794ec65e63e1a86a780e56bfeb3a94af01dbd31cf2f",
+   "bytes": 6168
+  },
+  "nsnum/scale_table.txt": {
+   "sha256": "9bab2d3ca268bb3f4728d2f7bba167cdc78420d0cf7e8f4bbd4965d3c1b2598e",
+   "bytes": 6307
+  },
+  "nsnum/scales.py": {
+   "sha256": "c0b66c926363717e4fd8d67f212998cb86831cd2afa9a845adcb63103a6b9844",
+   "bytes": 9379
+  },
+  "geo/geo_ladder_cost.py": {
+   "sha256": "c7ec371734ff9430e344db734491f5f23fbeecd9e2d4b5f0fea38d21f58aa869",
+   "bytes": 9117
+  },
+  "geo/geo_ladder_cost_out.txt": {
+   "sha256": "a89bdb1b8339a2acfbfe199f62dd7bf60701d3f176750357dbed260fe1c0573d",
+   "bytes": 3594
+  },
+  "geo/geo_re_eff_grid.py": {
+   "sha256": "5129efba3ca0c96984589e013a841288386b44f83b95294b85c7b2b48ad21ddc",
+   "bytes": 8819
+  },
+  "geo/geo_re_eff_grid_out.txt": {
+   "sha256": "1d528c817dba0d1e7d9238047e8f49fa817d26b535bf0012cfe4c75ce60e8f4b",
+   "bytes": 6963
+  },
+  "geo/geo_reynolds_gap.py": {
+   "sha256": "96668dc128fd166a027eacafe44b724af9d86b38deefbc32b7ac2ceeebed848d",
+   "bytes": 5990
+  },
+  "geo/geo_reynolds_gap_out.txt": {
+   "sha256": "cd98636e1d3e38b65553f2ed913cecfc9d092582b3562e27a360f7b0378ff866",
+   "bytes": 3832
+  },
+  "hemo/scaling_check.py": {
+   "sha256": "f3f935bc25a1b86e12aa9d0dd45285c292e729da07bbd37a52968bd7c2acc215",
+   "bytes": 2468
+  },
+  "hemo/scaling_check_output.txt": {
+   "sha256": "501783cd011a8616a4067a8eedfd51abc9bf0c48f4dc0346f2fc928868e31190",
+   "bytes": 1510
+  },
+  "mhd/alfven_stress_cancellation.py": {
+   "sha256": "19e1e40c67ea789c30e4d1076086fec35ed6d2e8ed7a4ba994620e0aad4da272",
+   "bytes": 6592
+  },
+  "mhd/alfven_stress_cancellation_output.json": {
+   "sha256": "92a9c9ae42bfc884e6ec3bfbba5b645700a350a8ece0bd031ad87bdd4f6538e3",
+   "bytes": 14587
+  },
+  "mhd/alfven_two_family_stress_cone.py": {
+   "sha256": "93af16a5ca67f1fc420db1fb4358bdc909d91fd9dba96ca093dd92ab09669d7b",
+   "bytes": 11967
+  },
+  "mhd/alfven_two_family_stress_cone_output.json": {
+   "sha256": "0cbf5e92e2466b6a3d87e7cd5e4241b70bb2ff9cd6b36a0ec56b14ed65c40a39",
+   "bytes": 8941
+  },
+  "mhd/rmhd_step_cost_scaling.py": {
+   "sha256": "e667ee803173f2ab6813a0928acf7a7bf9d641d8df442720ad90287c04c3445b",
+   "bytes": 5100
+  },
+  "mhd/rmhd_step_cost_scaling_output.json": {
+   "sha256": "cbba2a471a92013581c97e716f903636b3ffdfd7d267e173b7e3369771e223b5",
+   "bytes": 3074
   }
  }
 }

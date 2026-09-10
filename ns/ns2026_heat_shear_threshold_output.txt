@@ -1,0 +1,25 @@
+environment: python 3.14.4   numpy 2.5.3   scipy 1.18.1
+
+m(Z,h) = -Z Hcal'(Z)/Hcal(Z);   a = 2 + 2h - 2 m(Z,h);   Z = 2d/X, d = 1-eta^2 <= 1
+
+small-Z asymptotics  m/(h Z) -> 1 :
+  h=0.001     m/(hZ)@Z=1e-04: 1.000800   m/(hZ)@Z=1e-03: 0.999002   m/(hZ)@Z=1e-02: 0.981539
+  h=0.01      m/(hZ)@Z=1e-04: 1.009796   m/(hZ)@Z=1e-03: 1.007966   m/(hZ)@Z=1e-02: 0.990191
+  h=0.05      m/(hZ)@Z=1e-04: 1.049780   m/(hZ)@Z=1e-03: 1.047802   m/(hZ)@Z=1e-02: 1.028612
+  h=0.2       m/(hZ)@Z=1e-04: 1.199712   m/(hZ)@Z=1e-03: 1.197130   m/(hZ)@Z=1e-02: 1.172165
+
+thresholds Z* where m(Z,h) = h/4 and = h/2, and the implied X >= 2/Z* (d=1):
+  h          Z*(h/4)        X>=2/Z*        Z*(h/2)        X>=2/Z*       
+  0.0001     0.42299181     4.728224       1.63904545     1.220222      
+  0.001      0.42262565     4.732320       1.63775496     1.221184      
+  0.01       0.41899888     4.773282       1.62496605     1.230795      
+  0.05       0.40361108     4.955265       1.57056225     1.273429      
+  0.2        0.35481087     5.636806       1.39639346     1.432261      
+  0.45       0.29540666     6.770328       1.18055552     1.694118      
+
+Reading: the threshold is essentially independent of h (Z* about 0.45 for m=h/4
+and about 1.0 for m=h/2), so the asserted inequality -Z Hcal'/Hcal < h/4 on the
+outer collar is the concrete requirement X > about 4.4 d, i.e. a fixed lower bound
+on the outer radius, NOT a further smallness condition on h.  Since the paper
+places the collar at X >= e^{1/2} X_tail with X_tail > X_v > X_R = 110 (C P_*)^{10}
+and P_* > e^{e^{M_d}+10}, the requirement is met with enormous room.

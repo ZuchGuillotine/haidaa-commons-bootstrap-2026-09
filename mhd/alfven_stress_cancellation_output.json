@@ -1,0 +1,514 @@
+{
+ "description": "Net wave stress (Reynolds minus Maxwell) for a finite-amplitude shear-Alfven wave on a uniform field, versus the equipartition-breaking parameter epsilon, with b = -(1+epsilon) v in Alfven units.",
+ "environment": {
+  "numpy": "2.5.3",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4",
+  "scipy": "1.18.1"
+ },
+ "parameters": {
+  "Lz": 6.283185307179586,
+  "amplitude": 0.7,
+  "epsilon_list": [
+   0.0,
+   1e-12,
+   1e-08,
+   1e-06,
+   0.0001,
+   0.001,
+   0.01,
+   0.1,
+   0.5
+  ],
+  "nz": 4096,
+  "phase_offset": 0.4,
+  "polarization_ratio": 1.3,
+  "seed": 20260908
+ },
+ "results": {
+  "multi_mode": {
+   "ideal_nonlinearity_max_abs_eps0": 0.0,
+   "ideal_nonlinearity_max_abs_eps0p1": 0.0,
+   "reynolds_xx_at_eps0": 0.3653902777777777,
+   "reynolds_xy_at_eps0": 7.723368363127259e-05,
+   "rows": [
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.3653902777777777,
+       "net": 0.0,
+       "predicted_net": -0.0,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.723368363127259e-05,
+       "net": 0.0,
+       "predicted_net": -0.0,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6175095694444444,
+       "net": 0.0,
+       "predicted_net": -0.0,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": 0.0,
+     "epsilon": 0.0,
+     "net_minus_predicted_xy": 0.0,
+     "net_xy_over_epsilon": null
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.3653902777785086,
+       "net": -7.308598171107406e-13,
+       "predicted_net": -7.307805555559208e-13,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.723368363143912e-05,
+       "net": -1.6653345369377348e-16,
+       "predicted_net": -1.5446736726262241e-16,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6175095694456795,
+       "net": -1.2351231148954867e-12,
+       "predicted_net": -1.2350191388895061e-12,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -1.2066086431228301e-17,
+     "epsilon": 1e-12,
+     "net_minus_predicted_xy": -1.2066086431151066e-17,
+     "net_xy_over_epsilon": -0.00016653345369377348
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.36539028508558324,
+       "net": -7.307805527378974e-09,
+       "predicted_net": -7.307805592094582e-09,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.723368517591894e-05,
+       "net": -1.5446463552670764e-12,
+       "predicted_net": -1.54467368034882e-12,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6175095817946357,
+       "net": -1.2350191314070003e-08,
+       "predicted_net": -1.2350191450639843e-08,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": 2.7317358375468268e-17,
+     "epsilon": 1e-08,
+     "net_minus_predicted_xy": 2.7325081743682063e-17,
+     "net_xy_over_epsilon": -0.00015446463552670764
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.3653910085586986,
+       "net": -7.307809208878524e-07,
+       "predicted_net": -7.307809209458331e-07,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.723383809871143e-05,
+       "net": -1.5446743883984482e-10,
+       "predicted_net": -1.5446744449622879e-10,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6175108044642006,
+       "net": -1.2350197562405185e-06,
+       "predicted_net": -1.235019756398458e-06,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -7.157729965915841e-17,
+     "epsilon": 1e-06,
+     "net_minus_predicted_xy": 5.656383968356144e-18,
+     "net_xy_over_epsilon": -0.00015446743883984482
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.3654633594872361,
+       "net": -7.308170945835579e-05,
+       "predicted_net": -7.308170945833332e-05,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.724913114032228e-05,
+       "net": -1.5447509049693053e-08,
+       "predicted_net": -1.544750906309083e-08,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6176330775334289,
+       "net": -0.00012350808898453636,
+       "predicted_net": -0.00012350808898458333,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -7.723234385362296e-13,
+     "epsilon": 0.0001,
+     "net_minus_predicted_xy": 1.3397778207072385e-17,
+     "net_xy_over_epsilon": -0.00015447509049693053
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.36612142372361095,
+       "net": -0.0007311459458332337,
+       "predicted_net": -0.0007311459458333333,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.738822823223634e-05,
+       "net": -1.5454460096375744e-07,
+       "predicted_net": -1.5454460094617645e-07,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6187452060929024,
+       "net": -0.0012356366484580494,
+       "predicted_net": -0.0012356366484583333,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -7.723370121226099e-11,
+     "epsilon": 0.001,
+     "net_minus_predicted_xy": -1.7580989383430656e-17,
+     "net_xy_over_epsilon": -0.00015454460096375744
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.3727346223611111,
+       "net": -0.007344344583333384,
+       "predicted_net": -0.007344344583333332,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 7.87860806722579e-05,
+       "net": -1.5523970409853094e-06,
+       "predicted_net": -1.552397040988579e-06,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.6299215117902776,
+       "net": -0.012411942345833205,
+       "predicted_net": -0.012411942345833331,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -7.72336835985772e-09,
+     "epsilon": 0.01,
+     "net_minus_predicted_xy": 3.2695471764015993e-18,
+     "net_xy_over_epsilon": -0.00015523970409853094
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.4421222361111111,
+       "net": -0.0767319583333334,
+       "predicted_net": -0.07673195833333332,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 9.345275719382234e-05,
+       "net": -1.6219073562549757e-05,
+       "predicted_net": -1.6219073562567243e-05,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 0.7471865790277776,
+       "net": -0.12967700958333328,
+       "predicted_net": -0.12967700958333334,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -7.723368362952405e-07,
+     "epsilon": 0.1,
+     "net_minus_predicted_xy": 1.7486148163117776e-17,
+     "net_xy_over_epsilon": -0.00016219073562549757
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.8221281249999999,
+       "net": -0.45673784722222216,
+       "predicted_net": -0.45673784722222216,
+       "reynolds": 0.3653902777777777
+      },
+      "xy": {
+       "maxwell": 0.00017377578817034944,
+       "net": -9.654210453907686e-05,
+       "predicted_net": -9.654210453909073e-05,
+       "reynolds": 7.723368363127259e-05
+      },
+      "yy": {
+       "maxwell": 1.3893965312499996,
+       "net": -0.7718869618055553,
+       "predicted_net": -0.7718869618055555,
+       "reynolds": 0.6175095694444444
+      }
+     },
+     "deviation_from_linear_xy": -1.930842090780427e-05,
+     "epsilon": 0.5,
+     "net_minus_predicted_xy": 1.3877787807814457e-17,
+     "net_xy_over_epsilon": -0.0001930842090781537
+    }
+   ]
+  },
+  "single_mode": {
+   "ideal_nonlinearity_max_abs_eps0": 0.0,
+   "ideal_nonlinearity_max_abs_eps0p1": 0.0,
+   "reynolds_xx_at_eps0": 0.245,
+   "reynolds_xy_at_eps0": 0.2933579265899188,
+   "rows": [
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.245,
+       "net": 0.0,
+       "predicted_net": -0.0,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.2933579265899188,
+       "net": 0.0,
+       "predicted_net": -0.0,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.4140499999999999,
+       "net": 0.0,
+       "predicted_net": -0.0,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": 0.0,
+     "epsilon": 0.0,
+     "net_minus_predicted_xy": 0.0,
+     "net_xy_over_epsilon": null
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.24500000000049,
+       "net": -4.899969319183128e-13,
+       "predicted_net": -4.90000000000245e-13,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.2933579265905056,
+       "net": -5.867528685143952e-13,
+       "predicted_net": -5.86715853180131e-13,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.4140500000008281,
+       "net": -8.281708652191355e-13,
+       "predicted_net": -8.281000000004139e-13,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -3.701533455758236e-17,
+     "epsilon": 1e-12,
+     "net_minus_predicted_xy": -3.701533426425232e-17,
+     "net_xy_over_epsilon": -0.5867528685143952
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.24500000489999996,
+       "net": -4.899999961338608e-09,
+       "predicted_net": -4.9000000244999996e-09,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.29335793245707736,
+       "net": -5.867158536787542e-09,
+       "predicted_net": -5.8671585611341685e-09,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.4140500082809999,
+       "net": -8.280999996834737e-09,
+       "predicted_net": -8.281000041404999e-09,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -4.9891655072125756e-18,
+     "epsilon": 1e-08,
+     "net_minus_predicted_xy": 2.434662617213559e-17,
+     "net_xy_over_epsilon": -0.5867158536787542
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.24500049000024493,
+       "net": -4.900002449348406e-07,
+       "predicted_net": -4.900002449999999e-07,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.2933585133060653,
+       "net": -5.86716146500077e-07,
+       "predicted_net": -5.867161465377641e-07,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.41405082810041394,
+       "net": -8.281004140187065e-07,
+       "predicted_net": -8.281004140499997e-07,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -2.933202393386197e-13,
+     "epsilon": 1e-06,
+     "net_minus_predicted_xy": 3.768714280130399e-17,
+     "net_xy_over_epsilon": -0.586716146500077
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.24504900244999994,
+       "net": -4.900244999994641e-05,
+       "predicted_net": -4.900245e-05,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.29341660110881607,
+       "net": -5.867451889723929e-05,
+       "predicted_net": -5.8674518897249666e-05,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.41413281414049996,
+       "net": -8.281414050004265e-05,
+       "predicted_net": -8.281414049999999e-05,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -2.9335792555256466e-09,
+     "epsilon": 0.0001,
+     "net_minus_predicted_xy": 1.037445953797067e-17,
+     "net_xy_over_epsilon": -0.5867451889723929
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.24549024499999988,
+       "net": -0.0004902449999998892,
+       "predicted_net": -0.000490245,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.2939449358010252,
+       "net": -0.0005870092111063818,
+       "predicted_net": -0.0005870092111064276,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.41487851404999987,
+       "net": -0.000828514049999951,
+       "predicted_net": -0.0008285140499999999,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -2.9335792654414886e-07,
+     "epsilon": 0.001,
+     "net_minus_predicted_xy": 4.575333167888829e-17,
+     "net_xy_over_epsilon": -0.5870092111063818
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.24992449999999997,
+       "net": -0.004924499999999971,
+       "predicted_net": -0.0049245,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.2992544209143762,
+       "net": -0.00589649432445738,
+       "predicted_net": -0.0058964943244573685,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.42237240499999995,
+       "net": -0.008322405000000033,
+       "predicted_net": -0.008322404999999998,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -2.9335792659002796e-05,
+     "epsilon": 0.01,
+     "net_minus_predicted_xy": -1.1275702593849246e-17,
+     "net_xy_over_epsilon": -0.589649432445738
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.29645,
+       "net": -0.051449999999999996,
+       "predicted_net": -0.05145,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.35496309117380187,
+       "net": -0.06160516458388304,
+       "predicted_net": -0.06160516458388296,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.5010005000000001,
+       "net": -0.08695050000000015,
+       "predicted_net": -0.08695049999999999,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -0.0029335792658992735,
+     "epsilon": 0.1,
+     "net_minus_predicted_xy": -8.326672684688674e-17,
+     "net_xy_over_epsilon": -0.6160516458388304
+    },
+    {
+     "components": {
+      "xx": {
+       "maxwell": 0.5512499999999998,
+       "net": -0.3062499999999998,
+       "predicted_net": -0.30625,
+       "reynolds": 0.245
+      },
+      "xy": {
+       "maxwell": 0.6600553348273175,
+       "net": -0.36669740823739866,
+       "predicted_net": -0.36669740823739855,
+       "reynolds": 0.2933579265899188
+      },
+      "yy": {
+       "maxwell": 0.9316125,
+       "net": -0.5175625,
+       "predicted_net": -0.5175624999999999,
+       "reynolds": 0.4140499999999999
+      }
+     },
+     "deviation_from_linear_xy": -0.07333948164747983,
+     "epsilon": 0.5,
+     "net_minus_predicted_xy": -1.1102230246251565e-16,
+     "net_xy_over_epsilon": -0.7333948164747973
+    }
+   ]
+  }
+ }
+}

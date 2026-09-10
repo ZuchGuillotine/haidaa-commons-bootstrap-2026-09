@@ -1,0 +1,147 @@
+Statement-level scan of the OpenAI NavierStokesAndEuler Lean repository
+Run date: 2026-09-09
+Environment: macOS Darwin 25.4.0, arm64; zsh; BSD/GNU coreutils as shipped with macOS; grep (BSD), diff (Apple), find, wc.
+No Lean toolchain was invoked. No network access. Repository read-only clone at:
+  /private/tmp/claude-501/-Users-benjamincox-dsm-haidaa/da69bd54-2977-4882-88ec-9babfab4e89d/scratchpad/ns-paper/lean-repo
+Repository facts as shipped: lean-toolchain leanprover/lean4:v4.34.0-rc2; Apache-2.0; single squashed commit.
+
+==============================================================
+1. Source file inventory (excluding the .lake dependency tree)
+==============================================================
+$ find REPO -name '*.lean' -not -path '*/.lake/*' | wc -l
+    2486
+$ find REPO/NavierStokes -name '*.lean' | wc -l
+     643
+$ find REPO/Euler -name '*.lean' | wc -l
+    1839
+$ find REPO/ComparatorChallenges -name '*.lean' | wc -l
+       2
+$ ls REPO/*.lean   (root modules)
+  Euler.lean
+  NavierStokes.lean
+
+Arithmetic: 643 (NavierStokes/) + 1839 (Euler/) + 2 (ComparatorChallenges/) + 2 (root NavierStokes.lean, Euler.lean) = 2486.
+NOTE: lakefile.toml declares lean_lib NavierStokes with globs ["NavierStokes", "NavierStokes.+"],
+so 'lake build NavierStokes' targets 644 modules, NOT all 2486. 'lake build' with the default
+targets [NavierStokes, Euler, ComparatorChallenges] is what covers the whole 2486.
+
+$ cat REPO/NavierStokes/*.lean | wc -l   (total lines under NavierStokes/)
+  392454
+
+==============================================================
+2. Submission definitions vs Comparator challenge definitions
+==============================================================
+$ wc -l REPO/NavierStokes/ComparatorDefinitions.lean REPO/ComparatorChallenges/NavierStokes.lean
+     245   NavierStokes/ComparatorDefinitions.lean
+     286   ComparatorChallenges/NavierStokes.lean
+     531 total
+
+$ diff <(sed -n '34,245p' REPO/NavierStokes/ComparatorDefinitions.lean) \
+       <(sed -n '61,272p' REPO/ComparatorChallenges/NavierStokes.lean)
+1d0
+< open ContDiff Set InnerProductSpace MeasureTheory
+212c211,212
+< end NavierStokes.Comparator
+---
+> 
+> /-- (C) Breakdown of Navier–Stokes solutions on ℝ³. -/
+exit status: 1
+
+Reading: the only differences are (a) the 'open ContDiff Set InnerProductSpace MeasureTheory'
+line, which sits at a different offset in the challenge file, and (b) the tail, where the
+definitions file ends the namespace and the challenge file continues into theorem (C).
+The 210 lines of definition text in between are identical character for character.
+
+==============================================================
+3. sorry / native_decide / exotic declaration scan
+==============================================================
+$ grep -rnw sorry REPO/NavierStokes/ REPO/Euler/
+  (exit 1; no output = no hits)
+
+$ grep -rnw sorry REPO/ComparatorChallenges/
+  ComparatorChallenges/Euler.lean:88:  sorry
+  ComparatorChallenges/Euler.lean:184:  sorry
+  ComparatorChallenges/NavierStokes.lean:29:are retained, including their intentional `sorry` challenge placeholders. The
+  ComparatorChallenges/NavierStokes.lean:277:  sorry
+  ComparatorChallenges/NavierStokes.lean:284:  sorry
+  (4 hits are the intended challenge placeholders; the 5th is the word 'sorry' in a doc comment)
+
+$ grep -rnw native_decide REPO --include='*.lean' -l   [excluding .lake]
+  (exit 1; no output = no hits)
+
+$ grep -rn 'set_option' REPO/NavierStokes/
+  (exit 1; no output = no hits)
+
+$ grep -rn 'import ComparatorChallenges' REPO/
+  (exit 1; no output = no hits -> the challenge module is not in the submission import closure)
+
+$ grep -rnE '(^|[^a-zA-Z_.])(axiom|opaque|unsafe|partial)[[:space:]]+[a-zA-Z_]' REPO/NavierStokes/ | wc -l
+      22
+  All hits inspected are English prose inside doc comments ('partial derivatives', 'partial sums',
+  'not an axiom'). No 'axiom', 'opaque', 'unsafe' or 'partial' DECLARATION was found. Sample:
+  NavierStokes/VolterraAnalyticBounds.lean:585:/-- Uniform convergence of the actual partial sums on every smaller closed
+  NavierStokes/HolomorphicFamily.lean:230:increment act on the two actual partial derivatives. -/
+  NavierStokes/HolomorphicFamily.lean:240:/-- The radial partial derivative is obtained by evaluating the genuine
+  NavierStokes/HolomorphicFamily.lean:317:/-- The Cauchy partial has the expected inverse-gap bound. -/
+
+CAVEAT: greps are a source-text check only. They cannot see the elaborated environment,
+cannot see axioms reachable through Mathlib, and cannot substitute for '#print axioms'
+or for the Comparator axiom whitelist walk.
+
+==============================================================
+4. Comparator configuration as shipped
+==============================================================
+$ cat REPO/ComparatorChallenges/NavierStokes.json
+{
+  "challenge_module": "ComparatorChallenges.NavierStokes",
+  "solution_module": "NavierStokes.ComparatorSolution",
+  "enable_nanoda": true,
+  "theorem_names": [
+    "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+    "NavierStokes.Comparator.navier_stokes_breakdown_periodic"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
+
+Note: sorryAx is NOT in permitted_axioms, so any reachable sorry is rejected by Comparator.
+
+==============================================================
+5. The two submitted declarations
+==============================================================
+$ cat REPO/NavierStokes/ComparatorSolution.lean
+import NavierStokes.ComparatorR3Theorem
+import NavierStokes.ComparatorTheorem
+
+/-!
+# Navier–Stokes Comparator submission: options (C) and (D)
+
+Expose the project's proof adapters under the reference theorem names.
+The adapters import `ComparatorDefinitions`, never the challenge module.
+-/
+
+namespace NavierStokes.Comparator
+
+local notation "ℝ³" => EuclideanSpace ℝ (Fin 3)
+
+/-- (C) Breakdown of Navier–Stokes solutions on ℝ³. -/
+theorem navier_stokes_breakdown_R3 (nu : ℝ) (hnu : nu > 0) :
+    ∃ (u₀ : ℝ³ → ℝ³) (f : ℝ³ → ℝ → ℝ³),
+    InitialVelocityConditionDecay u₀ ∧ ForceConditionDecay f ∧
+    ¬ (∃ v p, NavierStokesExistenceAndSmoothnessRn nu u₀ f v p) := by
+  exact ComparatorBridge.navier_stokes_breakdown_R3 nu hnu
+
+/-- (D) Breakdown of Navier–Stokes solutions on ℝ³/ℤ³. -/
+theorem navier_stokes_breakdown_periodic (nu : ℝ) (hnu : nu > 0) :
+    ∃ (u₀ : ℝ³ → ℝ³) (f : ℝ³ → ℝ → ℝ³),
+    InitialVelocityConditionPeriodic u₀ ∧ ForceConditionPeriodic f ∧
+    ¬ (∃ v p, NavierStokesExistenceAndSmoothnessPeriodic nu u₀ f v p) := by
+  exact ComparatorBridge.navier_stokes_breakdown_periodic nu hnu
+
+end NavierStokes.Comparator
+
+#print axioms NavierStokes.Comparator.navier_stokes_breakdown_R3
+#print axioms NavierStokes.Comparator.navier_stokes_breakdown_periodic

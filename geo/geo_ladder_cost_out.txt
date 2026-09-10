@@ -1,0 +1,65 @@
+geo_ladder_cost.py
+environment: python 3.14.4, numpy 2.5.3
+command: ./venv/bin/python commons/geo/artifacts/geo_ladder_cost.py
+no random numbers used; no seed required
+
+configuration: domain 8000 x 8000 x 4000 m, T_sim = 3600 s, CFL = 0.50,
+               u_max = 100 m/s, tau_pt = 4.0e-06 core-s per point-step [ESTIMATE]
+
+ Delta [m]       N_points     dt [s]    N_steps    point-steps     core-hours
+-----------------------------------------------------------------------------
+     100.0       2.56e+05     0.5000       7200      1.843e+09            2.0
+      50.0      2.048e+06     0.2500      14400      2.949e+10           32.8
+      25.0      1.638e+07     0.1250      28800      4.719e+11          524.3
+      12.5      1.311e+08     0.0625      57600       7.55e+12         8388.6
+-----------------------------------------------------------------------------
+     TOTAL                                                             8947.7
+
+the finest rung carries 93.8% of the ladder cost; cost scales as Delta^-4
+(three spatial dimensions plus the CFL-shortened time step), so each halving
+of Delta multiplies the cost by 16. Measured ratio 100 m -> 12.5 m: 4096.
+
+=== full experiment ===
+ladder x 3 closures x 2 swirl-ratio settings = 53686 core-hours
+x 1.20 for restarts, failed runs and spin-up reruns   = 64424 core-hours
+plus a-priori sub-grid filtering and budget analysis   = 2000 core-hours
+TOTAL                                                  = 66424 core-hours
+
+the project's posted pooled request is 80000 core-hours, leaving 13576 core-hours
+of headroom (17%). The estimate is consistent with the posted request.
+
+what would break this estimate, in order of leverage:
+  1. tau_pt: linear. A measured tau_pt of 1e-5 instead of 4e-06 would give
+     166059 core-hours and would exceed the posted request.
+  2. adding a fifth rung at Delta = 6.25 m: adds 134218 core-hours per
+     closure-swirl member, 966368 in total. Not affordable inside the request.
+  3. a supercell-embedded member rather than a closed idealized domain:
+     the domain volume grows by roughly 10^2-10^3, which is a separate request.
+
+=== storage ===
+ Delta [m]     3D dump [GB]     2D dump [MB]            ratio
+     100.0            0.010             0.18               53
+      50.0            0.076             0.73              107
+      25.0            0.610             2.93              213
+      12.5            4.883            11.72              427
+
+plan A, OFF-LINE diagnosis: keep 600 full 3D dumps at 1 s cadence over the
+        600 s contraction window, all rungs, all 6 members:
+        19.6 TB
+plan B, ON-LINE azimuthal-mean and eddy accumulation reduced to an (r,z) plane,
+        same cadence, plus 50 full 3D snapshots per member kept for the
+        a-priori sub-grid test:
+        0.053 TB (reduced) + 1.4 TB (snapshots) = 1.5 TB
+
+posted pooled storage request: 60 TB.
+plan A uses 33% of it; plan B uses 2%.
+Implementing the azimuthal-mean/eddy accumulation INSIDE the model, rather than
+diagnosing it from archived snapshots, reduces the storage requirement by a
+factor of 13. That software task is therefore the highest-leverage single
+item in the project, and it is a laptop-scale job, not a compute-block job.
+
+=== cheap precursor: 2D axisymmetric mixing-length sweep ===
+an axisymmetric (r,z) run at Delta = 12.5 m has 1.024e+05 points and costs
+6.55 core-hours per member, i.e. 1280 times cheaper than the 3D fine rung.
+A 24-member sweep over mixing length and swirl ratio costs 157 core-hours
+and can be run on a workstation before any pooled allocation is requested.

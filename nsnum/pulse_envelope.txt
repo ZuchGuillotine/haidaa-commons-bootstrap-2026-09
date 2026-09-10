@@ -1,0 +1,115 @@
+pulse_envelope.py -- reduced 1D model of the ring-pulse
+growth-then-viscous-decay envelope in the 2026 forced Navier-Stokes
+blow-up construction, and the one-slot amplification budget.
+python 3.14.4  numpy 2.5.3  scipy 1.18.1
+No random state; output is deterministic.
+Nominal constants: lam_0 = 1, u_* = 1, slot length L_s = l^2.
+
+==========================================================================
+1. THE GROWTH/DAMPING CROSSOVER SITS AT |s| = u_*
+==========================================================================
+  a_net(s) = lam_0 [ (1+s^2)^(-1/2) - (1+s^2)/(1+u_*^2)^(3/2) ]
+
+      u_*        a_net(u_*)      a_net'(u_*)   a_net(0) (max growth)
+    0.250       -1.110e-16      -0.684806         0.086925
+    0.500        0.000e+00      -1.073313         0.284458
+    1.000        1.110e-16      -1.060660         0.646447
+    2.000        0.000e+00      -0.536656         0.910557
+    4.000       -2.776e-17      -0.171202         0.985733
+    8.000        1.388e-17      -0.045797         0.998092
+
+  max |a_net(u_*)| over the table = 1.110e-16  (exact zero up to rounding)
+  a_net is strictly decreasing for s > 0, so the logarithmic envelope
+  G is concave on the slot and has a single interior maximum.
+
+==========================================================================
+2. THE ENVELOPE ON ONE SLOT
+==========================================================================
+       l     L_s = l^2    v_peak/L_s     G_peak    G_peak-G(0)  G_peak-G(L_s)
+       6         36.0      0.500000      4.3296        4.3296         5.1582
+       8         64.0      0.500000      7.6970        7.6970         9.1701
+      10        100.0      0.500000     12.0265       12.0265        14.3283
+      12        144.0      0.500000     17.3182       17.3182        20.6328
+      16        256.0      0.500000     30.7879       30.7879        36.6806
+      20        400.0      0.500000     48.1061       48.1061        57.3134
+
+  The peak sits at v/L_s = 0.5 (the crossover) for every l, and both
+  peak-to-end drops are exactly proportional to L_s = l^2:
+
+       l    (G_peak-G(0))/L_s   (G_peak-G(L_s))/L_s
+       6         0.120265328           0.143283499
+       8         0.120265328           0.143283499
+      10         0.120265328           0.143283499
+      12         0.120265328           0.143283499
+      16         0.120265328           0.143283499
+      20         0.120265328           0.143283499
+
+  so the envelope is exp(-c_- l^2) at the start of the slot and
+  exp(-c_+ l^2) at the end, relative to its peak, with
+  c_- = 0.120265 and c_+ = 0.143283 in these nominal units.
+  That is the two-sided Gaussian-in-l smallness at the ends of the
+  slot that the construction's pulse cutoff needs.
+
+==========================================================================
+3. LOCAL SHAPE AT THE PEAK AND A GLOBAL TWO-SIDED QUADRATIC BOUND
+==========================================================================
+  L_s = 100, quadratic fit of G near the peak over |v-v_peak| < 0.05 L_s
+    fitted G''(v_peak)    = -1.060612756e-02
+    analytic G''(v_peak)  = -1.060660172e-02
+    relative difference   = 4.470e-05
+
+  global bound  G(v) - G_peak <= -(c_min/2)(v - v_peak)^2 with
+    c_min = (u_*/L_s) min_window |a_net'| = 7.113242670e-03
+    max violation of the bound over the slot = 0.000e+00  (<= 0 means it holds)
+    implied end-of-slot drop (c_min/2)(L_s/2)^2 = 8.8916
+    actually observed end drop                  = 14.3283
+
+==========================================================================
+4. AMPLIFICATION BUDGET OVER ONE SLOT vs THE REQUIRED WAVE AMPLITUDE
+==========================================================================
+  Required: the stress matching needs a wave amplitude
+    A_wave ~ q^(-1/2 - h/2) with q ~ Q = 2^(-l),
+  i.e. ln A_wave = l (1/2 + h/2) ln 2, LINEAR in l.
+  Available (this model): the growth half-slot supplies
+    G_peak - G(0) = c_- L_s = c_- l^2, QUADRATIC in l.
+
+  h = 1/200:
+       l     required ln A_wave    available ln gain    available/required
+       2               0.6966               0.4811                  0.69
+       4               1.3932               1.9242                  1.38
+       6               2.0898               4.3296                  2.07
+       8               2.7865               7.6970                  2.76
+      10               3.4831              12.0265                  3.45
+      16               5.5729              30.7879                  5.52
+      20               6.9661              48.1061                  6.91
+      40              13.9323             192.4245                 13.81
+
+  Reading. In this reduced model the available linear amplification over
+  one slot exceeds the required amplitude for every l >= 2 and the
+  ratio grows linearly in l, so the amplitude selection is not
+  amplification-limited: a seed as small as exp(-c l^2) still reaches a
+  fixed power of q within one slot. Equivalently, the model predicts
+  the pulse budget is set by the two-sided exp(-c l^2) cutoff, not by
+  a shortage of growth.
+
+  FALSIFICATION CRITERION for a faithful implementation. Replace the
+  nominal lam_0, u_* and L_s by the construction's own frame constants
+  and background, and recompute G_peak - G(0). If that quantity is not
+  at least l (1/2 + h/2) ln 2 for the l used in the construction --
+  in particular if it is O(1) or O(log l) rather than growing at least
+  linearly in l -- then the amplification available over one slot
+  cannot supply the amplitude the stress matching requires, and the
+  amplitude selection needs a different source. A shortfall must be
+  reproduced by a second, independent implementation (for instance a
+  frozen-annulus generalized eigenvalue problem) before it is reported
+  as anything other than a property of this reduced model.
+
+  SELF-CHECKS
+    PASS  a_net vanishes at s = u_* to 1e-12
+    PASS  peak sits at the slot midpoint for every l
+    PASS  peak-to-start drop is proportional to L_s
+    PASS  peak-to-end drop is proportional to L_s
+    PASS  fitted peak curvature matches the analytic value to 1e-3
+    PASS  global two-sided quadratic bound holds
+
+ALL CHECKS PASS

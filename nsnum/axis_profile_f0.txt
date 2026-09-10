@@ -1,0 +1,91 @@
+axis_profile_f0.py -- leading-order azimuthal axis profile of the
+2026 forced Navier-Stokes blow-up construction: scalar radial ODE,
+closed form, and the Appendix B endpoint inequalities.
+python 3.14.4  numpy 2.5.3  scipy 1.18.1
+No random state; output is deterministic.
+
+==========================================================================
+1. THE SCALAR PROFILE ODE   z g'' + 2 g' + g/2 = 0,  g(0)=1, g'(0)=-1/4
+==========================================================================
+The stress-free azimuthal equation 2(Y Phi_YY + 2 Phi_Y) = -chi Phi
+becomes this ODE in z = chi Y. Integrated from z0 = 1e-8 with the
+series value as initial data, rtol=1e-12, atol=1e-14 (DOP853).
+
+  max |g_ODE   - g_series|   on [0, 4.1]  = 2.631e-14
+  max |g_ODE   - g_closed|   on [0, 4.1]  = 2.631e-14
+  max |g_series- g_closed|   on [0, 4.1]  = 5.551e-16
+  max |g'_ODE  - g'_closed|  on [0.1, 4.1] = 1.366e-14
+  (the closed-form derivative 2(x J_0 - 2 J_1)/x^3 loses digits to
+   cancellation as x = sqrt(2z) -> 0; the series derivative does not,
+   and agrees with the ODE to 1.371e-14 on the whole interval.)
+
+  => the closed form f_0(z) = 2 J_1(sqrt(2z))/sqrt(2z) is confirmed
+     numerically to the integrator tolerance. It is used below only
+     as a cross-check; every reported number is also computed from
+     the ODE solution.
+
+  reference values (from the ODE integration):
+    z =  0.000   f_0 = 1.000000000000   f_0' = -0.250000000000
+    z =  0.500   f_0 = 0.880101171490   f_0' = -0.229806969864
+    z =  1.000   f_0 = 0.769986621745   f_0' = -0.210852477326
+    z =  2.000   f_0 = 0.576724807757   f_0' = -0.176417014308
+    z =  3.000   f_0 = 0.415735478470   f_0' = -0.146234148073
+    z =  3.960   f_0 = 0.287794959256   f_0' = -0.120867517870
+    z =  4.000   f_0 = 0.282979986881   f_0' = -0.119882020538
+    z =  4.100   f_0 = 0.271114055404   f_0' = -0.117442313461
+
+==========================================================================
+2. THE (B.11) SCALAR BOUNDS ON 0 <= z <= 4.1,  t = z/2
+==========================================================================
+  claimed:  f_0(z) <= 1   and   f_0(z) >= 1 - t/2 + t^2/12 - t^3/144
+            and that cubic >= 305719/1152000 > 0.265 on the range
+
+  max f_0 on [0,4.1]                     = 0.999999997500
+  min f_0 on [0,4.1]                     = 0.271114055404
+  min (f_0 - cubic)                      = 0.000000e+00
+  min cubic on [0,4.1]                   = 0.265381076389
+  305719/1152000                         = 0.265381076389
+  cubic at t = 2.05 (i.e. z = 4.1)       = 0.265381076389
+
+  f_0 <= 1                     : PASS
+  f_0 >= cubic lower bound     : PASS
+  cubic minimum = 305719/1152000: PASS
+  f_0 > 0 throughout (so division by phi in the profile equations is
+  legitimate on this window)   : PASS
+
+==========================================================================
+3. ENDPOINT RADIAL SHEAR COEFFICIENT  a = -2 z f_0'(z)/f_0(z)
+==========================================================================
+a = 1 - 2 D_X log E (paper (4.11)); with E = C^-1 sqrt(2X) phi_*(eta) Phi(Y)
+and Phi = f_0(chi Y), D_X log E = 1/2 + z f_0'/f_0, so a = -2 z f_0'/f_0.
+When the leading residual stress vanishes, X Q_s/L = a, i.e. the first
+cone coordinate p_1 equals a (Proposition 4.2). The proof of
+Proposition B.3 evaluates this at Y = 4 over chi in (0.99, 1].
+
+  window z = 4*chi, chi in [0.99, 1] -> z in [3.9600, 4.0000]
+  min f_0 on the window                  = 0.282979986881
+  max (f_0 + z f_0') on the window       = -0.190840411509   (claimed < -0.18)
+  max quartic bound 1-t+t^2/4-t^3/36+t^4/576 = -0.188838777500
+  min (quartic - (f_0 + z f_0'))         = 2.001634e-03
+      (>= 0 means the quartic is a valid upper bound on the window)
+
+  min a = min(-2 z f_0'/f_0) on window   = 3.326224837   (claimed > 2.36)
+  max a on window                        = 3.389130712
+  a at z = 4 exactly                     = 3.389130712
+
+  So the leading-order value of a (= p_1 at vanishing leading stress)
+  at the axis-layer outer endpoint is about 3.38, not merely > 2.36:
+  the proof's stated bound is loose by about 1.0, and the numerical
+  margin above the cone-relevant threshold 2 is about 1.38.
+
+  SELF-CHECKS
+    PASS  closed form matches ODE to 1e-9
+    PASS  f_0 <= 1 on [0,4.1]
+    PASS  f_0 >= cubic (B.11)
+    PASS  cubic min = 305719/1152000
+    PASS  f_0 + z f_0' < -0.18 on endpoint window
+    PASS  quartic is an upper bound on the window
+    PASS  a > 2.36 on endpoint window
+    PASS  a > 2 on endpoint window (cone-relevant)
+
+ALL CHECKS PASS

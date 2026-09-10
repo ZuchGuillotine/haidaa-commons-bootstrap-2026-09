@@ -1,0 +1,95 @@
+environment: python 3.14.4, numpy 2.5.3
+source: OpenAI 2026, Finite time blowup for Navier-Stokes, pp. 100-126
+
+1. Correction-cycle schedule (9.8): sigma_j = 1/5 + j/10, B_j = 1/2 + sigma_j,
+   C*_j = 1 + sigma_j.  Proposition 9.5 asserts B_0 = 0.7 and C*_0 = 1.2;
+   Proposition 9.6 asserts B_{j+1} = B_j + 1/10 and C*_{j+1} = C*_j + 1/10.
+   j   sigma_j   B_j     C*_j
+   0   0.2       0.7     1.2
+   1   0.3       0.8     1.3
+   2   0.4       0.9     1.4
+   3   0.5       1.0     1.5
+   4   0.6       1.1     1.6
+   5   0.7       1.2     1.7
+   6   0.8       1.3     1.8
+   7   0.9       1.4     1.9
+   8   1.0       1.5     2.0
+   9   1.1       1.6     2.1
+   10  1.2       1.7     2.2
+   B_0 == 0.7 : True      C*_0 == 1.2 : True
+   increments B_{j+1}-B_j all == 1/10 : True
+   increments C*_{j+1}-C*_j all == 1/10 : True
+   C*_j - B_j == 1/2 for all j : True
+
+2. The five closure inequalities displayed on p. 111, at kappa_s = 1e-5, B = 0.7.
+   min{1/2-3k, 1/2-k, B-k, 0.4} >= 0.4           lhs=0.4          rhs=0.4        margin=0.0        holds=True
+   min{1/2-4k, 0.4-k, 1/2-2k, B-3k} >= 0.4-k     lhs=0.39999      rhs=0.39999    margin=0.0        holds=True
+   H - B = 1/2-2k > 0.1                          lhs=0.49998      rhs=0.1        margin=0.39998    holds=True
+   min{0.17, 1-4k} > 0.1                         lhs=0.17         rhs=0.1        margin=0.07       holds=True
+   0.9 - 4k > 0.1                                lhs=0.89996      rhs=0.1        margin=0.79996    holds=True
+   binding (margin zero): min{1/2-3k, 1/2-k, B-k, 0.4} >= 0.4, min{1/2-4k, 0.4-k, 1/2-2k, B-3k} >= 0.4-k
+   H - B = 1/2 - 2k exactly : True
+   operative per-cycle demand is 0.1; smallest achieved margin over the last
+   three lines is 0.07, so the induction is not tight.
+
+3. p. 108, Step 1 table of new nonzero-harmonic exponents, evaluated at B = 0.7:
+     linear error                        B + 1/2 - 3 kappa_s = 1.19997
+     cross with old exact waves          B + 1/2 - kappa_s   = 1.19999
+     particular-correction self-interact 2B - kappa_s        = 1.39999
+     cross with total wave correction    B + 0.4             = 1.1
+   Lemma 9.2(i)  wave x mean gain  = mu - 1/2 with mu = 0.9 : 0.4
+   Lemma 9.2(ii) wave x wave gain  = 1/2 - kappa_s          : 0.49999
+   printed row value 0.4 equals the 9.2(i) value : True ; equals the 9.2(ii) value : False
+   p. 109, Step 2, prints the same gain with the label 'mean interaction',
+   exponent B + 0.4 - kappa_s = 1.09999
+   consistency of (9.9) with the schedule: B_0 - kappa_s = 0.69999 > 0.68 : True
+
+4. Lemma 9.8: gain g_j = h j / 10, loss l_m = 2A + (m+1)(1 + 3h/2), A = 1/2 + h.
+   Stage j carries a positive net power of q at Cartesian derivative order m only
+   when g_j > l_m, i.e. j > (10/h) [2A + (m+1)(1 + 3h/2)].  The paper never
+   displays this threshold; every earlier stage is controlled by the cutoff alone.
+   h        m    l_m           minimal j with h j/10 > l_m
+   0.01     0    2.035000      2036
+   0.01     1    3.050000      3051
+   0.01     2    4.065000      4065
+   0.01     4    6.095000      6095
+   0.01     8    10.155000     10156
+   0.005    0    2.017500      4036
+   0.005    1    3.025000      6051
+   0.005    2    4.032500      8065
+   0.005    4    6.047500      12096
+   0.005    8    10.077500     20156
+   0.001    0    2.003500      20035
+   0.001    1    3.005000      30050
+   0.001    2    4.006500      40066
+   0.001    4    6.009500      60096
+   0.001    8    10.015500     100156
+   The threshold is linear in m and of order 1/h in size.
+
+5. Growth exponents.  A = 1/2 + h and D = 1/2 - h are definitions (notation table,
+   p. 20); 0 < h < 1/100 (Theorem 3.1).  Along (10.20)-(10.21) u_theta ~ tau^{-A}.
+   h        tau^{1/2}|u| exponent   core energy   dissipation   L^3 norm   2h/D
+   0.00100  tau^-0.00100            tau^0.49700     tau^-0.50300    tau^-0.00133  0.00401
+   0.01000  tau^-0.01000            tau^0.47000     tau^-0.53000    tau^-0.01333  0.04082
+   0.16667  tau^-0.16667            tau^0.00000     tau^-1.00000    tau^-0.22222  1.00000
+   0.20000  tau^-0.20000            tau^-0.10000    tau^-1.10000    tau^-0.26667  1.33333
+   core energy exponent 1/2-3h > 0 and the dissipation integral converges
+   exactly when h < 1/6; the exterior-tail condition 2h/D < 1 is the same
+   condition (2h < 1/2 - h).  Both hold with margin at h < 1/100.
+   L^3 exponent -4h/3 checks: (3/2 - h - 3A)/3 = -4h/3 for every h : True
+   tau^{1/2} ||u||_inf ~ tau^{-h} is unbounded, so the constructed blowup is
+   Type II in the pointwise sense, for every h > 0.
+
+6. Viscosity rescaling (10.22)-(10.23): u_nu(x,t) = nu^{1/2} u(x/nu^{1/2}, t).
+   Energy scaling ||u_nu||_2^2 = nu^{5/2} ||u||_2^2 comes from nu^{1/2 * 2} times
+   the Jacobian nu^{3/2}: exponent 1 + 3/2 = 5/2 (paper: 5/2).
+   Dissipation: nu * |grad u_nu|^2 * dx scales as nu^{1} * nu^{1-1} * nu^{3/2}
+   = nu^{5/2}, matching (10.23).
+   Force derivatives: d_x^alpha d_t^m f_nu = nu^{(1-|alpha|)/2} (d_y^alpha d_t^m f).
+     |alpha| = 0  ->  factor nu^{1/2}
+     |alpha| = 1  ->  factor nu^{0}
+     |alpha| = 2  ->  factor nu^{-1/2}
+     |alpha| = 3  ->  factor nu^{-1}
+   So spatial derivative norms of the force grow like nu^{-(|alpha|-1)/2} as
+   nu -> 0, while the spatial support shrinks to K_nu = nu^{1/2} K and the time
+   support K x [0,2] is unchanged.

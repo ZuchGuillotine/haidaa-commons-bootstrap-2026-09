@@ -1,0 +1,95 @@
+cone_margin.py -- admissible stress cone evaluator for the 2026 forced
+Navier-Stokes blow-up construction, with checks of Lemma 4.5 and of the
+Appendix A.5 scalar suprema.
+python 3.14.4  numpy 2.5.3  scipy 1.18.1
+Seed 20260909 (numpy default_rng). Output is deterministic.
+
+==========================================================================
+1. EQUIVALENCE OF (4.21) AND (4.22)  [Lemma 4.5, first assertion]
+==========================================================================
+  samples                                 = 400000
+  admissible by (4.21) definition         = 47137
+  admissible by (4.22) Lemma 4.5 form     = 47137
+  disagreements                           = 0
+
+  Psi (4.35) all-positive vs (4.22): disagreements = 0
+
+==========================================================================
+2. THE IDENTITY BEHIND LEMMA 4.5's SECOND ASSERTION
+==========================================================================
+  (v_s - 2)(w + b_s/a)^2 - 2(1 - b_s w/a)^2
+      = (1 + b_s^2/a^2) ( (a-2) w^2 + 2 b_s w + b_s^2/a - 2 )
+
+  max relative residual over 400000 samples  = 2.362e-12
+  identity holds to machine precision      : PASS
+
+  Consequence used below: in the limit p_1 -> +infinity with
+  p_2 = w p_1, admissibility of the relaxed cone is governed by the
+  sign of  m(a,b_s,w) = 2 - [2 b_s w + b_s^2/a + (a-2) w^2]  alone.
+
+==========================================================================
+3. LARGE-p_1 CONE MARGIN AT THE AXIS-LAYER ENDPOINT VALUE OF a
+==========================================================================
+  a = 3.389130712  (leading-order value of a = -2 z f_0'/f_0 at z = 4;
+  see artifact axis_profile_f0.txt). At vanishing leading residual
+  stress this same number is the first cone coordinate p_1 = X Q_s/L.
+
+  m(a,b_s,w) = 2 - [2 b_s w + b_s^2/a + (a-2) w^2] on a grid:
+
+     b_s \ w      -1.50    -1.00    -0.50     0.00     0.50     1.00     1.50
+        -1.50   -6.2894  -3.0530  -0.5112   1.3361   2.4888   2.9470   2.7106
+        -1.00   -4.4206  -1.6842   0.3577   1.7049   2.3577   2.3158   1.5794
+        -0.50   -2.6993  -0.4629   1.0790   1.9262   2.0790   1.5371   0.3007
+         0.00   -1.1255   0.6109   1.6527   2.0000   1.6527   0.6109  -1.1255
+         0.50    0.3007   1.5371   2.0790   1.9262   1.0790  -0.4629  -2.6993
+         1.00    1.5794   2.3158   2.3577   1.7049   0.3577  -1.6842  -4.4206
+         1.50    2.7106   2.9470   2.4888   1.3361  -0.5112  -3.0530  -6.2894
+
+  (positive entries: the relaxed cone is reachable at that (b_s, w)
+   by taking the stress magnitude p_1 large enough; negative entries:
+   it is not reachable at any p_1.)
+
+  at b_s = 0 the admissible interval is |w| < sqrt(2/(a-2)) = 1.199896
+  best w for given b_s is w* = -b_s/(a-2), giving
+      m_max = 2 + 2 b_s^2/(a(a-2)),  e.g. b_s = 1 -> m_max = 2.424814
+  so for every a > 2 there is a stress direction with margin >= 2;
+  the cone condition constrains the DIRECTION w = p_2/p_1, not the
+  existence of some admissible direction. This is why the audit that
+  matters is the one that uses the profiles' own w, not a sweep.
+
+  sensitivity of the admissible w-interval half-width to a (b_s = 0):
+      a =    2.200000   |w|_max = 3.162278
+      a =    2.600000   |w|_max = 1.825742
+      a =    3.000000   |w|_max = 1.414214
+      a =    3.389131   |w|_max = 1.199896
+      a =    4.000000   |w|_max = 1.000000
+      a =    6.000000   |w|_max = 0.707107
+
+==========================================================================
+4. THE APPENDIX A.5 SCALAR SUPREMA ON THE AXIAL PULSE INTERVAL
+==========================================================================
+  The paper bounds b_s w <= sup_{R>=0}(-2 R^2 + 2.41 R) and states
+  the value is < 0.74; and bounds the full sufficient-condition
+  quantity 2 b_s w + b_s^2/a + (a-2) w^2 by sup_{R>=0}(-3.5 R^2 + 4.82 R)
+  and states the value is < 1.68, hence < 2 with a margin.
+
+  sup(-2 R^2 + 2.41 R)  exact 2.41^2/8   = 0.726012500
+                        grid maximum      = 0.726012500
+                        claimed bound     < 0.74     PASS
+  sup(-3.5 R^2 + 4.82 R) exact 4.82^2/14 = 1.659457143
+                        grid maximum      = 1.659457143
+                        claimed bound     < 1.68     PASS
+  margin below the cone threshold 2      = 0.340542857
+  i.e. on that interval the sufficient cone test is satisfied with
+  about 17 percent of headroom in the o(1) terms that were dropped.
+
+  SELF-CHECKS
+    PASS  (4.21) and (4.22) agree on all samples
+    PASS  Psi (4.35) positivity agrees with (4.22)
+    PASS  Lemma 4.5 identity to 1e-11
+    PASS  sup(-2R^2+2.41R) < 0.74
+    PASS  sup(-3.5R^2+4.82R) < 1.68
+    PASS  grid maxima match closed forms to 1e-9
+    PASS  margin at a=3.3891, b_s=0, w=0 equals 2
+
+ALL CHECKS PASS

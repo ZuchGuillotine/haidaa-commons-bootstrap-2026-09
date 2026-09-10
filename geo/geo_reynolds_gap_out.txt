@@ -1,0 +1,61 @@
+geo_reynolds_gap.py
+environment: python 3.14.4, numpy 2.5.3
+command: ./venv/bin/python commons/geo/artifacts/geo_reynolds_gap.py
+no random numbers used; no seed required
+
+Construction regime (OpenAI 2026, Finite time blowup for Navier-Stokes, pp. 4, 8):
+  Re_r = O(1) held fixed as tau -> 0;  Re_theta ~ tau^{-h} -> infinity, h < 1/100
+  reference value used for the gap: Re_r_construction = 1
+
+case                                l_r [m]      u_r    u_theta         Re_r     Re_theta      S_w  decades
+-----------------------------------------------------------------------------------------------------------
+tornado core (violent, EF4-5)           100       10         80     6.67e+07     5.33e+08     8.00     7.82
+tornado core (weak, EF0-1)               30        3         30        6e+06        6e+07    10.00     6.78
+tropical cyclone eyewall              3e+04       10         60        2e+10      1.2e+11     6.00    10.30
+dust devil                                5        2         10     6.67e+05     3.33e+06     5.00     5.82
+stratospheric polar vortex            3e+06        1         60        2e+11      1.2e+13    60.00    11.30
+mesoscale ocean eddy                  5e+04     0.01        0.5        5e+08      2.5e+10    50.00     8.70
+
+decade separation in Re_r from the construction's O(1) regime:
+  minimum  5.82 decades  (dust devil)
+  maximum  11.30 decades  (stratospheric polar vortex)
+  median   8.26 decades
+
+basis for each scale estimate:
+  tornado core (violent, EF4-5)    mobile-radar core radii of order 100 m; peak azimuthal wind 70-90 m/s; inflow order 10 m/s
+  tornado core (weak, EF0-1)       small-radius weak vortex; chosen as the least favourable air case for the gap
+  tropical cyclone eyewall         radius of maximum wind 30 km; boundary-layer inflow order 10 m/s; peak wind 60 m/s
+  dust devil                       smallest coherent atmospheric vortex class; deliberately included as the minimum-Re case
+  stratospheric polar vortex       planetary-scale; nu at 10 hPa is larger than sea-level nu, so this Re_r is a LOWER bound
+  mesoscale ocean eddy             altimetry-scale eddy; molecular nu of sea water
+
+robustness: factor by which the product u_r*l_r would have to be REDUCED
+for Re_r to fall to 10^2 (the threshold at which the seeding assessment
+said the Common's framing would need revision toward small-scale vortices):
+  tornado core (violent, EF4-5)    factor 6.67e+05
+  tornado core (weak, EF0-1)       factor 6e+04
+  tropical cyclone eyewall         factor 2e+08
+  dust devil                       factor 6.67e+03
+  stratospheric polar vortex       factor 2e+09
+  mesoscale ocean eddy             factor 5e+06
+
+Re_theta / Re_r for each case (this equals the swirl ratio S_w by construction,
+and is the quantity the blow-up construction drives to infinity as tau^{-h}):
+  tornado core (violent, EF4-5)    8.00
+  tornado core (weak, EF0-1)       10.00
+  tropical cyclone eyewall         6.00
+  dust devil                       5.00
+  stratospheric polar vortex       60.00
+  mesoscale ocean eddy             50.00
+
+With h < 1/100, over a tornado intensification during which tau shrinks by a
+factor of 60 (one hour to one minute), the construction's swirl ratio changes by
+60^0.01 = 1.0418, i.e. 4.2 percent.
+Real cores sit at S_w of order 5-60 and do not evolve as a power of time-to-peak.
+
+CONCLUSION (arithmetic only, no claim about the proof): every geophysical vortex
+class tabulated here sits between 5.8 and 11.3 decades above the construction's
+radial Reynolds number. There is no literal transfer of the construction's regime
+to any of them. Note the dust devil case is the closest at 5.82 decades, slightly
+below the '6 to 11 decades' range quoted in the seeding assessment; the assessment's
+lower bound should be read as 6 only if dust devils are excluded.
